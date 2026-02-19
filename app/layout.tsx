@@ -18,7 +18,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "ExToTools - Premium Financial Consultancy Tools",
+  title: "ExToTools | Premium Chrome Extensions",
   description: "Sophisticated Chrome extensions for financial professionals and data-driven experts.",
   icons: {
     icon: "/tool-icon-20.png",
