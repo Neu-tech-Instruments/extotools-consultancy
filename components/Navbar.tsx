@@ -1,48 +1,27 @@
 "use client";
 
-import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { LogOut, Sun, Moon, ShoppingCart } from "lucide-react";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { LogOut, ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import SlideCart from "./SlideCart";
 
 export default function Navbar() {
     const { data: session } = useSession();
     const { itemCount, setIsCartOpen } = useCart();
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    useEffect(() => {
-        const theme = document.documentElement.getAttribute('data-theme');
-        setIsDarkMode(theme === 'dark');
-    }, []);
-
-    const toggleTheme = () => {
-        const newTheme = isDarkMode ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        setIsDarkMode(!isDarkMode);
-    };
 
     return (
-        <motion.nav
-            initial={{ y: -40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-                height: 'var(--nav-height)',
-                borderBottom: '1px solid var(--architect-line)',
-                background: 'var(--glass-bg)',
-                backdropFilter: 'blur(16px)',
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                zIndex: 100,
-                display: 'flex',
-                alignItems: 'center'
-            }}
-        >
+        <nav style={{
+            height: 'var(--nav-height)',
+            borderBottom: '1px solid var(--architect-line)',
+            background: 'var(--glass-bg)',
+            backdropFilter: 'blur(16px)',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+        }}>
             <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -51,16 +30,16 @@ export default function Navbar() {
                 padding: '0 40px'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
-                    <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}>
+                    <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}>
                         <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: '44px', width: 'auto' }} />
                         <span style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '0.05em' }}>
                             EXTO<span style={{ color: 'var(--primary)' }}>TOOLS</span>
                         </span>
-                    </Link>
+                    </a>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-                        <Link href="/#collection" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6 }}>Premium</Link>
-                        <Link href="/bundles" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6 }}>Bundles</Link>
+                        <a href="/#collection" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Premium</a>
+                        <a href="/bundles" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Bundles</a>
                     </div>
                 </div>
 
@@ -106,9 +85,9 @@ export default function Navbar() {
 
                     {session && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                            <Link href="/dashboard" className="btn btn-outline" style={{ padding: '12px 28px', fontSize: '0.8rem', borderWidth: '1px' }}>
+                            <a href="/dashboard" className="btn btn-outline" style={{ padding: '12px 28px', fontSize: '0.8rem', borderWidth: '1px' }}>
                                 CONSOLE
-                            </Link>
+                            </a>
                             <button
                                 onClick={() => signOut()}
                                 style={{ background: 'none', border: 'none', color: 'var(--foreground)', opacity: 0.4, cursor: 'pointer' }}
@@ -119,7 +98,6 @@ export default function Navbar() {
                     )}
                 </div>
             </div>
-
-        </motion.nav>
+        </nav>
     );
 }
