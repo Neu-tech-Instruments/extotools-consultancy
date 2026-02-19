@@ -36,7 +36,7 @@ export default function RootLayout({
         <Providers>
           <BackgroundGrid />
           <Navbar />
-          <main style={{ minHeight: '100vh', paddingTop: 'var(--nav-height)' }}>
+          <main style={{ minHeight: '100vh', paddingTop: 'var(--nav-height)', position: 'relative', zIndex: 1 }}>
             {children}
           </main>
           <Footer />
