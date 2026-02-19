@@ -59,8 +59,8 @@ export default function Navbar() {
                     </Link>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-                        <Link href="/#collection" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6 }}>Solutions</Link>
-                        <Link href="/bundles" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6 }}>Library</Link>
+                        <Link href="/#collection" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6 }}>Premium</Link>
+                        <Link href="/bundles" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6 }}>Bundles</Link>
                     </div>
                 </div>
 
