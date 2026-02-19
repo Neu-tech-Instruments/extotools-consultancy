@@ -12,7 +12,7 @@ export default function Footer() {
                 <div className="grid grid-cols-3" style={{ marginBottom: '48px' }}>
                     <div>
                         <div style={{ marginBottom: '16px' }}>
-                            <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: '32px', width: 'auto' }} />
+                            <img src="/GearLogo.png" alt="ExToTools Logo" style={{ height: '32px', width: 'auto' }} />
                         </div>
                         <p style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
                             Premium Chrome extensions to supercharge your browsing and productivity.
