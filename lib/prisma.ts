@@ -10,7 +10,8 @@ const libsql = createClient({
     url: connectionUrl,
 });
 
-const adapter = new PrismaLibSql(libsql as any);
+// @ts-ignore
+const adapter = new PrismaLibSql(libsql);
 
 const prismaClientSingleton = () => {
     return new PrismaClient({ adapter });
