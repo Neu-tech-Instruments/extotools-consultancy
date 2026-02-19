@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: "ExToTools - Premium Financial Consultancy Tools",
   description: "Sophisticated Chrome extensions for financial professionals and data-driven experts.",
   icons: {
-    icon: "/GearLogo.png",
+    icon: "/tool-icon-20.png",
   },
 };
 

@@ -52,7 +52,7 @@ export default function Navbar() {
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
                     <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <img src="/GearLogo.png" alt="ExToTools Logo" style={{ height: '44px', width: 'auto' }} />
+                        <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: '44px', width: 'auto' }} />
                         <span style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '0.05em' }}>
                             EXTO<span style={{ color: 'var(--primary)' }}>TOOLS</span>
                         </span>

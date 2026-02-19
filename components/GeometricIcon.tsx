@@ -37,7 +37,7 @@ export default function GeometricIcon() {
                 }}
             >
                 <img
-                    src="/GearLogo.png"
+                    src="/tool-icon-20.png"
                     alt=""
                     style={{
                         width: '70%',
