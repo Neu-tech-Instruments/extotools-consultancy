@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Chrome, Heart } from "lucide-react";
 
 export default function Footer() {
@@ -11,9 +12,9 @@ export default function Footer() {
             <div className="container">
                 <div className="grid grid-cols-3" style={{ marginBottom: '48px' }}>
                     <div>
-                        <div style={{ marginBottom: '16px' }}>
+                        <Link href="/" style={{ display: 'inline-block', marginBottom: '16px', transition: 'opacity 0.2s ease' }} className="hover-opacity">
                             <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: '32px', width: 'auto' }} />
-                        </div>
+                        </Link>
                         <p style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
                             Premium Chrome extensions to supercharge your browsing and productivity.
                         </p>

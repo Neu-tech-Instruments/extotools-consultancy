@@ -51,12 +51,18 @@ export default function Navbar() {
                 padding: '0 40px'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
-                    <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: '44px', width: 'auto' }} />
-                        <span style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '0.05em' }}>
-                            EXTO<span style={{ color: 'var(--primary)' }}>TOOLS</span>
-                        </span>
-                    </Link>
+                    <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit' }}>
+                            <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: '44px', width: 'auto' }} />
+                            <span style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '0.05em' }}>
+                                EXTO<span style={{ color: 'var(--primary)' }}>TOOLS</span>
+                            </span>
+                        </Link>
+                    </motion.div>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
                         <Link href="/extensions/extension-one" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6 }}>Solutions</Link>
