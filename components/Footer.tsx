@@ -13,10 +13,10 @@ export default function Footer() {
         }}>
             <motion.div style={{
                 position: 'absolute',
-                top: '-70px',
+                top: '-110px',
                 left: 0,
                 width: '100%',
-                height: 'calc(100% + 140px)',
+                height: 'calc(100% + 180px)',
                 backgroundImage: 'url(/footer.jpg)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'right bottom', /* Use bottom anchor to prevent gaps at the base */
