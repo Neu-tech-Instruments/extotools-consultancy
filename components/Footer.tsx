@@ -72,18 +72,7 @@ export default function Footer() {
                         color: 'rgba(255, 255, 255, 0.7)',
                         fontSize: '0.9rem'
                     }}>
-                        {/* Gradient Divider Line with Mask for Diver */}
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '1px',
-                            background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2) 30%, rgba(255,255,255,0.2) 60%, transparent 80%)',
-                            /* This mask hides the line entirely on the right 25% of the screen where the diver is */
-                            WebkitMaskImage: 'linear-gradient(90deg, black 0%, black 65%, transparent 80%)',
-                            maskImage: 'linear-gradient(90deg, black 0%, black 65%, transparent 80%)'
-                        }} />
+
                         <p>© {new Date().getFullYear()} ExToTools. All rights reserved.</p>
                         <p style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                             Built with <Heart size={14} color="#ef4444" fill="#ef4444" /> for power users.
