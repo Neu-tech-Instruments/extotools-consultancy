@@ -45,6 +45,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   subscriptions Subscription[]
+  licenseKey    String?   @unique
 }
 
 model VerificationToken {

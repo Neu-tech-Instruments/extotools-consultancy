@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { extensions, ExtensionData } from "@/lib/extensions";
 import { Chrome, Package, Settings, CreditCard, ExternalLink, Zap } from "lucide-react";
 import Link from "next/link";
+import LicenseKey from "@/components/LicenseKey";
+import { randomBytes } from "crypto";
 
 interface DbSubscription {
     isBundle: boolean;
@@ -38,6 +40,24 @@ export default async function DashboardPage() {
     const activeExtensions = extensions.filter((ext: ExtensionData) =>
         hasBundle || subscriptions.some((s: DbSubscription) => s.extension?.slug === ext.slug)
     );
+
+    // Ensure user has a license key
+    let userLicenseKey = "";
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { licenseKey: true }
+    });
+
+    if (user?.licenseKey) {
+        userLicenseKey = user.licenseKey;
+    } else {
+        // Generate and save new license key
+        userLicenseKey = `EXTO-${randomBytes(8).toString('hex').toUpperCase()}`;
+        await prisma.user.update({
+            where: { id: session.user.id },
+            data: { licenseKey: userLicenseKey }
+        });
+    }
 
     return (
         <div className="container animate-fade-in" style={{ padding: '60px 0' }}>
@@ -104,6 +124,9 @@ export default async function DashboardPage() {
 
                 {/* Sidebar / Stats */}
                 <div className="grid grid-cols-1" style={{ alignContent: 'start', gap: '32px' }}>
+
+                    <LicenseKey licenseKey={userLicenseKey} />
+
                     <div className="card" style={{ background: 'var(--primary)', color: 'white', border: 'none' }}>
                         <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <Zap size={18} />
@@ -129,6 +152,24 @@ export default async function DashboardPage() {
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Active Tools</span>
                                 <span>{activeExtensions.length}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card" style={{ background: 'rgba(15, 23, 42, 0.02)', borderStyle: 'dashed' }}>
+                        <h3 style={{ fontSize: '1.1rem', marginBottom: '20px', fontWeight: 700 }}>How to Activate</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            <div style={{ display: 'flex', gap: '12px' }}>
+                                <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800, flexShrink: 0 }}>1</div>
+                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Copy your unique license key from above.</p>
+                            </div>
+                            <div style={{ display: 'flex', gap: '12px' }}>
+                                <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800, flexShrink: 0 }}>2</div>
+                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Open the ExToTools extension in your browser.</p>
+                            </div>
+                            <div style={{ display: 'flex', gap: '12px' }}>
+                                <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800, flexShrink: 0 }}>3</div>
+                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Paste the key into the activation field to unlock Pro features.</p>
                             </div>
                         </div>
                     </div>
