@@ -18,10 +18,10 @@ export default function BundlesPage() {
     };
 
     return (
-        <div className="container animate-fade-in" style={{ padding: '80px 0' }}>
-            <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-                <h1 style={{ fontSize: '3.5rem', marginBottom: '16px' }}>Universal <span className="text-gradient">Access Bundles</span></h1>
-                <p style={{ fontSize: '1.2rem', color: 'rgba(15, 23, 42, 0.6)', maxWidth: '700px', margin: '0 auto' }}>
+        <div className="container animate-fade-in" style={{ padding: 'clamp(40px, 8vw, 80px) 20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: 'clamp(40px, 8vw, 80px)' }}>
+                <h1 style={{ fontSize: 'clamp(2.5rem, 8vw, 3.5rem)', marginBottom: '16px' }}>Universal <span className="text-gradient">Access Bundles</span></h1>
+                <p style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', color: 'rgba(15, 23, 42, 0.6)', maxWidth: '700px', margin: '0 auto' }}>
                     Stop paying for each tool individually. Select your favorites and save up to 50% with our multi-extension packs.
                 </p>
             </div>
@@ -100,9 +100,9 @@ export default function BundlesPage() {
             </div>
 
             {/* Included Extensions List */}
-            <section style={{ marginTop: '100px' }}>
-                <h3 style={{ textAlign: 'center', marginBottom: '48px', fontSize: '2rem' }}>What's Included?</h3>
-                <div className="grid grid-cols-3">
+            <section style={{ marginTop: 'clamp(60px, 10vw, 100px)' }}>
+                <h3 style={{ textAlign: 'center', marginBottom: '40px', fontSize: 'clamp(1.5rem, 4vw, 2rem)' }}>What's Included?</h3>
+                <div className="grid grid-cols-3" style={{ gap: '16px' }}>
                     {extensions.map((ext) => (
                         <div key={ext.slug} style={{
                             display: 'flex',

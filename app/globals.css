@@ -255,11 +255,77 @@ ul {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.section-header-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: flex-end;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
+  :root {
+    --nav-height: 70px;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
 
   .grid-cols-2,
   .grid-cols-3 {
     grid-template-columns: 1fr;
+  }
+
+  .section-header-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .vertical-text {
+    display: none;
+  }
+
+  .oversized-number {
+    font-size: 5rem;
+  }
+
+  h1 {
+    font-size: 3.5rem !important;
+  }
+
+  h2 {
+    font-size: 3rem !important;
+  }
+
+  .btn {
+    padding: 14px 28px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.8rem !important;
+  }
+
+  h2 {
+    font-size: 2.5rem !important;
+  }
+
+  .card {
+    padding: 24px;
   }
 }
 
@@ -278,10 +344,26 @@ ul {
   height: 40px !important;
 }
 
+@media (max-width: 768px) {
+
+  .logo-facebook,
+  .logo-pinterest,
+  .logo-google {
+    height: 30px !important;
+  }
+}
+
 /* Amazon needs to be taller to compensate for the smile underneath */
 .logo-amazon {
   height: 58px !important;
   transform: translateY(10px) !important;
+}
+
+@media (max-width: 768px) {
+  .logo-amazon {
+    height: 44px !important;
+    transform: translateY(8px) !important;
+  }
 }
 
 /* Etsy and eBay need slight bumps to match the baseline text */
@@ -289,11 +371,29 @@ ul {
   height: 48px !important;
 }
 
+@media (max-width: 768px) {
+  .logo-etsy {
+    height: 36px !important;
+  }
+}
+
 .logo-ebay {
   height: 46px !important;
+}
+
+@media (max-width: 768px) {
+  .logo-ebay {
+    height: 34px !important;
+  }
 }
 
 /* LinkedIn needs to be smaller because the solid block is visually heavy */
 .logo-linkedin {
   height: 34px !important;
+}
+
+@media (max-width: 768px) {
+  .logo-linkedin {
+    height: 26px !important;
+  }
 }

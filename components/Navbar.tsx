@@ -9,11 +9,9 @@ export default function Navbar() {
     const { itemCount, setIsCartOpen } = useCart();
 
     return (
-        <nav style={{
+        <nav className="glass" style={{
             height: 'var(--nav-height)',
             borderBottom: '1px solid var(--architect-line)',
-            background: 'var(--glass-bg)',
-            backdropFilter: 'blur(16px)',
             position: 'fixed',
             top: 0,
             left: 0,
@@ -21,58 +19,58 @@ export default function Navbar() {
             zIndex: 9999,
             display: 'flex',
             alignItems: 'center',
+            transition: 'all 0.3s ease'
         }}>
-            <div style={{
+            <div className="container" style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 width: '100%',
-                padding: '0 40px'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
-                    <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}>
-                        <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: '44px', width: 'auto' }} />
-                        <span style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '0.05em' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 4vw, 48px)' }}>
+                    <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}>
+                        <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: 'clamp(32px, 5vw, 44px)', width: 'auto' }} />
+                        <span style={{ fontWeight: 800, fontSize: 'clamp(1rem, 3vw, 1.2rem)', letterSpacing: '0.05em' }}>
                             EXTO<span style={{ color: 'var(--primary)' }}>TOOLS</span>
                         </span>
                     </a>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-                        <a href="/#collection" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Premium</a>
-                        <a href="/bundles" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Bundles</a>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)' }}>
+                        <a href="/#collection" style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Premium</a>
+                        <a href="/bundles" style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Bundles</a>
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 24px)' }}>
                     <button
                         onClick={() => setIsCartOpen(true)}
+                        className="btn-primary"
                         style={{
-                            background: 'var(--primary)',
-                            color: 'white',
-                            border: 'none',
-                            padding: '12px 24px',
+                            padding: 'clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px)',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '12px',
+                            gap: '8px',
                             fontWeight: 800,
                             letterSpacing: '0.05em',
-                            position: 'relative'
+                            fontSize: '0.8rem',
+                            position: 'relative',
+                            border: 'none'
                         }}
                     >
-                        <ShoppingCart size={20} />
-                        CART
+                        <ShoppingCart size={18} />
+                        <span style={{ display: 'inline' }}>CART</span>
                         {itemCount > 0 && (
                             <span style={{
                                 position: 'absolute',
-                                top: '-8px',
-                                right: '-8px',
+                                top: '-6px',
+                                right: '-6px',
                                 background: 'var(--accent-2)',
                                 color: 'white',
-                                width: '20px',
-                                height: '20px',
+                                width: '18px',
+                                height: '18px',
                                 borderRadius: '50%',
-                                fontSize: '0.7rem',
+                                fontSize: '0.65rem',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -84,15 +82,15 @@ export default function Navbar() {
                     </button>
 
                     {session && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                            <a href="/dashboard" className="btn btn-outline" style={{ padding: '12px 28px', fontSize: '0.8rem', borderWidth: '1px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            <a href="/dashboard" className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '0.7rem', borderWidth: '1px', display: 'none' }}>
                                 CONSOLE
                             </a>
                             <button
                                 onClick={() => signOut()}
                                 style={{ background: 'none', border: 'none', color: 'var(--foreground)', opacity: 0.4, cursor: 'pointer' }}
                             >
-                                <LogOut size={20} />
+                                <LogOut size={18} />
                             </button>
                         </div>
                     )}

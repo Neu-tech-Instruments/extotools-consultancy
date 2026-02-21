@@ -23,30 +23,31 @@ export default async function ExtensionPage({ params }: PageProps) {
     }
 
     return (
-        <div className="container animate-fade-in" style={{ padding: '60px 0' }}>
-            <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '40px', color: 'rgba(15, 23, 42, 0.6)' }}>
+        <div className="container animate-fade-in" style={{ padding: 'clamp(40px, 8vw, 60px) 20px' }}>
+            <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '32px', color: 'rgba(15, 23, 42, 0.6)', fontWeight: 600, fontSize: '0.9rem' }}>
                 <ArrowLeft size={16} />
                 Back to Collection
             </Link>
 
-            <div className="grid grid-cols-2" style={{ gap: '60px', alignItems: 'start' }}>
+            <div className="grid grid-cols-2" style={{ gap: 'clamp(32px, 6vw, 60px)', alignItems: 'start' }}>
                 {/* Left: Info */}
                 <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', flexWrap: 'wrap' }}>
                         <div style={{
-                            width: '64px',
-                            height: '64px',
+                            width: 'clamp(48px, 10vw, 64px)',
+                            height: 'clamp(48px, 10vw, 64px)',
                             background: 'rgba(59, 130, 246, 0.05)',
                             borderRadius: '16px',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            flexShrink: 0
                         }}>
                             <Chrome size={32} color="var(--primary)" />
                         </div>
                         <div>
-                            <h1 style={{ fontSize: '3rem', marginBottom: '4px' }}>{extension.name}</h1>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: 600 }}>
+                            <h1 style={{ fontSize: 'clamp(2rem, 8vw, 3rem)', marginBottom: '4px' }}>{extension.name}</h1>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: 600, fontSize: '0.9rem' }}>
                                 <Star size={16} fill="var(--primary)" />
                                 <span>Premium Chrome Tool</span>
                             </div>
@@ -81,7 +82,16 @@ export default async function ExtensionPage({ params }: PageProps) {
                 </div>
 
                 {/* Right: Pricing Card */}
-                <div style={{ position: 'sticky', top: '120px' }}>
+                <div style={{ position: 'relative', top: 'auto' }} className="pricing-card-container">
+                    <style dangerouslySetInnerHTML={{
+                        __html: `
+                        @media (min-width: 769px) {
+                            .pricing-card-container {
+                                position: sticky !important;
+                                top: 120px !important;
+                            }
+                        }
+                    `}} />
                     <div className="card" style={{ padding: '40px' }}>
                         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
                             <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(15, 23, 42, 0.4)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
@@ -130,8 +140,8 @@ export default async function ExtensionPage({ params }: PageProps) {
             </div>
 
             {/* Suggestions Section */}
-            <div style={{ marginTop: '100px', borderTop: '1px solid var(--card-border)', paddingTop: '80px' }}>
-                <h2 style={{ fontSize: '2rem', marginBottom: '40px', textAlign: 'center' }}>You Might Also Like</h2>
+            <div style={{ marginTop: 'clamp(60px, 10vw, 100px)', borderTop: '1px solid var(--card-border)', paddingTop: 'clamp(40px, 8vw, 80px)' }}>
+                <h2 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', marginBottom: '40px', textAlign: 'center' }}>You Might Also Like</h2>
                 <div className="grid grid-cols-3">
                     {extensions
                         .filter(ext => ext.slug !== slug)

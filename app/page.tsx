@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <div style={{ position: 'relative' }}>
       {/* Hero Section */}
-      <section style={{ padding: '160px 0 100px 0', minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: 'clamp(100px, 15vh, 160px) 0 80px 0', minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{
           position: 'absolute',
           top: 0,
@@ -56,7 +56,7 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: -1,
-          opacity: 0.6, // Very visible on the edges
+          opacity: 0.6,
           maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,0.1) 40%, rgba(0,0,0,1) 85%)',
           WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,0.1) 40%, rgba(0,0,0,1) 85%)',
         }}>
@@ -82,13 +82,13 @@ export default function Home() {
         </div>
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="grid grid-cols-2" style={{ alignItems: 'center', gap: '60px' }}>
+          <div className="grid grid-cols-2" style={{ alignItems: 'center', gap: 'clamp(40px, 8vw, 80px)' }}>
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <motion.div variants={itemVariants} style={{ marginBottom: '40px' }}>
+              <motion.div variants={itemVariants} style={{ marginBottom: '32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <span style={{ fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.1em', background: 'var(--primary)', color: 'white', padding: '4px 12px' }}>
                     01
@@ -99,16 +99,16 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              <motion.h1 variants={itemVariants} style={{ fontSize: 'clamp(4rem, 12vw, 7rem)', marginBottom: '48px', color: 'var(--accent-navy)' }}>
+              <motion.h1 variants={itemVariants} style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)', marginBottom: '32px', color: 'var(--accent-navy)', lineHeight: 1.1 }}>
                 Supercharge <br />
                 <span style={{ color: 'var(--primary)' }}>Your Browser.</span>
               </motion.h1>
 
-              <motion.p variants={itemVariants} style={{ fontSize: '1.4rem', color: 'var(--accent-navy)', opacity: 0.7, maxWidth: '580px', marginBottom: '60px', lineHeight: 1.4, fontWeight: 500 }}>
+              <motion.p variants={itemVariants} style={{ fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', color: 'var(--accent-navy)', opacity: 0.7, maxWidth: '580px', marginBottom: '48px', lineHeight: 1.4, fontWeight: 500 }}>
                 Browse smarter and faster with our premium collection of Chrome extensions. Get exactly the tools you need individually, or unlock our all-access monthly bundle to get the entire suite.
               </motion.p>
 
-              <motion.div variants={itemVariants} style={{ display: 'flex', gap: '24px' }}>
+              <motion.div variants={itemVariants} style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
                 <Link href="#collection" className="btn btn-primary">
                   The Collection
                   <ArrowRight size={20} />
@@ -120,10 +120,11 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
               style={{ display: 'flex', justifyContent: 'center' }}
+              className="hero-graphic-container"
             >
               <GeometricIcon />
             </motion.div>
@@ -132,19 +133,19 @@ export default function Home() {
       </section>
 
       {/* Value Proposition section (Strip) */}
-      <section style={{ background: 'var(--primary)', padding: '60px 0', color: 'white', overflow: 'hidden' }}>
-        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', gap: '80px' }}>
+      <section style={{ background: 'var(--primary)', padding: '40px 0', color: 'white', overflow: 'hidden' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 'clamp(24px, 5vw, 80px)', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <Layers size={24} />
-              <span style={{ fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.9rem' }}>INDIVIDUAL EXTENSIONS</span>
+              <Layers size={20} />
+              <span style={{ fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.8rem' }}>INDIVIDUAL EXTENSIONS</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <Plus size={24} />
-              <span style={{ fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.9rem' }}>ALL-ACCESS BUNDLE</span>
+              <Plus size={20} />
+              <span style={{ fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.8rem' }}>ALL-ACCESS BUNDLE</span>
             </div>
           </div>
-          <div style={{ opacity: 0.5, fontWeight: 800 }}>EXTOTOOLS // 2026</div>
+          <div style={{ opacity: 0.5, fontWeight: 800, fontSize: '0.8rem' }}>EXTOTOOLS // 2026</div>
         </div>
       </section>
 
@@ -183,7 +184,7 @@ export default function Home() {
         </div>
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', marginBottom: '80px', alignItems: 'flex-end' }}>
+          <div className="section-header-grid" style={{ marginBottom: '80px' }}>
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -191,15 +192,15 @@ export default function Home() {
               transition={{ duration: 1 }}
             >
               <div className="oversized-number" style={{ opacity: 0.15 }}>02</div>
-              <h2 className="font-serif" style={{ fontSize: '5rem', marginTop: '-40px', fontWeight: 300, letterSpacing: '-0.02em', color: 'var(--accent-navy)' }}>Terminal <br /><span style={{ color: 'var(--primary)' }}>Capabilities.</span></h2>
+              <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginTop: '-40px', fontWeight: 300, letterSpacing: '-0.02em', color: 'var(--accent-navy)' }}>Terminal <br /><span style={{ color: 'var(--primary)' }}>Capabilities.</span></h2>
             </motion.div>
-            <p style={{ color: 'var(--accent-navy)', opacity: 0.8, fontSize: '1.2rem', lineHeight: 1.6, paddingBottom: '20px', maxWidth: '400px', fontFamily: 'monospace' }}>
+            <p style={{ color: 'var(--accent-navy)', opacity: 0.8, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', lineHeight: 1.6, paddingBottom: '20px', maxWidth: '400px', fontFamily: 'monospace' }}>
               // TECHNICAL_SPECS: <br />
               Precision tools for high-performance browsing stacks. Engineered for modularity.
             </p>
           </div>
 
-          <div className="grid grid-cols-3" style={{ gap: '32px' }}>
+          <div className="grid grid-cols-3" style={{ gap: 'clamp(20px, 3vw, 32px)' }}>
             {extensions.map((ext, index) => {
               const accentColors = [
                 'rgba(110, 231, 183, 0.3)', // Mint
@@ -332,20 +333,20 @@ export default function Home() {
           </video>
         </div>
         <div className="container">
-          <div className="grid grid-cols-2" style={{ gap: '100px', alignItems: 'center' }}>
+          <div className="grid grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 100px)', alignItems: 'center' }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
             >
-              <div style={{ marginBottom: '40px' }}>
+              <div style={{ marginBottom: '24px' }}>
                 <span style={{ fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.1em', background: 'var(--accent-2)', color: 'white', padding: '4px 12px' }}>
                   03
                 </span>
               </div>
-              <h2 className="font-serif" style={{ fontSize: '5.5rem', marginBottom: '32px', color: 'var(--accent-navy)' }}>Integrated Systems.</h2>
-              <p style={{ fontSize: '1.4rem', color: 'var(--accent-navy)', opacity: 0.7, maxWidth: '500px', marginBottom: '56px', lineHeight: 1.5 }}>
+              <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginBottom: '32px', color: 'var(--accent-navy)' }}>Integrated Systems.</h2>
+              <p style={{ fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', color: 'var(--accent-navy)', opacity: 0.7, maxWidth: '500px', marginBottom: '40px', lineHeight: 1.5 }}>
                 Combine our specialized pillars into a unified workflow. Strategic acquisitions for comprehensive performance.
               </p>
               <Link href="/bundles" className="btn btn-primary" style={{ padding: '20px 48px' }}>Explore Portfolios</Link>
@@ -478,7 +479,7 @@ export default function Home() {
               ExToTools is not affiliated with the brands mentioned above. * See <Link href="/terms" style={{ textDecoration: 'underline' }}>Terms and Conditions</Link> for more details.
             </span>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', marginBottom: '80px', alignItems: 'flex-end' }}>
+          <div className="section-header-grid" style={{ marginBottom: '80px' }}>
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -490,9 +491,9 @@ export default function Home() {
                   04
                 </span>
               </div>
-              <h2 className="font-serif" style={{ fontSize: '5rem', color: 'white' }}>What People <br />Are Saying.</h2>
+              <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', color: 'white' }}>What People <br />Are Saying.</h2>
             </motion.div>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.3rem', lineHeight: 1.6, paddingBottom: '20px' }}>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(1rem, 1.5vw, 1.3rem)', lineHeight: 1.6, paddingBottom: '20px' }}>
               Trusted by students, entrepreneurs, and professionals who rely on ExToTools to streamline their digital workflow.
             </p>
           </div>

@@ -67,7 +67,7 @@ export default function ContactPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    style={{ marginBottom: '64px' }}
+                    style={{ marginBottom: 'clamp(32px, 8vw, 64px)' }}
                 >
                     <span style={{
                         fontWeight: 800,
@@ -81,15 +81,15 @@ export default function ContactPage() {
                     }}>
                         SUPPORT & SALES
                     </span>
-                    <h1 className="font-serif" style={{ fontSize: 'clamp(4rem, 8vw, 6rem)', lineHeight: 1.1, marginBottom: '24px' }}>
+                    <h1 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5rem)', lineHeight: 1.1, marginBottom: '24px' }}>
                         Let's build <br />something <span style={{ color: 'var(--primary)' }}>great.</span>
                     </h1>
-                    <p style={{ fontSize: '1.25rem', color: 'rgba(255,255,255,0.6)', maxWidth: '600px', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: 'clamp(1rem, 1.5vw, 1.25rem)', color: 'rgba(255,255,255,0.6)', maxWidth: '600px', lineHeight: 1.6 }}>
                         Whether you have a question about our enterprise bundles, need technical support, or want to suggest a new extension feature—our team is ready.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-2" style={{ gap: '80px', alignItems: 'start' }}>
+                <div className="grid grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 80px)', alignItems: 'start' }}>
 
                     {/* Left Column: Contact Info */}
                     <motion.div
@@ -168,7 +168,7 @@ export default function ContactPage() {
                         <div style={{
                             background: 'rgba(255, 255, 255, 0.03)',
                             border: '1px solid rgba(255, 255, 255, 0.08)',
-                            padding: '48px',
+                            padding: 'clamp(24px, 5vw, 48px)',
                             position: 'relative',
                             overflow: 'hidden'
                         }}>
@@ -195,7 +195,7 @@ export default function ContactPage() {
                             ) : (
                                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                                    <div className="grid grid-cols-2" style={{ gap: '24px' }}>
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                             <label htmlFor="name" style={{ fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'rgba(255,255,255,0.7)' }}>Your Name</label>
                                             <input
