@@ -22,7 +22,7 @@ export default function Footer() {
                 backgroundPosition: 'right bottom', /* Use bottom anchor to prevent gaps at the base */
                 zIndex: -1
             }}
-                animate={{ y: [0, -15, 0] }}
+                animate={{ y: [0, -30, 0] }}
                 transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
             />
             <div style={{
