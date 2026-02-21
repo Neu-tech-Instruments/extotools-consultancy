@@ -24,4 +24,36 @@ export const {
             from: process.env.EMAIL_FROM,
         }),
     ],
+    callbacks: {
+        async jwt({ token, user, trigger }) {
+            if (user) {
+                token.id = user.id;
+                token.firstName = (user as any).firstName;
+                token.lastName = (user as any).lastName;
+                token.country = (user as any).country;
+            }
+            // If profile was updated, we might need to refresh from DB
+            if (trigger === "update" || !token.firstName) {
+                const dbUser = await prisma.user.findUnique({
+                    where: { id: token.id as string },
+                    select: { firstName: true, lastName: true, country: true }
+                });
+                if (dbUser) {
+                    token.firstName = dbUser.firstName;
+                    token.lastName = dbUser.lastName;
+                    token.country = dbUser.country;
+                }
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (token && session.user) {
+                (session.user as any).id = token.id;
+                (session.user as any).firstName = token.firstName;
+                (session.user as any).lastName = token.lastName;
+                (session.user as any).country = token.country;
+            }
+            return session;
+        }
+    }
 });
