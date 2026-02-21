@@ -146,8 +146,16 @@ export default async function DashboardPage() {
                         <h3 style={{ fontSize: '1.1rem', marginBottom: '16px' }}>Account Info</h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.9rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Full Name</span>
+                                <span>{session.user?.name || "Premium User"}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Email</span>
                                 <span>{session.user?.email}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Country</span>
+                                <span>{(session.user as any)?.country || "Not specified"}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Active Tools</span>
