@@ -130,6 +130,47 @@ export default async function ExtensionPage({ params }: PageProps) {
                             </p>
                         )}
 
+                        {extension.isBuilt && (
+                            <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--card-border)' }}>
+                                <a
+                                    href={extension.chromeWebStoreLink || "#"}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="card hover-glow"
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                        padding: '16px',
+                                        background: 'rgba(15, 23, 42, 0.02)',
+                                        textDecoration: 'none',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    <div style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        background: 'white',
+                                        borderRadius: '8px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                                    }}>
+                                        <Chrome size={24} color="var(--primary)" />
+                                    </div>
+                                    <div style={{ textAlign: 'left' }}>
+                                        <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'rgba(15, 23, 42, 0.4)', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: '4px' }}>
+                                            Available in the
+                                        </div>
+                                        <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--accent-navy)', lineHeight: 1 }}>
+                                            Chrome Web Store
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        )}
+
                         <div style={{ marginTop: '24px', textAlign: 'center' }}>
                             <Link href="/bundles" style={{ fontSize: '0.9rem', color: 'var(--primary)', fontWeight: 600 }}>
                                 Looking for a better deal? Check our bundles
