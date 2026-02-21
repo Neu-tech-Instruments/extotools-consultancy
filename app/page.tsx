@@ -390,7 +390,7 @@ export default function Home() {
       </section>
 
       {/* Works With Platforms Banner */}
-      <section style={{ padding: '80px 0', overflow: 'hidden', background: 'var(--bg)', position: 'relative' }}>
+      <section style={{ padding: '60px 0', overflow: 'hidden', background: 'var(--bg)', position: 'relative' }}>
         {/* Cheetah Background */}
         <div style={{
           position: 'absolute',
@@ -416,15 +416,15 @@ export default function Home() {
             whileHover={{ animationPlayState: 'paused' }}
           >
             {[...Array(2)].map((_, setIndex) => (
-              <div key={setIndex} style={{ display: 'flex', gap: '80px', alignItems: 'center' }}>
+              <div key={setIndex} className="brand-marquee-container" style={{ display: 'flex', gap: '80px', alignItems: 'center', padding: '20px 0' }}>
                 {[
-                  { name: 'Google', src: '/Logos/Google_2015_logo.svg.webp', height: '46px' },
-                  { name: 'Amazon', src: '/Logos/amazon.png', height: '42px' },
-                  { name: 'Etsy', src: '/Logos/Etsy_logo.svg.png', height: '34px' },
-                  { name: 'eBay', src: '/Logos/EBay_logo.svg.png', height: '32px' },
-                  { name: 'Facebook', src: '/Logos/facebook-app-logo.svg', height: '38px' },
-                  { name: 'LinkedIn', src: '/Logos/linkedin_black-logo_brandlogos.net_qahzv-512x132.png', height: '32px' },
-                  { name: 'Pinterest', src: '/Logos/Pinterest_Logo_3.svg.png', height: '38px' },
+                  { name: 'Google', src: '/Logos/Google_2015_logo.svg.webp', class: 'logo-google' },
+                  { name: 'Amazon', src: '/Logos/amazon.png', class: 'logo-amazon' },
+                  { name: 'Etsy', src: '/Logos/Etsy_logo.svg.png', class: 'logo-etsy' },
+                  { name: 'eBay', src: '/Logos/EBay_logo.svg.png', class: 'logo-ebay' },
+                  { name: 'Facebook', src: '/Logos/facebook-app-logo.svg', class: 'logo-facebook' },
+                  { name: 'LinkedIn', src: '/Logos/linkedin_black-logo_brandlogos.net_qahzv-512x132.png', class: 'logo-linkedin' },
+                  { name: 'Pinterest', src: '/Logos/Pinterest_Logo_3.svg.png', class: 'logo-pinterest' },
                 ].map((logo) => (
                   <div
                     key={logo.name}
@@ -433,23 +433,14 @@ export default function Home() {
                       flexShrink: 0,
                       transition: 'all 0.4s ease',
                       filter: 'brightness(0)',
-                      cursor: 'default'
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.opacity = '1';
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.opacity = '0.9';
+                      display: 'flex',
+                      alignItems: 'center'
                     }}
                   >
                     <img
                       src={logo.src}
                       alt={logo.name}
-                      style={{
-                        height: logo.height,
-                        width: 'auto',
-                        display: 'block'
-                      }}
+                      className={logo.class}
                     />
                   </div>
                 ))}
@@ -663,8 +654,8 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-    </div>
+        </div >
+      </section >
+    </div >
   );
 }

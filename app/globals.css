@@ -262,3 +262,38 @@ ul {
     grid-template-columns: 1fr;
   }
 }
+
+/* Brand Logo Optical Alignment (Nuclear Option) */
+.brand-marquee-container img {
+  width: auto !important;
+  object-fit: contain !important;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* The baseline size */
+.logo-facebook,
+.logo-pinterest,
+.logo-google {
+  height: 40px !important;
+}
+
+/* Amazon needs to be taller to compensate for the smile underneath */
+.logo-amazon {
+  height: 58px !important;
+  transform: translateY(10px) !important;
+}
+
+/* Etsy and eBay need slight bumps to match the baseline text */
+.logo-etsy {
+  height: 48px !important;
+}
+
+.logo-ebay {
+  height: 46px !important;
+}
+
+/* LinkedIn needs to be smaller because the solid block is visually heavy */
+.logo-linkedin {
+  height: 34px !important;
+}
