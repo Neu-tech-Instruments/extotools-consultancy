@@ -32,7 +32,7 @@ export default function Footer() {
                 zIndex: 1
             }}>
                 <div className="container">
-                    <div className="grid grid-cols-3" style={{ marginBottom: '48px', gap: '40px' }}>
+                    <div className="grid grid-cols-3 footer-grid-container" style={{ marginBottom: '48px', gap: '40px' }}>
                         <div style={{ gridColumn: 'span 1' }}>
                             <Link href="/" style={{ display: 'block', marginBottom: '16px', transition: 'opacity 0.2s ease' }} className="hover-opacity">
                                 <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.15em', color: 'white', lineHeight: 1 }}>EXTOTOOLS</span>

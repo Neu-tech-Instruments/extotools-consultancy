@@ -329,6 +329,22 @@ ul {
   }
 }
 
+.footer-grid-container {
+  max-width: 65%;
+}
+
+@media (max-width: 1024px) {
+  .footer-grid-container {
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-grid-container {
+    max-width: 100%;
+  }
+}
+
 /* Brand Logo Optical Alignment (Nuclear Option) */
 .brand-marquee-container img {
   width: auto !important;
