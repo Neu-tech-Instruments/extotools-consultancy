@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Inter, Instrument_Serif, Syncopate } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import Navbar from "@/components/Navbar";
@@ -17,6 +17,12 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-serif",
 });
 
+const syncopate = Syncopate({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-statement",
+});
+
 export const metadata: Metadata = {
   title: "ExToTools | Premium Chrome Extensions",
   description: "Sophisticated Chrome extensions for financial professionals and data-driven experts.",
@@ -31,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
+    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable} ${syncopate.variable}`}>
       <body className={inter.className}>
         <Providers>
           <BackgroundGrid />

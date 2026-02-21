@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { extensions, bundles } from "@/lib/extensions";
-import { ArrowRight, Chrome, Zap, Plus, Layers } from "lucide-react";
+import { ArrowRight, Chrome, Zap, Plus, Layers, Quote, Star } from "lucide-react";
 import { motion, useScroll } from "framer-motion";
 import GeometricIcon from "@/components/GeometricIcon";
 import Reveal from "@/components/Reveal";
@@ -37,36 +37,12 @@ export default function Home() {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      [videoRef, videoRef2].forEach(ref => {
-        if (ref.current) {
-          // Play the video when scrolling starts
-          if (ref.current.paused) {
-            ref.current.play().catch(e => console.error("Video play failed:", e));
-          }
-        }
-      });
-
-      // Clear existing timeout
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
+    // Start playing background videos on mount and keep them playing
+    [videoRef, videoRef2].forEach(ref => {
+      if (ref.current) {
+        ref.current.play().catch(e => console.error("Video play failed:", e));
       }
-
-      // Set timeout to pause after scrolling stops
-      scrollTimeoutRef.current = setTimeout(() => {
-        [videoRef, videoRef2].forEach(ref => {
-          if (ref.current && !ref.current.paused) {
-            ref.current.pause();
-          }
-        });
-      }, 150); // Small delay for smoothness
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    };
+    });
   }, []);
 
   return (
@@ -80,11 +56,13 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: -1,
-          opacity: 0.08, // Subtle hint of motion
-          filter: 'brightness(1.1)'
+          opacity: 0.6, // Very visible on the edges
+          maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,0.1) 40%, rgba(0,0,0,1) 85%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,0.1) 40%, rgba(0,0,0,1) 85%)',
         }}>
           <video
             ref={videoRef}
+            autoPlay
             loop
             muted
             playsInline
@@ -94,13 +72,13 @@ export default function Home() {
               objectFit: 'cover'
             }}
           >
-            <source src="/banner vid.mp4" type="video/mp4" />
+            <source src="/banner_pingpong.mp4" type="video/mp4" />
           </video>
         </div>
 
         {/* Decorative Vertical Text */}
         <div style={{ position: 'absolute', left: '40px', top: '200px' }} className="vertical-text">
-          System // Architecture // 2026
+          Extensions // Productivity // 2026
         </div>
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -116,18 +94,18 @@ export default function Home() {
                     01
                   </span>
                   <span style={{ fontWeight: 600, fontSize: '0.8rem', opacity: 0.5, textTransform: 'uppercase', letterSpacing: '0.2em' }}>
-                    Global Initiative
+                    ExToTools Suite
                   </span>
                 </div>
               </motion.div>
 
               <motion.h1 variants={itemVariants} style={{ fontSize: 'clamp(4rem, 12vw, 7rem)', marginBottom: '48px', color: 'var(--accent-navy)' }}>
-                Powering <br />
-                <span style={{ color: 'var(--primary)' }}>Digital</span> <span className="font-serif">Flow.</span>
+                Supercharge <br />
+                <span style={{ color: 'var(--primary)' }}>Your Browser.</span>
               </motion.h1>
 
               <motion.p variants={itemVariants} style={{ fontSize: '1.4rem', color: 'var(--accent-navy)', opacity: 0.7, maxWidth: '580px', marginBottom: '60px', lineHeight: 1.4, fontWeight: 500 }}>
-                We engineer high-performance systems for the next era of professional browsing. Tailored solutions, seamlessly delivered.
+                Browse smarter and faster with our premium collection of Chrome extensions. Get exactly the tools you need individually, or unlock our all-access monthly bundle to get the entire suite.
               </motion.p>
 
               <motion.div variants={itemVariants} style={{ display: 'flex', gap: '24px' }}>
@@ -136,7 +114,7 @@ export default function Home() {
                   <ArrowRight size={20} />
                 </Link>
                 <Link href="/bundles" className="btn btn-outline" style={{ border: 'none', textDecoration: 'underline', padding: '16px 0' }}>
-                  Managed Services
+                  View Bundle Pricing
                 </Link>
               </motion.div>
             </motion.div>
@@ -159,100 +137,173 @@ export default function Home() {
           <div style={{ display: 'flex', gap: '80px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <Layers size={24} />
-              <span style={{ fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.9rem' }}>MODULAR ARCHITECTURE</span>
+              <span style={{ fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.9rem' }}>INDIVIDUAL EXTENSIONS</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <Plus size={24} />
-              <span style={{ fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.9rem' }}>SCALABLE SYSTEMS</span>
+              <span style={{ fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.9rem' }}>ALL-ACCESS BUNDLE</span>
             </div>
           </div>
-          <div style={{ opacity: 0.5, fontWeight: 800 }}>FUTUREFORM // 2026</div>
+          <div style={{ opacity: 0.5, fontWeight: 800 }}>EXTOTOOLS // 2026</div>
         </div>
       </section>
 
       {/* Collection Grid */}
       <section id="collection" style={{ padding: '160px 0', position: 'relative', overflow: 'hidden' }}>
-        {/* Background Decorative Element */}
-        <div style={{ position: 'absolute', top: '100px', right: '-100px', width: '600px', height: '600px', opacity: 0.4, pointerEvents: 'none', zIndex: 0 }}>
-          <AbstractComposition />
+        {/* Video Background with Spotlight Mask and Color Wash */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          opacity: 0.25,
+          maskImage: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 70%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at 50% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 70%)',
+          background: 'radial-gradient(circle at center, rgba(63, 94, 251, 0.05) 0%, transparent 70%)' // Subtle blue wash
+        }}>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              width: '100%',
+              maxHeight: '120vh',
+              objectFit: 'contain',
+              filter: 'contrast(1.1) brightness(0.9)'
+            }}
+          >
+            <source src="/eyes.mp4" type="video/mp4" />
+          </video>
         </div>
+
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', marginBottom: '100px', alignItems: 'flex-end' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', marginBottom: '80px', alignItems: 'flex-end' }}>
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
             >
-              <div className="oversized-number">02</div>
-              <h2 className="font-serif" style={{ fontSize: '5rem', marginTop: '-40px' }}>Terminal <br />Capabilities.</h2>
+              <div className="oversized-number" style={{ opacity: 0.15 }}>02</div>
+              <h2 className="font-serif" style={{ fontSize: '5rem', marginTop: '-40px', fontWeight: 300, letterSpacing: '-0.02em', color: 'var(--accent-navy)' }}>Terminal <br /><span style={{ color: 'var(--primary)' }}>Capabilities.</span></h2>
             </motion.div>
-            <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.3rem', lineHeight: 1.6, paddingBottom: '20px' }}>
-              Independent tools for precision browsing. Each extension is a specialized pillar of our overarching architectural vision.
+            <p style={{ color: 'var(--accent-navy)', opacity: 0.8, fontSize: '1.2rem', lineHeight: 1.6, paddingBottom: '20px', maxWidth: '400px', fontFamily: 'monospace' }}>
+              // TECHNICAL_SPECS: <br />
+              Precision tools for high-performance browsing stacks. Engineered for modularity.
             </p>
           </div>
 
-          <div className="grid grid-cols-3" style={{ gap: '40px' }}>
-            {extensions.map((ext, index) => (
-              <motion.div
-                key={ext.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-              >
-                <Link href={`/extensions/${ext.slug}`} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%', textDecoration: 'none' }}>
-                  {/* Color Accent Top Bar */}
+          <div className="grid grid-cols-3" style={{ gap: '32px' }}>
+            {extensions.map((ext, index) => {
+              const accentColors = [
+                'rgba(110, 231, 183, 0.3)', // Mint
+                'rgba(167, 139, 250, 0.3)', // Lavender
+                'rgba(251, 146, 60, 0.3)',  // Tangerine
+                'rgba(56, 189, 248, 0.3)',  // Sky
+                'rgba(244, 114, 182, 0.3)', // Pink
+              ];
+              const accent = accentColors[index % accentColors.length];
+              const solidAccent = accent.replace('0.3', '1');
+
+              return (
+                <motion.div
+                  key={ext.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  style={{ position: 'relative' }}
+                >
+                  {/* Localized Aura Glow */}
                   <div style={{
                     position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: '8px',
-                    background: index % 3 === 0 ? 'var(--secondary)' : index % 3 === 1 ? 'var(--accent-1)' : 'var(--accent-2)'
+                    top: '20%',
+                    left: '20%',
+                    width: '80%',
+                    height: '80%',
+                    background: accent.replace('0.3', '0.2'),
+                    filter: 'blur(80px)',
+                    borderRadius: '50%',
+                    zIndex: 0,
+                    pointerEvents: 'none'
                   }} />
 
-                  <div style={{ marginBottom: '40px', marginTop: '10px' }}>
-                    <Reveal color={index % 3 === 0 ? 'var(--secondary)' : index % 3 === 1 ? 'var(--accent-1)' : 'var(--accent-2)'}>
+                  <Link href={`/extensions/${ext.slug}`} className="card" style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    textDecoration: 'none',
+                    background: 'rgba(255, 255, 255, 0.6)',
+                    backdropFilter: 'blur(25px)',
+                    WebkitBackdropFilter: 'blur(25px)',
+                    border: '1px solid rgba(255, 255, 255, 0.8)',
+                    padding: '40px',
+                    position: 'relative',
+                    zIndex: 1,
+                    overflow: 'hidden',
+                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)'
+                  }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+                      e.currentTarget.style.borderColor = solidAccent;
+                      e.currentTarget.style.transform = 'translateY(-8px)';
+                      e.currentTarget.style.boxShadow = `0 25px 50px -15px ${accent.replace('0.3', '0.2')}`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.05)';
+                    }}
+                  >
+                    <div style={{ marginBottom: '40px' }}>
                       <div style={{
-                        width: '80px',
-                        height: '80px',
-                        background: '#F0F0F0',
-                        borderRadius: '0',
+                        width: '64px',
+                        height: '64px',
+                        background: accent,
+                        border: `1px solid ${accent.replace('0.3', '0.2')}`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        boxShadow: `0 8px 20px -5px ${accent.replace('0.3', '0.3')}`
                       }}>
-                        <Chrome size={40} color="var(--primary)" />
+                        <Chrome size={32} color="var(--primary)" />
                       </div>
-                    </Reveal>
-                  </div>
+                    </div>
 
-                  <h3 className="font-serif" style={{ fontSize: '2.5rem', marginBottom: '16px', color: 'var(--accent-navy)' }}>{ext.name}</h3>
-                  <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.1rem', marginBottom: '40px', flex: 1, lineHeight: 1.5 }}>
-                    {ext.shortDescription}
-                  </p>
+                    <h3 style={{ fontSize: '2.2rem', marginBottom: '16px', color: 'var(--accent-navy)', fontWeight: 700, letterSpacing: '-0.02em' }}>{ext.name}</h3>
+                    <p style={{ color: 'var(--accent-navy)', opacity: 0.9, fontSize: '1.1rem', marginBottom: '40px', flex: 1, lineHeight: 1.6 }}>
+                      {ext.shortDescription}
+                    </p>
 
-                  <div style={{ display: 'flex', gap: '16px', marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid var(--card-border)' }}>
-                    <span style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--primary)' }}>${ext.price}</span>
-                    <button
-                      disabled
-                      className="btn btn-primary"
-                      style={{ padding: '8px 16px', fontSize: '0.8rem', marginLeft: 'auto', opacity: 0.5, cursor: 'not-allowed' }}
-                    >
-                      Coming Soon
-                    </button>
-                    <ArrowRight size={24} color="var(--primary)" />
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 800, opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: 'var(--accent-navy)' }}>MSRP_UNIT</span>
+                        <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace' }}>${ext.price}</span>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 1, color: solidAccent }}>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: '0.1em' }}>DETAIL</span>
+                        <ArrowRight size={20} />
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Bundle Section */}
-      <section style={{ padding: '160px 0', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '160px 0 0 0', position: 'relative', overflow: 'hidden' }}>
         {/* Section-Specific Background Video (B&W) */}
         <div style={{
           position: 'absolute',
@@ -261,11 +312,13 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: -1,
-          opacity: 0.05, // Extremely subtle for atmospheric texture
-          filter: 'brightness(0.95)'
+          opacity: 0.7, // Heavily increased for highly visible sides
+          maskImage: 'linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.05) 70%, rgba(0,0,0,1) 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.05) 70%, rgba(0,0,0,1) 100%)',
         }}>
           <video
             ref={videoRef2}
+            autoPlay
             loop
             muted
             playsInline
@@ -275,7 +328,7 @@ export default function Home() {
               objectFit: 'cover'
             }}
           >
-            <source src="/bnw.mp4" type="video/mp4" />
+            <source src="/bnw_pingpong.mp4" type="video/mp4" />
           </video>
         </div>
         <div className="container">
@@ -329,6 +382,286 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
+          </div>
+
+          {/* Spacing placeholder for banner alignment */}
+          <div style={{ marginTop: '100px' }} />
+        </div>
+      </section>
+
+      {/* Works With Platforms Banner */}
+      <section style={{ padding: '80px 0', overflow: 'hidden', background: 'var(--bg)', position: 'relative' }}>
+        {/* Cheetah Background */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'url(/banner-1.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: 0.8,
+          pointerEvents: 'none',
+        }} />
+        <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+          {/* Fade edges */}
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '120px', height: '100%', background: 'linear-gradient(to right, var(--bg), transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: 0, right: 0, width: '120px', height: '100%', background: 'linear-gradient(to left, var(--bg), transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          <motion.div
+            style={{ display: 'flex', gap: '80px', alignItems: 'center', width: 'max-content' }}
+            animate={{ x: [0, -1000] }}
+            transition={{ x: { repeat: Infinity, repeatType: 'loop', duration: 60, ease: 'linear' } }}
+            whileHover={{ animationPlayState: 'paused' }}
+          >
+            {[...Array(2)].map((_, setIndex) => (
+              <div key={setIndex} style={{ display: 'flex', gap: '80px', alignItems: 'center' }}>
+                {[
+                  { name: 'Google', src: '/Logos/Google_2015_logo.svg.webp', height: '46px' },
+                  { name: 'Amazon', src: '/Logos/amazon.png', height: '42px' },
+                  { name: 'Etsy', src: '/Logos/Etsy_logo.svg.png', height: '34px' },
+                  { name: 'eBay', src: '/Logos/EBay_logo.svg.png', height: '32px' },
+                  { name: 'Facebook', src: '/Logos/facebook-app-logo.svg', height: '38px' },
+                  { name: 'LinkedIn', src: '/Logos/linkedin_black-logo_brandlogos.net_qahzv-512x132.png', height: '32px' },
+                  { name: 'Pinterest', src: '/Logos/Pinterest_Logo_3.svg.png', height: '38px' },
+                ].map((logo) => (
+                  <div
+                    key={logo.name}
+                    style={{
+                      opacity: 0.9,
+                      flexShrink: 0,
+                      transition: 'all 0.4s ease',
+                      filter: 'brightness(0)',
+                      cursor: 'default'
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.opacity = '1';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.opacity = '0.9';
+                    }}
+                  >
+                    <img
+                      src={logo.src}
+                      alt={logo.name}
+                      style={{
+                        height: logo.height,
+                        width: 'auto',
+                        display: 'block'
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section style={{ padding: '10px 0 160px 0', background: 'var(--accent-navy)', color: 'white', position: 'relative', overflow: 'hidden' }}>
+        {/* Decorative background accents */}
+        <div style={{
+          position: 'absolute',
+          top: '-200px',
+          right: '-200px',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(35,34,200,0.15) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '-150px',
+          left: '-150px',
+          width: '400px',
+          height: '400px',
+          background: 'radial-gradient(circle, rgba(108,208,161,0.1) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px', opacity: 0.4 }}>
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.05em', color: 'white' }}>
+              ExToTools is not affiliated with the brands mentioned above. * See <Link href="/terms" style={{ textDecoration: 'underline' }}>Terms and Conditions</Link> for more details.
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', marginBottom: '80px', alignItems: 'flex-end' }}>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+            >
+              <div style={{ marginBottom: '24px' }}>
+                <span style={{ fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.1em', background: 'var(--secondary)', color: 'var(--accent-navy)', padding: '4px 12px' }}>
+                  04
+                </span>
+              </div>
+              <h2 className="font-serif" style={{ fontSize: '5rem', color: 'white' }}>What People <br />Are Saying.</h2>
+            </motion.div>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.3rem', lineHeight: 1.6, paddingBottom: '20px' }}>
+              Trusted by students, entrepreneurs, and professionals who rely on ExToTools to streamline their digital workflow.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3" style={{ gap: '32px' }}>
+            {[
+              {
+                name: 'Maria S.',
+                role: 'Small Business Owner',
+                text: 'I found the automation extension on the Chrome Web Store and instantly fell in love with the free version. Upgrading to premium was a no-brainer — the scheduled runs and API integration save me hours every week tracking competitor prices for my small shop.',
+                stars: 5,
+                accent: 'var(--secondary)',
+                avatar: '/reviews/maria.png',
+              },
+              {
+                name: 'James K.',
+                role: 'High School Student',
+                text: 'The tab management extension is a lifesaver for school. I used to have 40+ tabs open doing research for essays and lose track of everything. Now I can organize, sync, and find my sources instantly. My teachers have noticed the difference in my work.',
+                stars: 5,
+                accent: 'var(--accent-1)',
+                avatar: '/reviews/James.png',
+              },
+              {
+                name: 'Priya D.',
+                role: 'Freelance Designer',
+                text: 'I downloaded a couple of the free extensions from the Chrome Web Store and they worked great. But when I grabbed the Starter Pack bundle on ExToTools, the premium features completely leveled up my workflow. Way better value than paying for each one separately.',
+                stars: 5,
+                accent: 'var(--accent-2)',
+                avatar: '/reviews/Priya.png',
+              },
+              {
+                name: 'Carlos R.',
+                role: 'E-commerce Entrepreneur',
+                text: 'Running a small online store means I\'m always in Chrome. The web scraping extension helps me monitor trends, and the premium tab management keeps my supplier tabs organized. Getting both in a bundle saved me real money.',
+                stars: 5,
+                accent: 'var(--accent-2)',
+                avatar: '/reviews/carlos.png',
+              },
+              {
+                name: 'Aisha T.',
+                role: 'University Student',
+                text: 'Between four classes and a part-time job, I need every shortcut I can get. I started with the free Chrome extension for tabs, then upgraded to premium for cloud sync across my laptop and library computers. It keeps all my research perfectly organized.',
+                stars: 5,
+                accent: 'var(--secondary)',
+                avatar: '/reviews/aisha.png',
+              },
+              {
+                name: 'Liam W.',
+                role: 'Marketing Consultant',
+                text: 'I\'ve tried dozens of Chrome extensions — most are bloated and slow. ExToTools extensions are lightweight, fast, and do exactly what they promise. Love that I can try them free on the Web Store first and only pay for premium features I actually need.',
+                stars: 4,
+                accent: 'var(--accent-1)',
+                avatar: '/reviews/Liam.png',
+              },
+            ].map((review, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  padding: '40px',
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-8px)';
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.07)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.04)';
+                }}
+              >
+                {/* Accent top line */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '3px',
+                  background: review.accent,
+                }} />
+
+                {/* Quote icon */}
+                <div style={{ marginBottom: '24px' }}>
+                  <Quote size={32} color={review.accent} style={{ opacity: 0.6 }} />
+                </div>
+
+                {/* Review text */}
+                <p style={{
+                  color: 'rgba(255,255,255,0.75)',
+                  fontSize: '1.05rem',
+                  lineHeight: 1.7,
+                  marginBottom: '32px',
+                  flex: 1,
+                }}>
+                  &ldquo;{review.text}&rdquo;
+                </p>
+
+                {/* Stars */}
+                <div style={{ display: 'flex', gap: '4px', marginBottom: '20px' }}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      size={16}
+                      fill={i < review.stars ? '#F5C542' : 'transparent'}
+                      color={i < review.stars ? '#F5C542' : 'rgba(255,255,255,0.2)'}
+                    />
+                  ))}
+                </div>
+
+                {/* Author */}
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  {review.avatar ? (
+                    <img
+                      src={review.avatar}
+                      alt={review.name}
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      style={{
+                        width: '80px',
+                        height: '80px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        border: `2px solid ${review.accent}`,
+                        flexShrink: 0,
+                        userSelect: 'none',
+                        WebkitUserDrag: 'none',
+                      } as React.CSSProperties}
+                    />
+                  ) : (
+                    <div style={{
+                      width: '80px',
+                      height: '80px',
+                      borderRadius: '50%',
+                      background: review.accent,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 800,
+                      fontSize: '1.2rem',
+                      color: 'var(--accent-navy)',
+                      flexShrink: 0,
+                    }}>
+                      {review.name.split(' ').map((n: string) => n[0]).join('')}
+                    </div>
+                  )}
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: '1rem', color: 'white' }}>{review.name}</div>
+                    <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)', marginTop: '2px', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>{review.role}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

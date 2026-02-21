@@ -45,10 +45,6 @@ export default function BackgroundGrid() {
                 style={{ y: gridY, x: springX, opacity: 0.2 }}
             />
 
-            {/* Architectural Vertical Lines */}
-            <div className="vertical-line" style={{ left: '15%', opacity: 0.5 }} />
-            <div className="vertical-line" style={{ right: '15%', opacity: 0.5 }} />
-
             {/* Vibrant Blobs */}
             <motion.div
                 style={{
