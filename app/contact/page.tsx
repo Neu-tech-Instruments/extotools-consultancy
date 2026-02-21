@@ -112,8 +112,8 @@ export default function ContactPage() {
                                 <div>
                                     <h3 style={{ fontSize: '1.2rem', fontWeight: 600, marginBottom: '8px', fontFamily: 'Inter, sans-serif' }}>Email Us</h3>
                                     <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '12px', lineHeight: 1.5 }}>For general inquiries, enterprise pricing, and technical support.</p>
-                                    <a href="mailto:hello@extotools.com" style={{ color: 'white', fontWeight: 700, fontSize: '1.1rem', transition: 'color 0.2s', textDecoration: 'underline', textUnderlineOffset: '4px' }}>
-                                        hello@extotools.com
+                                    <a href="mailto:info@extotools.com" style={{ color: 'white', fontWeight: 700, fontSize: '1.1rem', transition: 'color 0.2s', textDecoration: 'underline', textUnderlineOffset: '4px' }}>
+                                        info@extotools.com
                                     </a>
                                 </div>
                             </div>
