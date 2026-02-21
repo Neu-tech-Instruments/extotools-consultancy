@@ -81,9 +81,9 @@ export default function Navbar() {
                         )}
                     </button>
 
-                    {session && (
+                    {session ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                            <a href="/dashboard" className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '0.7rem', borderWidth: '1px', display: 'none' }}>
+                            <a href="/dashboard" className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '0.7rem', borderWidth: '1px' }}>
                                 CONSOLE
                             </a>
                             <button
@@ -93,6 +93,10 @@ export default function Navbar() {
                                 <LogOut size={18} />
                             </button>
                         </div>
+                    ) : (
+                        <a href="/login" style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--primary)', cursor: 'pointer' }}>
+                            Sign In
+                        </a>
                     )}
                 </div>
             </div>
