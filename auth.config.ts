@@ -11,18 +11,18 @@ export const authConfig = {
             const isOnOnboarding = nextUrl.pathname === "/onboarding";
 
             if (isLoggedIn) {
-                const isProfileComplete = !!(auth.user as any).firstName; // Simplified check for now
+                const isProfileComplete = !!(auth.user as any).firstName;
 
                 if (!isProfileComplete && !isOnOnboarding && !nextUrl.pathname.startsWith("/api")) {
-                    return Response.redirect(new URL("/onboarding", nextUrl));
+                    return Response.redirect(new URL("/onboarding", nextUrl.origin));
                 }
 
                 if (isProfileComplete && isOnOnboarding) {
-                    return Response.redirect(new URL("/dashboard", nextUrl));
+                    return Response.redirect(new URL("/dashboard", nextUrl.origin));
                 }
 
                 if (nextUrl.pathname === "/login") {
-                    return Response.redirect(new URL("/dashboard", nextUrl));
+                    return Response.redirect(new URL("/dashboard", nextUrl.origin));
                 }
             }
 
