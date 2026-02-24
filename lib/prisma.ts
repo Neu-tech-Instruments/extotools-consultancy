@@ -14,6 +14,16 @@ const prismaClientSingleton = () => {
 
     const isLocal = libsqlUrl.startsWith('file:');
 
+    // Safe logging for production debugging
+    if (process.env.NODE_ENV === "production" || !isLocal) {
+        try {
+            const host = libsqlUrl.split('@')[1]?.split('/')[0] || libsqlUrl.split('://')[1]?.split('/')[0] || "unknown";
+            console.log(`[Prisma] Connecting to ${isLocal ? 'local' : 'remote'} database at host: ${host}`);
+        } catch (e) {
+            console.log(`[Prisma] Connecting to ${isLocal ? 'local' : 'remote'} database...`);
+        }
+    }
+
     const client = createClient({
         url: libsqlUrl,
         authToken: isLocal ? undefined : authToken,
@@ -23,7 +33,11 @@ const prismaClientSingleton = () => {
 
     // In Prisma 7 with driver adapters, we only need the adapter.
     // The engine manages the connection through this adapter.
-    return new PrismaClient({ adapter: adapter as any });
+    return new PrismaClient({
+        adapter: adapter as any,
+        // Add datasourceUrl for stricter validation in Prisma 7
+        datasourceUrl: rawUrl
+    });
 };
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
