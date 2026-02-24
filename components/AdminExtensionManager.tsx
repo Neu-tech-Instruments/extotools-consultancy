@@ -135,7 +135,7 @@ export default function AdminExtensionManager() {
     return (
         <div className="card" style={{ marginTop: '48px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h1 style={{ fontSize: '2.5rem', marginBottom: '8px' }}>Extension Catalog <span style={{ fontSize: '0.8rem', opacity: 0.3 }}>(Deploy v4 - Final)</span></h1>
+                <h1 style={{ fontSize: '2.5rem', marginBottom: '8px' }}>Extension Catalog <span style={{ fontSize: '0.8rem', opacity: 0.3 }}>(Deploy V5 - Native DB)</span></h1>
                 <button
                     onClick={() => setShowForm(!showForm)}
                     className="btn-primary"
