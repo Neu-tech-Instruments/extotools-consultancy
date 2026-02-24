@@ -49,7 +49,8 @@ export async function POST(req: Request) {
             }
             const blob = await put(file.name, file, {
                 access: 'public',
-                addRandomSuffix: true
+                addRandomSuffix: true,
+                allowOverwrite: true
             });
             imageUrl = blob.url;
         }
