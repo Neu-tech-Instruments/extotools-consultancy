@@ -34,9 +34,7 @@ const prismaClientSingleton = () => {
     // In Prisma 7 with driver adapters, we only need the adapter.
     // The engine manages the connection through this adapter.
     return new PrismaClient({
-        adapter: adapter as any,
-        // Add datasourceUrl for stricter validation in Prisma 7
-        datasourceUrl: rawUrl as any
+        adapter: adapter as any
     });
 };
 
