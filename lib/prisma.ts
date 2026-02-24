@@ -6,9 +6,9 @@ const prismaClientSingleton = () => {
     let rawUrl = process.env.DATABASE_URL;
     const authToken = process.env.DATABASE_AUTH_TOKEN;
 
-    // Failsafe: Handle the literal string "undefined" or missing URL
+    // Failsafe: Handle the case where Vercel sets it to the string "undefined"
     if (!rawUrl || rawUrl === "undefined" || rawUrl === "") {
-        console.warn(`[Prisma] DATABASE_URL is missing or "undefined". Falling back to local file.`);
+        console.warn("[Prisma] CRITICAL: DATABASE_URL is missing or set to 'undefined'. Falling back to local file.");
         rawUrl = "file:dev.db";
     }
 
