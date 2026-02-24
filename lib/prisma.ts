@@ -30,6 +30,14 @@ const prismaClientSingleton = () => {
         }
     }
 
+    if (libsqlUrl === "undefined" || typeof libsqlUrl === "undefined") {
+        throw new Error("SANITY CHECK FAILED: libsqlUrl is literally undefined before createClient! rawUrl was: " + String(rawUrl));
+    }
+
+    if (!libsqlUrl) {
+        throw new Error("SANITY CHECK FAILED: libsqlUrl is falsy before createClient! rawUrl was: " + String(rawUrl));
+    }
+
     const client = createClient({
         url: libsqlUrl,
         authToken: isLocal ? undefined : authToken,
