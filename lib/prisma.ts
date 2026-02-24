@@ -36,7 +36,7 @@ const prismaClientSingleton = () => {
     return new PrismaClient({
         adapter: adapter as any,
         // Add datasourceUrl for stricter validation in Prisma 7
-        datasourceUrl: rawUrl
+        datasourceUrl: rawUrl as any
     });
 };
 
