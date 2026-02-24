@@ -31,7 +31,10 @@ export async function POST(req: Request) {
         const shortDescription = formData.get("shortDescription") as string;
         const price = parseFloat(formData.get("price") as string) || 0;
         const priceId = formData.get("priceId") as string;
-        const chromeWebStoreLink = formData.get("chromeWebStoreLink") as string;
+        let chromeWebStoreLink = formData.get("chromeWebStoreLink") as string;
+        if (chromeWebStoreLink === "undefined" || chromeWebStoreLink === "") {
+            chromeWebStoreLink = null as unknown as string; // Will be passed as null to Prisma
+        }
         const features = formData.get("features") as string; // Expecting JSON string
         const isLive = formData.get("isLive") === "true";
 
