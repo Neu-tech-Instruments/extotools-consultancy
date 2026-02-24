@@ -6,7 +6,7 @@ import { ShoppingCart, User, Menu, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const { itemCount, setIsCartOpen, isCartOpen } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -115,7 +115,9 @@ export default function Navbar() {
                         )}
                     </button>
 
-                    {session ? (
+                    {status === "loading" ? (
+                        <div className="desktop-only" style={{ width: '48px', height: '14px', opacity: 0 }}></div>
+                    ) : session ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 
                             <a href="/dashboard" className="desktop-only" style={{
