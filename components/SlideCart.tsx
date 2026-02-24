@@ -43,7 +43,7 @@ export default function SlideCart() {
                             width: '100%',
                             maxWidth: '480px',
                             background: '#FFFFFF', // Explict hex white
-                            zIndex: 1001,
+                            zIndex: 10001,
                             boxShadow: '-20px 0 60px rgba(0,0,0,0.1)',
                             display: 'flex',
                             flexDirection: 'column',
@@ -167,6 +167,19 @@ export default function SlideCart() {
                                     COMMERCE COMING SOON
                                     <ArrowRight size={20} />
                                 </button>
+                                <div className="mobile-only" style={{
+                                    marginTop: '24px',
+                                    padding: '16px',
+                                    background: 'var(--primary-glow)',
+                                    border: '1px solid var(--primary)',
+                                    borderRadius: '4px',
+                                    color: 'var(--primary)',
+                                    textAlign: 'center',
+                                    fontWeight: 600,
+                                    fontSize: '0.9rem'
+                                }}>
+                                    Please open ExToTools on your desktop to complete your purchase.
+                                </div>
                                 <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '0.8rem', opacity: 0.4 }}>
                                     Taxes and discounts calculated at checkout.
                                 </p>

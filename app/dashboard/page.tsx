@@ -1,16 +1,28 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { extensions, ExtensionData } from "@/lib/extensions";
-import { Chrome, Package, Settings, CreditCard, ExternalLink, Zap } from "lucide-react";
+import { Chrome, Package, Settings, CreditCard, ExternalLink, Zap, Shield } from "lucide-react";
 import Link from "next/link";
-import LicenseKey from "@/components/LicenseKey";
+import ExtensionList from "@/components/ExtensionList";
 import { randomBytes } from "crypto";
+import { bundles } from "@/lib/extensions";
 
 interface DbSubscription {
     isBundle: boolean;
     extension: { slug: string } | null;
 }
+
+type Extension = {
+    id: string;
+    slug: string;
+    name: string;
+    description: string;
+    shortDescription: string;
+    price: number;
+    image?: string | null;
+    chromeWebStoreLink?: string | null;
+    isLive: boolean;
+};
 
 export default async function DashboardPage() {
     const session = await auth();
@@ -19,45 +31,79 @@ export default async function DashboardPage() {
         redirect("/login");
     }
 
-    const subscriptions = await prisma.subscription.findMany({
-        where: {
-            userId: session.user.id,
-            status: "active",
-        },
-        select: {
-            isBundle: true,
-            extension: {
-                select: {
-                    slug: true
-                }
+    // Fetch live extensions from DB
+    let allDbExtensions: any[] = [];
+    try {
+        allDbExtensions = await prisma.extension.findMany({
+            where: { isLive: true },
+            orderBy: { name: 'asc' }
+        });
+    } catch (e) {
+        console.error("Dashboard all extensions fetch error:", e);
+    }
+
+    // Ensure user exists and has a license key
+    let userLicenseKey = "";
+    let dbUserId = session.user.id;
+
+    try {
+        const user = await prisma.user.upsert({
+            where: { email: session.user.email! },
+            update: {},
+            create: {
+                email: session.user.email!,
+                name: session.user.name,
+                image: session.user.image,
+                licenseKey: `EXTO-${randomBytes(8).toString('hex').toUpperCase()}`
             }
+        });
+
+        dbUserId = user.id;
+
+        if (user?.licenseKey) {
+            userLicenseKey = user.licenseKey;
+        } else {
+            // Generate and save new license key for existing users missing it
+            userLicenseKey = `EXTO-${randomBytes(8).toString('hex').toUpperCase()}`;
+            await prisma.user.update({
+                where: { email: session.user.email! },
+                data: { licenseKey: userLicenseKey }
+            });
         }
-    }) as DbSubscription[];
+    } catch (e) {
+        console.error("Dashboard DB fetch error:", e);
+        // Provide a temporary visual key so the page still renders even if DB fails
+        userLicenseKey = "EXTO-ERROR-DASHBOARD";
+    }
+
+    let subscriptions: DbSubscription[] = [];
+    try {
+        if (dbUserId) {
+            subscriptions = await prisma.subscription.findMany({
+                where: {
+                    userId: dbUserId,
+                    status: "active",
+                },
+                select: {
+                    isBundle: true,
+                    extension: {
+                        select: {
+                            slug: true
+                        }
+                    }
+                }
+            }) as DbSubscription[];
+        }
+    } catch (e) {
+        console.error("Dashboard subscriptions fetch error:", e);
+    }
 
     const hasBundle = subscriptions.some((s: DbSubscription) => s.isBundle);
 
     // Extensions the user has access to
-    const activeExtensions = extensions.filter((ext: ExtensionData) =>
+    const activeExtensions = allDbExtensions.filter((ext: any) =>
         hasBundle || subscriptions.some((s: DbSubscription) => s.extension?.slug === ext.slug)
     );
-
-    // Ensure user has a license key
-    let userLicenseKey = "";
-    const user = await prisma.user.findUnique({
-        where: { id: session.user.id },
-        select: { licenseKey: true }
-    });
-
-    if (user?.licenseKey) {
-        userLicenseKey = user.licenseKey;
-    } else {
-        // Generate and save new license key
-        userLicenseKey = `EXTO-${randomBytes(8).toString('hex').toUpperCase()}`;
-        await prisma.user.update({
-            where: { id: session.user.id },
-            data: { licenseKey: userLicenseKey }
-        });
-    }
 
     return (
         <div className="container animate-fade-in" style={{ padding: '60px 0' }}>
@@ -67,10 +113,16 @@ export default async function DashboardPage() {
                     <p style={{ color: 'rgba(15, 23, 42, 0.6)' }}>Welcome back, {session.user.name || session.user.email}</p>
                 </div>
                 <div style={{ display: 'flex', gap: '12px' }}>
-                    <button className="btn btn-outline" style={{ gap: '8px' }}>
+                    {session.user.email === 'extotools@gmail.com' && (
+                        <a href="/admin" className="btn btn-outline" style={{ gap: '8px', textDecoration: 'none', color: 'var(--primary)', borderColor: 'var(--primary)' }}>
+                            <Shield size={18} />
+                            Admin
+                        </a>
+                    )}
+                    <a href="/settings" className="btn btn-outline" style={{ gap: '8px', textDecoration: 'none' }}>
                         <Settings size={18} />
                         Settings
-                    </button>
+                    </a>
                     <button className="btn btn-outline" style={{ gap: '8px' }}>
                         <CreditCard size={18} />
                         Billing
@@ -86,46 +138,14 @@ export default async function DashboardPage() {
                         <h2 style={{ margin: 0 }}>Active Extensions</h2>
                     </div>
 
-                    {activeExtensions.length > 0 ? (
-                        <div className="grid grid-cols-1" style={{ gap: '16px' }}>
-                            {activeExtensions.map(ext => (
-                                <div key={ext.slug} style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    padding: '20px',
-                                    background: 'rgba(15, 23, 42, 0.02)',
-                                    borderRadius: '12px',
-                                    border: '1px solid var(--card-border)'
-                                }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                        <div style={{ color: 'var(--primary)' }}>
-                                            <Chrome size={24} />
-                                        </div>
-                                        <div>
-                                            <h3 style={{ fontSize: '1.1rem', marginBottom: '4px' }}>{ext.name}</h3>
-                                            <p style={{ fontSize: '0.85rem', color: 'rgba(15, 23, 42, 0.5)', margin: 0 }}>{ext.shortDescription}</p>
-                                        </div>
-                                    </div>
-                                    <Link href={ext.chromeWebStoreLink || "#"} className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
-                                        Open Tool
-                                        <ExternalLink size={14} />
-                                    </Link>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div style={{ textAlign: 'center', padding: '40px 0' }}>
-                            <p style={{ color: 'rgba(15, 23, 42, 0.4)', marginBottom: '24px' }}>You don't have any active subscriptions yet.</p>
-                            <Link href="/#collection" className="btn btn-primary">Browse Extensions</Link>
-                        </div>
-                    )}
+                    <ExtensionList
+                        allExtensions={allDbExtensions as any}
+                        activeSlugs={activeExtensions.map(ext => ext.slug)}
+                    />
                 </div>
 
                 {/* Sidebar / Stats */}
                 <div className="grid grid-cols-1" style={{ alignContent: 'start', gap: '32px' }}>
-
-                    <LicenseKey licenseKey={userLicenseKey} />
 
                     <div className="card" style={{ background: 'var(--primary)', color: 'white', border: 'none' }}>
                         <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -154,10 +174,6 @@ export default async function DashboardPage() {
                                 <span>{session.user?.email}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Country</span>
-                                <span>{(session.user as any)?.country || "Not specified"}</span>
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Active Tools</span>
                                 <span>{activeExtensions.length}</span>
                             </div>
@@ -165,19 +181,19 @@ export default async function DashboardPage() {
                     </div>
 
                     <div className="card" style={{ background: 'rgba(15, 23, 42, 0.02)', borderStyle: 'dashed' }}>
-                        <h3 style={{ fontSize: '1.1rem', marginBottom: '20px', fontWeight: 700 }}>How to Activate</h3>
+                        <h3 style={{ fontSize: '1.1rem', marginBottom: '20px', fontWeight: 700 }}>How to Activate Tools</h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                             <div style={{ display: 'flex', gap: '12px' }}>
                                 <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800, flexShrink: 0 }}>1</div>
-                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Copy your unique license key from above.</p>
+                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Install the ExToTools extension in your browser from the Chrome Web Store.</p>
                             </div>
                             <div style={{ display: 'flex', gap: '12px' }}>
                                 <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800, flexShrink: 0 }}>2</div>
-                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Open the ExToTools extension in your browser.</p>
+                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Open the extension popup.</p>
                             </div>
                             <div style={{ display: 'flex', gap: '12px' }}>
                                 <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800, flexShrink: 0 }}>3</div>
-                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Paste the key into the activation field to unlock Pro features.</p>
+                                <p style={{ fontSize: '0.9rem', margin: 0, color: 'rgba(15, 23, 42, 0.7)' }}>Click <b>"Sign In with Google"</b> to instantly sync your premium features.</p>
                             </div>
                         </div>
                     </div>

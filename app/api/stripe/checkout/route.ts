@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { getStripe } from "@/lib/stripe";
-import { extensions, bundles } from "@/lib/extensions";
 import { NextResponse } from "next/server";
 
 export const dynamic = 'force-dynamic';

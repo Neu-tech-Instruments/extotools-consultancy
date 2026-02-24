@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
         const session = await auth();
-        if (!session?.user?.id) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        if (!session?.user?.email) {
+            return NextResponse.json({ error: "Unauthorized: No email attached to session" }, { status: 401 });
         }
 
         const { firstName, lastName, country } = await req.json();
@@ -15,13 +15,21 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "All fields are required" }, { status: 400 });
         }
 
-        const updatedUser = await prisma.user.update({
-            where: { id: session.user.id },
-            data: {
+        const updatedUser = await prisma.user.upsert({
+            where: { email: session.user.email },
+            update: {
                 firstName,
                 lastName,
                 country,
                 name: `${firstName} ${lastName}` // Sync with standard NextAuth name field
+            },
+            create: {
+                email: session.user.email,
+                name: `${firstName} ${lastName}`,
+                firstName,
+                lastName,
+                country,
+                image: session.user.image
             }
         });
 

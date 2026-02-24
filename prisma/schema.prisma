@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -60,12 +61,17 @@ model VerificationToken {
 }
 
 model Extension {
-  id            String   @id @default(cuid())
-  slug          String   @unique
-  name          String
-  description   String
-  priceId       String   // Stripe Price ID
-  isLive        Boolean  @default(false)
+  id                 String   @id @default(cuid())
+  slug               String   @unique
+  name               String
+  description        String?
+  shortDescription   String   @default("")
+  image              String?  
+  price              Float    @default(0)
+  features           String   @default("[]") // Store as JSON string
+  chromeWebStoreLink String?
+  priceId            String?   // Stripe Price ID
+  isLive             Boolean  @default(false)
   subscriptions Subscription[]
 }
 

@@ -8,25 +8,16 @@ export const authConfig = {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
+            const isOnSettings = nextUrl.pathname.startsWith("/settings");
             const isOnOnboarding = nextUrl.pathname === "/onboarding";
 
             if (isLoggedIn) {
-                const isProfileComplete = !!(auth.user as any).firstName;
-
-                if (!isProfileComplete && !isOnOnboarding && !nextUrl.pathname.startsWith("/api")) {
-                    return Response.redirect(new URL("/onboarding", nextUrl.origin));
-                }
-
-                if (isProfileComplete && isOnOnboarding) {
-                    return Response.redirect(new URL("/dashboard", nextUrl.origin));
-                }
-
-                if (nextUrl.pathname === "/login") {
+                if (nextUrl.pathname === "/login" || isOnOnboarding) {
                     return Response.redirect(new URL("/dashboard", nextUrl.origin));
                 }
             }
 
-            if (isOnDashboard) {
+            if (isOnDashboard || isOnSettings) {
                 if (isLoggedIn) return true;
                 return false;
             }

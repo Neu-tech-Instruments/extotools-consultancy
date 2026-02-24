@@ -9,53 +9,7 @@ export interface ExtensionData {
   chromeWebStoreLink?: string;
 }
 
-export const extensions: ExtensionData[] = [
-  {
-    slug: "extension-one",
-    name: "Extension One",
-    description: "The most powerful tool for productivity. Streamline your workflow with advanced tab management and sync.",
-    shortDescription: "Boost your productivity instantly.",
-    price: 9,
-    features: ["Tab Management", "Cloud Sync", "Power User Shortcuts"],
-    isBuilt: true,
-  },
-  {
-    slug: "extension-two",
-    name: "Extension Two",
-    description: "Unlock the full potential of the web with advanced data scraping and automation. Perfect for market research.",
-    shortDescription: "Automate your web tasks.",
-    price: 12,
-    features: ["No-code Scraper", "API Integration", "Scheduled Runs"],
-    isBuilt: true,
-  },
-  {
-    slug: "extension-three",
-    name: "Extension Three",
-    description: "Secure your browsing experience with advanced privacy controls and ad-blocking that actually works.",
-    shortDescription: "Privacy first browsing.",
-    price: 7,
-    features: ["Ad Blocker", "Tracker Prevention", "Cookie Manager"],
-    isBuilt: false, // Placeholder
-  },
-  {
-    slug: "extension-four",
-    name: "Extension Four",
-    description: "A developer's dream companion. Inspect elements, debug CSS, and analyze network requests with ease.",
-    shortDescription: "Dev-tools on steroids.",
-    price: 15,
-    features: ["CSS Inspector", "Performance Profiler", "Responsive Tester"],
-    isBuilt: false, // Placeholder
-  },
-  {
-    slug: "extension-five",
-    name: "extension-five",
-    description: "Collaborative browsing made simple. Share tabs, chat with teammates, and browse together in real-time.",
-    shortDescription: "Browsing for teams.",
-    price: 10,
-    features: ["Shared Sessions", "Team Chat", "Live Presence"],
-    isBuilt: false, // Placeholder
-  }
-];
+export const extensions: ExtensionData[] = []; // Migrated to Database
 
 export interface BundleData {
   id: string;

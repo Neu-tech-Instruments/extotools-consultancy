@@ -1,14 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { extensions, bundles } from "@/lib/extensions";
-import { ArrowRight, Chrome, Zap, Plus, Layers, Quote, Star } from "lucide-react";
+import { bundles } from "@/lib/extensions";
+import { ArrowRight, Chrome, Zap, Plus, Layers, Quote, Star, Loader2, Image as ImageIcon } from "lucide-react";
 import { motion, useScroll } from "framer-motion";
 import GeometricIcon from "@/components/GeometricIcon";
 import Reveal from "@/components/Reveal";
 import AbstractComposition from "@/components/AbstractComposition";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/context/CartContext";
+
+type Extension = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  shortDescription: string;
+  price: number;
+  image?: string | null;
+  features: string;
+  isLive: boolean;
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,11 +44,29 @@ const itemVariants = {
 
 export default function Home() {
   const { addToCart } = useCart();
+  const [dbExtensions, setDbExtensions] = useState<Extension[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoRef2 = useRef<HTMLVideoElement>(null);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    // Fetch extensions from Database
+    const fetchExtensions = async () => {
+      try {
+        const res = await fetch("/api/extensions");
+        if (res.ok) {
+          const data = await res.json();
+          setDbExtensions(data);
+        }
+      } catch (error) {
+        console.error("Landing page fetch error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchExtensions();
+
     // Start playing background videos on mount and keep them playing
     [videoRef, videoRef2].forEach(ref => {
       if (ref.current) {
@@ -200,106 +230,117 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-3" style={{ gap: 'clamp(20px, 3vw, 32px)' }}>
-            {extensions.map((ext, index) => {
-              const accentColors = [
-                'rgba(110, 231, 183, 0.3)', // Mint
-                'rgba(167, 139, 250, 0.3)', // Lavender
-                'rgba(251, 146, 60, 0.3)',  // Tangerine
-                'rgba(56, 189, 248, 0.3)',  // Sky
-                'rgba(244, 114, 182, 0.3)', // Pink
-              ];
-              const accent = accentColors[index % accentColors.length];
-              const solidAccent = accent.replace('0.3', '1');
+          {isLoading ? (
+            <div style={{ gridColumn: 'span 3', padding: '100px', textAlign: 'center', width: '100%', opacity: 0.5 }}>
+              <Loader2 size={48} className="animate-spin" style={{ margin: '0 auto' }} />
+            </div>
+          ) : (
+            <div className="grid grid-cols-3" style={{ gap: 'clamp(20px, 3vw, 32px)', width: '100%' }}>
+              {dbExtensions.map((ext, index) => {
+                const accentColors = [
+                  'rgba(110, 231, 183, 0.3)', // Mint
+                  'rgba(167, 139, 250, 0.3)', // Lavender
+                  'rgba(251, 146, 60, 0.3)',  // Tangerine
+                  'rgba(56, 189, 248, 0.3)',  // Sky
+                  'rgba(244, 114, 182, 0.3)', // Pink
+                ];
+                const accent = accentColors[index % accentColors.length];
+                const solidAccent = accent.replace('0.3', '1');
 
-              return (
-                <motion.div
-                  key={ext.slug}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  style={{ position: 'relative' }}
-                >
-                  {/* Localized Aura Glow */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '20%',
-                    left: '20%',
-                    width: '80%',
-                    height: '80%',
-                    background: accent.replace('0.3', '0.2'),
-                    filter: 'blur(80px)',
-                    borderRadius: '50%',
-                    zIndex: 0,
-                    pointerEvents: 'none'
-                  }} />
-
-                  <Link href={`/extensions/${ext.slug}`} className="card" style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%',
-                    textDecoration: 'none',
-                    background: 'rgba(255, 255, 255, 0.6)',
-                    backdropFilter: 'blur(25px)',
-                    WebkitBackdropFilter: 'blur(25px)',
-                    border: '1px solid rgba(255, 255, 255, 0.8)',
-                    padding: '40px',
-                    position: 'relative',
-                    zIndex: 1,
-                    overflow: 'hidden',
-                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)'
-                  }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
-                      e.currentTarget.style.borderColor = solidAccent;
-                      e.currentTarget.style.transform = 'translateY(-8px)';
-                      e.currentTarget.style.boxShadow = `0 25px 50px -15px ${accent.replace('0.3', '0.2')}`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.8)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.05)';
-                    }}
+                return (
+                  <motion.div
+                    key={ext.slug}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                    style={{ position: 'relative' }}
                   >
-                    <div style={{ marginBottom: '40px' }}>
-                      <div style={{
-                        width: '64px',
-                        height: '64px',
-                        background: accent,
-                        border: `1px solid ${accent.replace('0.3', '0.2')}`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: `0 8px 20px -5px ${accent.replace('0.3', '0.3')}`
-                      }}>
-                        <Chrome size={32} color="var(--primary)" />
-                      </div>
-                    </div>
+                    {/* Localized Aura Glow */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '20%',
+                      left: '20%',
+                      width: '80%',
+                      height: '80%',
+                      background: accent.replace('0.3', '0.2'),
+                      filter: 'blur(80px)',
+                      borderRadius: '50%',
+                      zIndex: 0,
+                      pointerEvents: 'none'
+                    }} />
 
-                    <h3 style={{ fontSize: '2.2rem', marginBottom: '16px', color: 'var(--accent-navy)', fontWeight: 700, letterSpacing: '-0.02em' }}>{ext.name}</h3>
-                    <p style={{ color: 'var(--accent-navy)', opacity: 0.9, fontSize: '1.1rem', marginBottom: '40px', flex: 1, lineHeight: 1.6 }}>
-                      {ext.shortDescription}
-                    </p>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 800, opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: 'var(--accent-navy)' }}>MSRP_UNIT</span>
-                        <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace' }}>${ext.price}</span>
+                    <Link href={`/extensions/${ext.slug}`} className="card" style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
+                      textDecoration: 'none',
+                      background: 'rgba(255, 255, 255, 0.6)',
+                      backdropFilter: 'blur(25px)',
+                      WebkitBackdropFilter: 'blur(25px)',
+                      border: '1px solid rgba(255, 255, 255, 0.8)',
+                      padding: '40px',
+                      position: 'relative',
+                      zIndex: 1,
+                      overflow: 'hidden',
+                      transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                      boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)'
+                    }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+                        e.currentTarget.style.borderColor = solidAccent;
+                        e.currentTarget.style.transform = 'translateY(-8px)';
+                        e.currentTarget.style.boxShadow = `0 25px 50px -15px ${accent.replace('0.3', '0.2')}`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.05)';
+                      }}
+                    >
+                      <div style={{ marginBottom: '40px' }}>
+                        <div style={{
+                          width: '64px',
+                          height: '64px',
+                          background: accent,
+                          border: `1px solid ${accent.replace('0.3', '0.2')}`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: `0 8px 20px -5px ${accent.replace('0.3', '0.3')}`,
+                          overflow: 'hidden'
+                        }}>
+                          {ext.image ? (
+                            <img src={ext.image} alt={ext.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ) : (
+                            <Chrome size={32} color="var(--primary)" />
+                          )}
+                        </div>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 1, color: solidAccent }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: '0.1em' }}>DETAIL</span>
-                        <ArrowRight size={20} />
+                      <h3 style={{ fontSize: '2.2rem', marginBottom: '16px', color: 'var(--accent-navy)', fontWeight: 700, letterSpacing: '-0.02em' }}>{ext.name}</h3>
+                      <p style={{ color: 'var(--accent-navy)', opacity: 0.9, fontSize: '1.1rem', marginBottom: '40px', flex: 1, lineHeight: 1.6 }}>
+                        {ext.shortDescription}
+                      </p>
+
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 800, opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: 'var(--accent-navy)' }}>MSRP_UNIT</span>
+                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace' }}>${ext.price}</span>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 1, color: solidAccent }}>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: '0.1em' }}>DETAIL</span>
+                          <ArrowRight size={20} />
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 

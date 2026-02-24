@@ -1,13 +1,41 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { extensions } from "@/lib/extensions";
-import { CheckCircle2, Circle, Clock, ArrowRight, Chrome, Zap, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { CheckCircle2, Circle, Clock, ArrowRight, Chrome, Zap, Star, Loader2 } from "lucide-react";
 import Link from "next/link";
 
+type Extension = {
+    id: string;
+    slug: string;
+    name: string;
+    shortDescription: string;
+    isLive: boolean;
+};
+
 export default function RoadmapPage() {
-    const liveExtensions = extensions.filter(ext => ext.isBuilt);
-    const inDevExtensions = extensions.filter(ext => !ext.isBuilt);
+    const [dbExtensions, setDbExtensions] = useState<Extension[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchExtensions = async () => {
+            try {
+                const res = await fetch("/api/extensions");
+                if (res.ok) {
+                    const data = await res.json();
+                    setDbExtensions(data);
+                }
+            } catch (error) {
+                console.error("Roadmap fetch error:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchExtensions();
+    }, []);
+
+    const liveExtensions = dbExtensions.filter(ext => ext.isLive);
+    const inDevExtensions = dbExtensions.filter(ext => !ext.isLive);
 
     // Theoretical future extensions for the "Planned" column
     const plannedExtensions = [
@@ -31,93 +59,99 @@ export default function RoadmapPage() {
                 </p>
             </header>
 
-            <div className="grid grid-cols-3" style={{ gap: '32px', alignItems: 'start' }}>
-
-                {/* Column 1: Live */}
-                <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
-                        <div style={{ width: '12px', height: '12px', background: '#16a34a', borderRadius: '50%' }} />
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Live & Active</h2>
+            {isLoading ? (
+                <div style={{ padding: '100px', textAlign: 'center', opacity: 0.5 }}>
+                    <Loader2 size={48} className="animate-spin" style={{ margin: '0 auto' }} />
+                </div>
+            ) : (
+                <div className="grid grid-cols-3" style={{ gap: '32px', alignItems: 'start' }}>
+                    {/* Column 1: Live */}
+                    <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
+                            <div style={{ width: '12px', height: '12px', background: '#16a34a', borderRadius: '50%' }} />
+                            <h2 style={{ fontSize: '1.25rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Live & Active</h2>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            {liveExtensions.length === 0 && <p style={{ opacity: 0.4, fontSize: '0.9rem' }}>No live tools yet.</p>}
+                            {liveExtensions.map((ext, i) => (
+                                <motion.div
+                                    key={ext.slug}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className="card"
+                                    style={{ padding: '24px' }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                                        <CheckCircle2 size={18} color="#16a34a" />
+                                        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>{ext.name}</h3>
+                                    </div>
+                                    <p style={{ fontSize: '0.9rem', color: 'rgba(15, 23, 42, 0.6)', marginBottom: '16px' }}>{ext.shortDescription}</p>
+                                    <Link href={`/extensions/${ext.slug}`} style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        VIEW TOOL <ArrowRight size={14} />
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        {liveExtensions.map((ext, i) => (
-                            <motion.div
-                                key={ext.slug}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                className="card"
-                                style={{ padding: '24px' }}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                                    <CheckCircle2 size={18} color="#16a34a" />
-                                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>{ext.name}</h3>
-                                </div>
-                                <p style={{ fontSize: '0.9rem', color: 'rgba(15, 23, 42, 0.6)', marginBottom: '16px' }}>{ext.shortDescription}</p>
-                                <Link href={`/extensions/${ext.slug}`} style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                    VIEW TOOL <ArrowRight size={14} />
-                                </Link>
-                            </motion.div>
-                        ))}
+
+                    {/* Column 2: In Development */}
+                    <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
+                            <div style={{ width: '12px', height: '12px', background: 'var(--primary)', borderRadius: '50%' }} />
+                            <h2 style={{ fontSize: '1.25rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>In Development</h2>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            {inDevExtensions.length === 0 && <p style={{ opacity: 0.4, fontSize: '0.9rem' }}>All tools are live!</p>}
+                            {inDevExtensions.map((ext, i) => (
+                                <motion.div
+                                    key={ext.slug}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.1 + 0.3 }}
+                                    className="card"
+                                    style={{ padding: '24px', borderStyle: 'dashed' }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                                        <Clock size={18} color="var(--primary)" />
+                                        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>{ext.name}</h3>
+                                    </div>
+                                    <p style={{ fontSize: '0.9rem', color: 'rgba(15, 23, 42, 0.6)', marginBottom: '16px' }}>{ext.shortDescription}</p>
+                                    <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary)', background: 'rgba(35, 34, 200, 0.05)', padding: '4px 10px', display: 'inline-block', borderRadius: '100px' }}>
+                                        ETA: Q2 2026
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Column 3: Planned */}
+                    <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
+                            <div style={{ width: '12px', height: '12px', background: 'rgba(15, 23, 42, 0.2)', borderRadius: '50%' }} />
+                            <h2 style={{ fontSize: '1.25rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(15, 23, 42, 0.4)' }}>Planned</h2>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            {plannedExtensions.map((ext, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.1 + 0.6 }}
+                                    className="card"
+                                    style={{ padding: '24px', opacity: 0.6, background: 'rgba(15, 23, 42, 0.01)' }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                                        <Circle size={18} color="rgba(15, 23, 42, 0.2)" />
+                                        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0, color: 'rgba(15, 23, 42, 0.6)' }}>{ext.name}</h3>
+                                    </div>
+                                    <p style={{ fontSize: '0.9rem', color: 'rgba(15, 23, 42, 0.4)' }}>{ext.desc}</p>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-
-                {/* Column 2: In Development */}
-                <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
-                        <div style={{ width: '12px', height: '12px', background: 'var(--primary)', borderRadius: '50%' }} />
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>In Development</h2>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        {inDevExtensions.map((ext, i) => (
-                            <motion.div
-                                key={ext.slug}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 + 0.3 }}
-                                className="card"
-                                style={{ padding: '24px', borderStyle: 'dashed' }}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                                    <Clock size={18} color="var(--primary)" />
-                                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0 }}>{ext.name}</h3>
-                                </div>
-                                <p style={{ fontSize: '0.9rem', color: 'rgba(15, 23, 42, 0.6)', marginBottom: '16px' }}>{ext.shortDescription}</p>
-                                <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary)', background: 'rgba(35, 34, 200, 0.05)', padding: '4px 10px', display: 'inline-block', borderRadius: '100px' }}>
-                                    ETA: Q2 2026
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Column 3: Planned */}
-                <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
-                        <div style={{ width: '12px', height: '12px', background: 'rgba(15, 23, 42, 0.2)', borderRadius: '50%' }} />
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(15, 23, 42, 0.4)' }}>Planned</h2>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        {plannedExtensions.map((ext, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.1 + 0.6 }}
-                                className="card"
-                                style={{ padding: '24px', opacity: 0.6, background: 'rgba(15, 23, 42, 0.01)' }}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                                    <Circle size={18} color="rgba(15, 23, 42, 0.2)" />
-                                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0, color: 'rgba(15, 23, 42, 0.6)' }}>{ext.name}</h3>
-                                </div>
-                                <p style={{ fontSize: '0.9rem', color: 'rgba(15, 23, 42, 0.4)' }}>{ext.desc}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-
-            </div>
+            )}
 
             {/* CTA Section */}
             <section style={{ marginTop: '120px', textAlign: 'center' }}>

@@ -1,26 +1,54 @@
 import { notFound } from "next/navigation";
-import { extensions } from "@/lib/extensions";
+import { prisma } from "@/lib/prisma";
 import { CheckCircle, Chrome, Shield, Zap, ArrowLeft, Star } from "lucide-react";
 import Link from "next/link";
 import SubscribeButton from "@/components/SubscribeButton";
 
-interface PageProps {
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+interface Extension {
+    id: string;
+    slug: string;
+    name: string;
+    description: string;
+    shortDescription: string;
+    image?: string | null;
+    price: number;
+    features: string;
+    chromeWebStoreLink?: string | null;
+    priceId: string;
+    isLive: boolean;
+}
+
+type ExtensionPageProps = {
     params: Promise<{ slug: string }>;
-}
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
-export async function generateStaticParams() {
-    return extensions.map((ext) => ({
-        slug: ext.slug,
-    }));
-}
 
-export default async function ExtensionPage({ params }: PageProps) {
+
+export default async function ExtensionPage({ params }: ExtensionPageProps) {
     const { slug } = await params;
-    const extension = extensions.find((ext) => ext.slug === slug);
 
-    if (!extension) {
+    const extension = await prisma.extension.findUnique({
+        where: { slug }
+    }) as Extension | null;
+
+    if (!extension || !extension.isLive) {
         notFound();
     }
+
+    const features = JSON.parse(extension.features) as string[];
+
+    // Fetch related suggestions
+    const suggestions = await prisma.extension.findMany({
+        where: {
+            isLive: true,
+            NOT: { slug }
+        },
+        take: 3
+    }) as Extension[];
 
     return (
         <div className="container animate-fade-in" style={{ padding: 'clamp(40px, 8vw, 60px) 20px' }}>
@@ -61,7 +89,7 @@ export default async function ExtensionPage({ params }: PageProps) {
                     <div style={{ marginBottom: '40px' }}>
                         <h3 style={{ marginBottom: '20px' }}>Key Features</h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            {extension.features.map((feature, i) => (
+                            {features.map((feature, i) => (
                                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                     <CheckCircle size={20} color="var(--primary)" />
                                     <span>{feature}</span>
@@ -121,16 +149,16 @@ export default async function ExtensionPage({ params }: PageProps) {
                         <SubscribeButton
                             slug={extension.slug}
                             price={extension.price}
-                            isBuilt={extension.isBuilt}
+                            isBuilt={extension.isLive}
                         />
 
-                        {!extension.isBuilt && (
+                        {!extension.isLive && (
                             <p style={{ fontSize: '0.85rem', color: 'rgba(15, 23, 42, 0.4)', textAlign: 'center', marginTop: '12px' }}>
                                 This extension is currently in development. Subscribe to be notified when it launches.
                             </p>
                         )}
 
-                        {extension.isBuilt && (
+                        {extension.isLive && (
                             <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--card-border)' }}>
                                 <a
                                     href={extension.chromeWebStoreLink || "#"}
@@ -184,44 +212,41 @@ export default async function ExtensionPage({ params }: PageProps) {
             <div style={{ marginTop: 'clamp(60px, 10vw, 100px)', borderTop: '1px solid var(--card-border)', paddingTop: 'clamp(40px, 8vw, 80px)' }}>
                 <h2 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', marginBottom: '40px', textAlign: 'center' }}>You Might Also Like</h2>
                 <div className="grid grid-cols-3">
-                    {extensions
-                        .filter(ext => ext.slug !== slug)
-                        .slice(0, 3)
-                        .map((ext) => (
-                            <Link key={ext.slug} href={`/extensions/${ext.slug}`} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
+                    {suggestions.map((ext) => (
+                        <Link key={ext.slug} href={`/extensions/${ext.slug}`} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div style={{
+                                width: '40px',
+                                height: '40px',
+                                background: 'rgba(15, 23, 42, 0.03)',
+                                borderRadius: '10px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginBottom: '16px'
+                            }}>
+                                <Chrome size={20} color={ext.isLive ? 'var(--primary)' : 'rgba(15, 23, 42, 0.2)'} />
+                            </div>
+
+                            <h3 style={{ fontSize: '1.25rem', marginBottom: '8px' }}>{ext.name}</h3>
+                            <p style={{ color: 'rgba(15, 23, 42, 0.6)', fontSize: '0.9rem', marginBottom: '16px', flex: 1 }}>
+                                {ext.shortDescription}
+                            </p>
+
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+                                <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>${ext.price}</span>
                                 <div style={{
-                                    width: '40px',
-                                    height: '40px',
-                                    background: 'rgba(15, 23, 42, 0.03)',
-                                    borderRadius: '10px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    marginBottom: '16px'
+                                    padding: '2px 10px',
+                                    borderRadius: '100px',
+                                    fontSize: '0.7rem',
+                                    fontWeight: 600,
+                                    background: ext.isLive ? 'rgba(34, 197, 94, 0.1)' : 'rgba(15, 23, 42, 0.03)',
+                                    color: ext.isLive ? '#16a34a' : 'rgba(15, 23, 42, 0.4)'
                                 }}>
-                                    <Chrome size={20} color={ext.isBuilt ? 'var(--primary)' : 'rgba(15, 23, 42, 0.2)'} />
+                                    {ext.isLive ? 'AVAILABLE' : 'PROMO'}
                                 </div>
-
-                                <h3 style={{ fontSize: '1.25rem', marginBottom: '8px' }}>{ext.name}</h3>
-                                <p style={{ color: 'rgba(15, 23, 42, 0.6)', fontSize: '0.9rem', marginBottom: '16px', flex: 1 }}>
-                                    {ext.shortDescription}
-                                </p>
-
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
-                                    <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>${ext.price}</span>
-                                    <div style={{
-                                        padding: '2px 10px',
-                                        borderRadius: '100px',
-                                        fontSize: '0.7rem',
-                                        fontWeight: 600,
-                                        background: ext.isBuilt ? 'rgba(34, 197, 94, 0.1)' : 'rgba(15, 23, 42, 0.03)',
-                                        color: ext.isBuilt ? '#16a34a' : 'rgba(15, 23, 42, 0.4)'
-                                    }}>
-                                        {ext.isBuilt ? 'AVAILABLE' : 'PROMO'}
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
+                            </div>
+                        </Link>
+                    ))}
                 </div>
             </div>
         </div>
