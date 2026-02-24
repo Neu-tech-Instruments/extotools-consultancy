@@ -16,6 +16,22 @@ export async function GET(req: Request) {
     }
 }
 
+import { createClient } from "@libsql/client";
+
+// Helper to get a strict SQL connection string
+function getDbUrl() {
+    let rawUrl = process.env.DATABASE_URL || process.env.TURSO_DATABASE_URL;
+    if (!rawUrl || rawUrl === "undefined" || rawUrl === "") {
+        console.warn("[LibSQL] CRITICAL: DATABASE_URL is missing. Falling back to local.");
+        rawUrl = "file:dev.db";
+    }
+    let sqlUrl = rawUrl;
+    if (sqlUrl.startsWith('file:./')) {
+        sqlUrl = 'file:' + sqlUrl.slice(7);
+    }
+    return sqlUrl;
+}
+
 export async function POST(req: Request) {
     try {
         const session = await auth();
@@ -33,7 +49,7 @@ export async function POST(req: Request) {
         const priceId = formData.get("priceId") as string;
         let chromeWebStoreLink = formData.get("chromeWebStoreLink") as string;
         if (chromeWebStoreLink === "undefined" || chromeWebStoreLink === "") {
-            chromeWebStoreLink = null as unknown as string; // Will be passed as null to Prisma
+            chromeWebStoreLink = null as unknown as string;
         }
         const features = formData.get("features") as string; // Expecting JSON string
         const isLive = formData.get("isLive") === "true";
@@ -48,13 +64,10 @@ export async function POST(req: Request) {
         if (file && file.size > 0) {
             if (!process.env.BLOB_READ_WRITE_TOKEN) {
                 console.error("BLOB_READ_WRITE_TOKEN is missing. Cannot upload image.");
-                return NextResponse.json({ error: "Image upload failed: BLOB_READ_WRITE_TOKEN is missing. Please provide the token or create the extension without an image." }, { status: 500 });
+                return NextResponse.json({ error: "Image upload failed: BLOB_READ_WRITE_TOKEN is missing." }, { status: 500 });
             }
-            // Failsafe: Manually ensure uniqueness with a timestamp
             const uniqueFilename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-
             console.log(`[Blob] Uploading as: ${uniqueFilename}`);
-
             const blob = await put(uniqueFilename, file, {
                 access: 'public',
                 addRandomSuffix: true,
@@ -63,37 +76,54 @@ export async function POST(req: Request) {
             imageUrl = blob.url;
         }
 
-        const newExtension = await prisma.extension.create({
-            data: {
-                name,
-                slug,
-                description,
-                shortDescription,
-                price,
-                priceId,
-                features: features || "[]",
-                image: imageUrl,
-                chromeWebStoreLink: chromeWebStoreLink || null,
-                isLive
-            }
+        // NATIVE LIBSQL INSERT (Bypass Prisma completely for this action to prevent adapter bugs)
+        const dbUrl = getDbUrl();
+        const authToken = process.env.DATABASE_AUTH_TOKEN || process.env.TURSO_AUTH_TOKEN;
+        const isLocal = dbUrl.startsWith('file:');
+
+        console.log(`[Native DB] Connecting to ${isLocal ? 'local' : 'remote'} Turso DB for insertion...`);
+        const client = createClient({
+            url: dbUrl,
+            authToken: isLocal ? undefined : authToken,
         });
 
-        // CACHE BUSTER V2: Force Vercel to recompile this specific route
-        console.log("Executing Admin POST /api/admin/extensions V2");
+        // Generate a random ID (Prisma uses CUIDs, but UUIDs are perfectly valid string IDs in SQLite)
+        const newId = crypto.randomUUID();
 
-        return NextResponse.json({ success: true, extension: newExtension });
+        await client.execute({
+            sql: `
+                INSERT INTO "Extension" 
+                (id, name, slug, description, shortDescription, price, priceId, chromeWebStoreLink, features, isLive, image)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `,
+            args: [
+                newId,
+                name,
+                slug,
+                description || null,
+                shortDescription || "",
+                price,
+                priceId || null,
+                chromeWebStoreLink || null,
+                features || "[]",
+                isLive ? 1 : 0,
+                imageUrl || null
+            ]
+        });
+
+        console.log("[Native DB] Native insert successful.");
+
+        return NextResponse.json({ success: true, extension: { id: newId, name, slug } });
     } catch (error) {
-        console.error("Extension upload error:", error);
-        const errorMessage = error instanceof Error ? error.message : "Failed to create extension";
+        console.error("Extension native insert error:", error);
+        const errorMessage = error instanceof Error ? error.message : "Failed to create extension natively";
 
-        // Expose critical environment details securely for debugging the URL_INVALID error
         const debugInfo = {
-            DATABASE_URL: process.env.DATABASE_URL ? "Set: " + String(process.env.DATABASE_URL) : "Missing",
-            TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN ? "Set (Length: " + process.env.TURSO_AUTH_TOKEN.length + ")" : "Missing",
-            TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL ? "Set: " + String(process.env.TURSO_DATABASE_URL) : "Missing",
+            DATABASE_URL: process.env.DATABASE_URL ? "Set" : "Missing",
+            TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN ? "Set" : "Missing",
+            TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL ? "Set" : "Missing",
             NODE_ENV: process.env.NODE_ENV,
-            errorString: String(error),
-            errorStack: error instanceof Error ? error.stack : undefined
+            errorString: String(error)
         };
 
         return NextResponse.json({
