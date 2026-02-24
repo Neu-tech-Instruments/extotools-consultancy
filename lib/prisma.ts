@@ -3,10 +3,16 @@ import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { createClient } from "@libsql/client";
 
 const prismaClientSingleton = () => {
-    const rawUrl = process.env.DATABASE_URL || "file:dev.db";
+    let rawUrl = process.env.DATABASE_URL;
     const authToken = process.env.DATABASE_AUTH_TOKEN;
 
-    // Normalize URL for @libsql/client
+    // Failsafe: Handle the literal string "undefined" or missing URL
+    if (!rawUrl || rawUrl === "undefined" || rawUrl === "") {
+        console.warn(`[Prisma] DATABASE_URL is missing or "undefined". Falling back to local file.`);
+        rawUrl = "file:dev.db";
+    }
+
+    // Normalize URL
     let libsqlUrl = rawUrl;
     if (libsqlUrl.startsWith('file:./')) {
         libsqlUrl = 'file:' + libsqlUrl.slice(7);
