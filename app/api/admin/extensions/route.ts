@@ -75,11 +75,27 @@ export async function POST(req: Request) {
             }
         });
 
+        // CACHE BUSTER V2: Force Vercel to recompile this specific route
+        console.log("Executing Admin POST /api/admin/extensions V2");
+
         return NextResponse.json({ success: true, extension: newExtension });
     } catch (error) {
         console.error("Extension upload error:", error);
         const errorMessage = error instanceof Error ? error.message : "Failed to create extension";
-        return NextResponse.json({ error: errorMessage }, { status: 500 });
+
+        // Expose critical environment details securely for debugging the URL_INVALID error
+        const debugInfo = {
+            DATABASE_URL: process.env.DATABASE_URL ? "Set: " + String(process.env.DATABASE_URL) : "Missing",
+            TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN ? "Set (Length: " + process.env.TURSO_AUTH_TOKEN.length + ")" : "Missing",
+            TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL ? "Set: " + String(process.env.TURSO_DATABASE_URL) : "Missing",
+            NODE_ENV: process.env.NODE_ENV,
+            errorString: String(error),
+            errorStack: error instanceof Error ? error.stack : undefined
+        };
+
+        return NextResponse.json({
+            error: errorMessage + "\n\nDEBUG INFO:\n" + JSON.stringify(debugInfo, null, 2)
+        }, { status: 500 });
     }
 }
 
