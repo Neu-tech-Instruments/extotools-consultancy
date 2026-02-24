@@ -47,7 +47,10 @@ export async function POST(req: Request) {
                 console.error("BLOB_READ_WRITE_TOKEN is missing. Cannot upload image.");
                 return NextResponse.json({ error: "Image upload failed: BLOB_READ_WRITE_TOKEN is missing. Please provide the token or create the extension without an image." }, { status: 500 });
             }
-            const blob = await put(file.name, file, { access: 'public' });
+            const blob = await put(file.name, file, {
+                access: 'public',
+                addRandomSuffix: true
+            });
             imageUrl = blob.url;
         }
 
