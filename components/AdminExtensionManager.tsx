@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Loader2, Image as ImageIcon, Link as LinkIcon, DollarSign } from "lucide-react";
+import { Plus, Trash2, Loader2, Image as ImageIcon, Link as LinkIcon, DollarSign, Edit } from "lucide-react";
 
 type Extension = {
     id: string;
@@ -12,6 +12,7 @@ type Extension = {
     price: number;
     priceId: string;
     image?: string | null;
+    features?: string;
     chromeWebStoreLink?: string | null;
     isLive: boolean;
 };
@@ -21,8 +22,9 @@ export default function AdminExtensionManager() {
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [showForm, setShowForm] = useState(false);
+    const [extensionToDelete, setExtensionToDelete] = useState<{ id: string, name: string } | null>(null);
 
-    // Form State
+    const [editId, setEditId] = useState<string | null>(null);
     const [name, setName] = useState("");
     const [slug, setSlug] = useState("");
     const [shortDescription, setShortDescription] = useState("");
@@ -31,6 +33,7 @@ export default function AdminExtensionManager() {
     const [priceId, setPriceId] = useState("");
     const [link, setLink] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [features, setFeatures] = useState<string[]>([]);
     const [isLive, setIsLive] = useState(false);
 
     useEffect(() => {
@@ -78,14 +81,19 @@ export default function AdminExtensionManager() {
             formData.append("priceId", priceId);
             formData.append("chromeWebStoreLink", link);
             formData.append("isLive", currentIsLive.toString());
-            formData.append("features", "[]"); // Simplified for V1
+            // Filter out empty features
+            const validFeatures = features.map(f => f.trim()).filter(f => f !== "");
+            formData.append("features", JSON.stringify(validFeatures));
 
             if (imageFile) {
                 formData.append("image", imageFile);
             }
+            if (editId) {
+                formData.append("id", editId);
+            }
 
             const res = await fetch("/api/admin/extensions", {
-                method: "POST",
+                method: editId ? "PUT" : "POST",
                 body: formData
             });
 
@@ -104,19 +112,71 @@ export default function AdminExtensionManager() {
         }
     };
 
-    const handleDelete = async (id: string, extName: string) => {
-        if (!confirm(`Are you sure you want to permanently delete '${extName}'?`)) return;
+    const handleDeleteRequest = (id: string, extName: string) => {
+        setExtensionToDelete({ id, name: extName });
+    };
+
+    const confirmDelete = async () => {
+        if (!extensionToDelete) return;
 
         try {
-            const res = await fetch(`/api/admin/extensions?id=${id}`, {
+            const res = await fetch(`/api/admin/extensions?id=${extensionToDelete.id}`, {
                 method: "DELETE"
             });
             if (res.ok) {
-                setExtensions(extensions.filter(e => e.id !== id));
+                setExtensions(extensions.filter(e => e.id !== extensionToDelete.id));
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setExtensionToDelete(null);
         }
+    };
+
+    const handleToggleLive = async (id: string, currentStatus: boolean) => {
+        try {
+            const res = await fetch("/api/admin/extensions", {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id,
+                    isLive: !currentStatus
+                })
+            });
+
+            if (res.ok) {
+                setExtensions(extensions.map(ext =>
+                    ext.id === id ? { ...ext, isLive: !currentStatus } : ext
+                ));
+            } else {
+                const data = await res.json();
+                alert(data.error || "Failed to update status");
+            }
+        } catch (error) {
+            console.error("Failed to update status", error);
+            alert("An error occurred while updating status");
+        }
+    };
+
+    const handleEdit = (ext: Extension) => {
+        setEditId(ext.id);
+        setName(ext.name);
+        setSlug(ext.slug);
+        setShortDescription(ext.shortDescription || "");
+        setDescription(ext.description || "");
+        setPrice((ext.price || 0).toString());
+        setPriceId(ext.priceId || "");
+        setLink(ext.chromeWebStoreLink || "");
+        setImageFile(null);
+        try {
+            setFeatures(JSON.parse(ext.features || "[]"));
+        } catch (e) {
+            setFeatures([]);
+        }
+        setIsLive(ext.isLive);
+        setShowForm(true);
     };
 
     const resetForm = () => {
@@ -128,7 +188,9 @@ export default function AdminExtensionManager() {
         setPriceId("");
         setLink("");
         setImageFile(null);
+        setFeatures([]);
         setIsLive(false);
+        setEditId(null);
         setShowForm(false);
     };
 
@@ -137,7 +199,10 @@ export default function AdminExtensionManager() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h1 style={{ fontSize: '2.5rem', marginBottom: '8px' }}>Extension Catalog <span style={{ fontSize: '0.8rem', opacity: 0.3 }}>(Deploy V5 - Native DB)</span></h1>
                 <button
-                    onClick={() => setShowForm(!showForm)}
+                    onClick={() => {
+                        if (showForm) resetForm();
+                        else setShowForm(true);
+                    }}
                     className="btn-primary"
                     style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: 'none' }}
                 >
@@ -148,7 +213,7 @@ export default function AdminExtensionManager() {
 
             {showForm && (
                 <form onSubmit={(e) => handleSubmit(e)} style={{ background: 'rgba(15, 23, 42, 0.02)', padding: '24px', borderRadius: '12px', marginBottom: '32px', border: '1px solid var(--architect-line)' }}>
-                    <h3 style={{ marginBottom: '16px', fontWeight: 600 }}>Create New Extension</h3>
+                    <h3 style={{ marginBottom: '16px', fontWeight: 600 }}>{editId ? "Edit Extension" : "Create New Extension"}</h3>
 
                     <div className="grid grid-cols-2" style={{ gap: '16px', marginBottom: '16px' }}>
                         <div>
@@ -169,6 +234,40 @@ export default function AdminExtensionManager() {
                     <div style={{ marginBottom: '16px' }}>
                         <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '8px', color: 'rgba(15, 23, 42, 0.7)' }}>Full Description</label>
                         <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="Detailed description of what the tool does..." style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--input-border)', background: 'var(--bg)', resize: 'vertical' }} />
+                    </div>
+
+                    <div style={{ marginBottom: '24px' }}>
+                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '8px', color: 'rgba(15, 23, 42, 0.7)' }}>Key Features</label>
+                        {features.map((feature, index) => (
+                            <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                                <input
+                                    type="text"
+                                    value={feature}
+                                    onChange={(e) => {
+                                        const newFeatures = [...features];
+                                        newFeatures[index] = e.target.value;
+                                        setFeatures(newFeatures);
+                                    }}
+                                    placeholder="e.g. No permissions needed..."
+                                    style={{ flex: 1, padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--input-border)', background: 'var(--bg)' }}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setFeatures(features.filter((_, i) => i !== index))}
+                                    style={{ padding: '10px', color: 'red', background: 'rgba(255, 0, 0, 0.05)', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+                                    title="Remove Feature"
+                                >
+                                    <Trash2 size={16} />
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={() => setFeatures([...features, ""])}
+                            style={{ padding: '8px 12px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary)', background: 'rgba(59, 130, 246, 0.1)', border: 'none', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                        >
+                            <Plus size={14} /> Add Feature
+                        </button>
                     </div>
 
                     <div className="grid grid-cols-2" style={{ gap: '16px', marginBottom: '16px' }}>
@@ -256,9 +355,9 @@ export default function AdminExtensionManager() {
                                 <tr key={ext.id} style={{ borderBottom: '1px solid rgba(15, 23, 42, 0.05)' }}>
                                     <td style={{ padding: '16px 12px' }}>
                                         {ext.image ? (
-                                            <img src={ext.image} alt={ext.name} style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover', background: 'var(--architect-line)' }} />
+                                            <img src={ext.image} alt={ext.name} style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
                                         ) : (
-                                            <div style={{ width: '48px', height: '48px', borderRadius: '8px', background: 'rgba(15, 23, 42, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <div style={{ width: '48px', height: '48px', background: 'rgba(15, 23, 42, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                 <ImageIcon size={20} color="rgba(15, 23, 42, 0.2)" />
                                             </div>
                                         )}
@@ -269,16 +368,30 @@ export default function AdminExtensionManager() {
                                     </td>
                                     <td style={{ padding: '16px 12px', fontWeight: 600 }}>${ext.price}/mo</td>
                                     <td style={{ padding: '16px 12px' }}>
-                                        {ext.isLive ? (
-                                            <span style={{ background: 'rgba(34, 197, 94, 0.1)', color: 'rgb(22, 163, 74)', padding: '4px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700 }}>Active</span>
-                                        ) : (
-                                            <span style={{ background: 'rgba(15, 23, 42, 0.05)', color: 'rgba(15, 23, 42, 0.5)', padding: '4px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700 }}>Draft</span>
-                                        )}
+                                        <button
+                                            onClick={() => handleToggleLive(ext.id, ext.isLive)}
+                                            style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer', textAlign: 'left' }}
+                                            title="Click to toggle status"
+                                        >
+                                            {ext.isLive ? (
+                                                <span style={{ background: 'rgba(34, 197, 94, 0.1)', color: 'rgb(22, 163, 74)', padding: '4px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}>Active</span>
+                                            ) : (
+                                                <span style={{ background: 'rgba(15, 23, 42, 0.05)', color: 'rgba(15, 23, 42, 0.5)', padding: '4px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}>Draft</span>
+                                            )}
+                                        </button>
                                     </td>
                                     <td style={{ padding: '16px 12px', textAlign: 'right' }}>
                                         <button
-                                            onClick={() => handleDelete(ext.id, ext.name)}
+                                            onClick={() => handleEdit(ext)}
+                                            style={{ padding: '8px', color: 'var(--primary)', background: 'rgba(59, 130, 246, 0.1)', border: 'none', borderRadius: '8px', cursor: 'pointer', marginRight: '8px' }}
+                                            title="Edit tool"
+                                        >
+                                            <Edit size={16} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteRequest(ext.id, ext.name)}
                                             style={{ padding: '8px', color: 'red', background: 'rgba(255, 0, 0, 0.05)', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+                                            title="Delete tool"
                                         >
                                             <Trash2 size={16} />
                                         </button>
@@ -294,6 +407,50 @@ export default function AdminExtensionManager() {
                             )}
                         </tbody>
                     </table>
+                </div>
+            )}
+
+            {extensionToDelete && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 1000,
+                    padding: '20px',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)'
+                }}>
+                    <div style={{
+                        background: 'white',
+                        padding: '32px',
+                        borderRadius: '12px',
+                        maxWidth: '400px',
+                        width: '100%',
+                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        border: '1px solid rgba(15, 23, 42, 0.1)'
+                    }}>
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '16px', color: 'var(--accent-navy)' }}>Confirm Deletion</h3>
+                        <p style={{ color: 'rgba(15, 23, 42, 0.7)', marginBottom: '32px', lineHeight: 1.5 }}>
+                            Are you sure you want to permanently delete <strong>'{extensionToDelete.name}'</strong>? This action cannot be undone.
+                        </p>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+                            <button
+                                onClick={() => setExtensionToDelete(null)}
+                                style={{ padding: '10px 20px', borderRadius: '8px', border: '1px solid rgba(15, 23, 42, 0.1)', background: 'transparent', cursor: 'pointer', fontWeight: 600, color: 'rgba(15, 23, 42, 0.7)' }}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmDelete}
+                                style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: '#EF4444', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

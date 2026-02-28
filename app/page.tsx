@@ -222,11 +222,11 @@ export default function Home() {
               transition={{ duration: 1 }}
             >
               <div className="oversized-number" style={{ opacity: 0.15 }}>02</div>
-              <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginTop: '-40px', fontWeight: 300, letterSpacing: '-0.02em', color: 'var(--accent-navy)' }}>Terminal <br /><span style={{ color: 'var(--primary)' }}>Capabilities.</span></h2>
+              <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginTop: '-40px', fontWeight: 300, letterSpacing: '-0.02em', color: 'var(--accent-navy)' }}>Premium <br /><span style={{ color: 'var(--primary)' }}>Extensions.</span></h2>
             </motion.div>
             <p style={{ color: 'var(--accent-navy)', opacity: 0.8, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', lineHeight: 1.6, paddingBottom: '20px', maxWidth: '400px', fontFamily: 'monospace' }}>
-              // TECHNICAL_SPECS: <br />
-              Precision tools for high-performance browsing stacks. Engineered for modularity.
+              // THE_COLLECTION: <br />
+              Carefully crafted browser tools designed to boost your daily productivity. No bloat, just performance.
             </p>
           </div>
 
@@ -302,19 +302,24 @@ export default function Home() {
                       <div style={{ marginBottom: '40px' }}>
                         <div style={{
                           width: '64px',
-                          height: '64px',
-                          background: accent,
-                          border: `1px solid ${accent.replace('0.3', '0.2')}`,
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'center',
-                          boxShadow: `0 8px 20px -5px ${accent.replace('0.3', '0.3')}`,
-                          overflow: 'hidden'
+                          justifyContent: 'flex-start'
                         }}>
                           {ext.image ? (
-                            <img src={ext.image} alt={ext.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={ext.image} alt={ext.name} style={{ maxWidth: '100%', maxHeight: '64px', objectFit: 'contain' }} />
                           ) : (
-                            <Chrome size={32} color="var(--primary)" />
+                            <div style={{
+                              width: '64px',
+                              height: '64px',
+                              background: accent,
+                              borderRadius: '12px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}>
+                              <Chrome size={32} color={solidAccent} />
+                            </div>
                           )}
                         </div>
                       </div>
@@ -325,9 +330,9 @@ export default function Home() {
                       </p>
 
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 800, opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: 'var(--accent-navy)' }}>MSRP_UNIT</span>
-                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace' }}>${ext.price}</span>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: solidAccent, background: accent, padding: '4px 8px', borderRadius: '4px', marginBottom: '8px' }}>PRO / MONTH</span>
+                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace', lineHeight: 1 }}>${ext.price}</span>
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 1, color: solidAccent }}>
@@ -386,11 +391,11 @@ export default function Home() {
                   03
                 </span>
               </div>
-              <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginBottom: '32px', color: 'var(--accent-navy)' }}>Integrated Systems.</h2>
+              <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginBottom: '32px', color: 'var(--accent-navy)' }}>Extension Bundles.</h2>
               <p style={{ fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', color: 'var(--accent-navy)', opacity: 0.7, maxWidth: '500px', marginBottom: '40px', lineHeight: 1.5 }}>
-                Combine our specialized pillars into a unified workflow. Strategic acquisitions for comprehensive performance.
+                Get all of our premium extensions for one low monthly price. Unlock your browser's full potential and supercharge your workflow.
               </p>
-              <Link href="/bundles" className="btn btn-primary" style={{ padding: '20px 48px' }}>Explore Portfolios</Link>
+              <Link href="/bundles" className="btn btn-primary" style={{ padding: '20px 48px' }}>View Bundle Pricing</Link>
             </motion.div>
 
             <div className="grid" style={{ gap: '40px' }}>

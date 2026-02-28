@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
-import { createClient } from "@libsql/client";
 
 const prismaClientSingleton = () => {
     let rawUrl = process.env.DATABASE_URL || process.env.TURSO_DATABASE_URL;
@@ -38,15 +37,11 @@ const prismaClientSingleton = () => {
         throw new Error("SANITY CHECK FAILED: libsqlUrl is falsy before createClient! rawUrl was: " + String(rawUrl));
     }
 
-    const client = createClient({
+    const adapter = new PrismaLibSql({
         url: libsqlUrl,
         authToken: isLocal ? undefined : authToken,
     });
 
-    const adapter = new PrismaLibSql(client as any);
-
-    // In Prisma 7 with driver adapters, we only need the adapter.
-    // The engine manages the connection through this adapter.
     return new PrismaClient({
         adapter: adapter as any
     });

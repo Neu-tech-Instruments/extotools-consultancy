@@ -62,16 +62,28 @@ export default async function ExtensionPage({ params }: ExtensionPageProps) {
                 <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', flexWrap: 'wrap' }}>
                         <div style={{
-                            width: 'clamp(48px, 10vw, 64px)',
-                            height: 'clamp(48px, 10vw, 64px)',
-                            background: 'rgba(59, 130, 246, 0.05)',
-                            borderRadius: '16px',
+                            width: 'clamp(64px, 15vw, 96px)',
+                            height: 'clamp(64px, 15vw, 96px)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexShrink: 0
                         }}>
-                            <Chrome size={32} color="var(--primary)" />
+                            {extension.image ? (
+                                <img src={extension.image} alt={extension.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                            ) : (
+                                <div style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    background: 'rgba(59, 130, 246, 0.05)',
+                                    borderRadius: '16px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}>
+                                    <Chrome size={32} color="var(--primary)" />
+                                </div>
+                            )}
                         </div>
                         <div>
                             <h1 style={{ fontSize: 'clamp(2rem, 8vw, 3rem)', marginBottom: '4px' }}>{extension.name}</h1>
@@ -126,7 +138,7 @@ export default async function ExtensionPage({ params }: ExtensionPageProps) {
                                 Subscription Plan
                             </span>
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '4px', marginTop: '8px' }}>
-                                <span style={{ fontSize: '3.5rem', fontWeight: 800 }}>${extension.price}</span>
+                                <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--primary)' }}>${extension.price}</span>
                                 <span style={{ color: 'rgba(15, 23, 42, 0.4)', fontSize: '1.1rem' }}>/mo</span>
                             </div>
                         </div>
@@ -178,14 +190,26 @@ export default async function ExtensionPage({ params }: ExtensionPageProps) {
                                     <div style={{
                                         width: '40px',
                                         height: '40px',
-                                        background: 'white',
-                                        borderRadius: '8px',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
                                     }}>
-                                        <Chrome size={24} color="var(--primary)" />
+                                        {extension.image ? (
+                                            <img src={extension.image} alt={extension.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                        ) : (
+                                            <div style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                background: 'white',
+                                                borderRadius: '8px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                                            }}>
+                                                <Chrome size={24} color="var(--primary)" />
+                                            </div>
+                                        )}
                                     </div>
                                     <div style={{ textAlign: 'left' }}>
                                         <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'rgba(15, 23, 42, 0.4)', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1, marginBottom: '4px' }}>
@@ -217,14 +241,26 @@ export default async function ExtensionPage({ params }: ExtensionPageProps) {
                             <div style={{
                                 width: '40px',
                                 height: '40px',
-                                background: 'rgba(15, 23, 42, 0.03)',
-                                borderRadius: '10px',
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'center',
+                                justifyContent: 'flex-start',
                                 marginBottom: '16px'
                             }}>
-                                <Chrome size={20} color={ext.isLive ? 'var(--primary)' : 'rgba(15, 23, 42, 0.2)'} />
+                                {ext.image ? (
+                                    <img src={ext.image} alt={ext.name} style={{ maxWidth: '100%', maxHeight: '40px', objectFit: 'contain' }} />
+                                ) : (
+                                    <div style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        background: 'rgba(15, 23, 42, 0.03)',
+                                        borderRadius: '10px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}>
+                                        <Chrome size={20} color={ext.isLive ? 'var(--primary)' : 'rgba(15, 23, 42, 0.2)'} />
+                                    </div>
+                                )}
                             </div>
 
                             <h3 style={{ fontSize: '1.25rem', marginBottom: '8px' }}>{ext.name}</h3>
