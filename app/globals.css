@@ -192,6 +192,18 @@ ul {
   letter-spacing: 0.05em;
 }
 
+.btn::selection,
+.btn *::selection {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
+.btn::-moz-selection,
+.btn *::-moz-selection {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
 .btn-primary {
   background: var(--primary);
   color: white;

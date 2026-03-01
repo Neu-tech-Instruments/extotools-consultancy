@@ -143,8 +143,8 @@ export default function Home() {
                   The Collection
                   <ArrowRight size={20} />
                 </Link>
-                <Link href="/bundles" className="btn btn-outline" style={{ border: 'none', textDecoration: 'underline', padding: '16px 0' }}>
-                  View Bundle Pricing
+                <Link href="/bundles" style={{ display: 'inline-flex', alignItems: 'center', fontWeight: 600, color: 'var(--foreground)', textDecoration: 'underline', textUnderlineOffset: '4px', opacity: 0.8, transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = '1'} onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}>
+                  VIEW BUNDLE PRICING
                 </Link>
               </motion.div>
             </motion.div>

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { Chrome, Package, Settings, CreditCard, ExternalLink, Zap, Shield } from "lucide-react";
 import Link from "next/link";
 import ExtensionList from "@/components/ExtensionList";
+import BillingButton from "@/components/BillingButton";
 import { randomBytes } from "crypto";
 import { bundles } from "@/lib/extensions";
 
@@ -123,10 +124,7 @@ export default async function DashboardPage() {
                         <Settings size={18} />
                         Settings
                     </a>
-                    <button className="btn btn-outline" style={{ gap: '8px' }}>
-                        <CreditCard size={18} />
-                        Billing
-                    </button>
+                    <BillingButton />
                 </div>
             </div>
 
