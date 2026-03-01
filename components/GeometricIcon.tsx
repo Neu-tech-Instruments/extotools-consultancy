@@ -5,18 +5,6 @@ import { motion } from "framer-motion";
 export default function GeometricIcon() {
     return (
         <div style={{ position: 'relative', width: '380px', height: '380px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {/* Background Decorative Circles */}
-            <motion.div
-                animate={{ scale: [1, 1.1, 1], rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    border: '1px solid var(--architect-line)',
-                    borderRadius: '50%',
-                }}
-            />
 
             {/* Vibrant Layered Shapes */}
             <motion.div
@@ -78,16 +66,6 @@ export default function GeometricIcon() {
                 }}
             />
 
-            {/* Modernist Lines */}
-            <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '-10%',
-                right: '-10%',
-                height: '1px',
-                background: 'var(--architect-line)',
-                transform: 'rotate(-45deg)',
-            }} />
         </div>
     );
 }

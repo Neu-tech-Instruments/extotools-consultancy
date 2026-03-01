@@ -63,19 +63,6 @@ export default function AbstractComposition() {
                     }}
                 />
 
-                {/* Background Architectural Circles (Subtle) */}
-                <div style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '100%',
-                    height: '100%',
-                    border: '1px solid var(--architect-line)',
-                    borderRadius: '50%',
-                    opacity: 0.1,
-                    zIndex: 0,
-                }} />
             </div>
         </div>
     );

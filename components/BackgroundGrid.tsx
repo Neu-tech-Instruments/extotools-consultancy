@@ -39,11 +39,6 @@ export default function BackgroundGrid() {
 
             {/* Note: Background video has been moved to section-specific containers in page.tsx */}
 
-            {/* Architectural Grid Layer */}
-            <motion.div
-                className="bg-architect grid-dots"
-                style={{ y: gridY, x: springX, opacity: 0.2 }}
-            />
 
             {/* Vibrant Blobs */}
             <motion.div
@@ -77,21 +72,7 @@ export default function BackgroundGrid() {
                 }}
             />
 
-            {/* Floating Architectural Shapes */}
-            <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-                style={{
-                    position: 'absolute',
-                    top: '30%',
-                    left: '45%',
-                    width: '800px',
-                    height: '800px',
-                    border: '1px solid var(--architect-line)',
-                    borderRadius: '50%',
-                    opacity: 0.2,
-                }}
-            />
+
         </div>
     );
 }
