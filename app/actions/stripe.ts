@@ -47,11 +47,14 @@ export async function startCheckoutSession(productId: string) {
             description: description || undefined,
           },
           unit_amount: Math.round(price * 100),
+          recurring: {
+            interval: 'month',
+          },
         },
         quantity: 1,
       },
     ],
-    mode: 'payment',
+    mode: 'subscription',
     metadata: {
         productId: productId,
         isBundle: String(!!bundles.find(b => b.id === productId))
