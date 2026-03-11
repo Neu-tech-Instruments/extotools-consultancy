@@ -14,7 +14,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 export default function Checkout({ productId }: { productId: string }) {
   // Callback to fetch the client secret from our Server Action
   const fetchClientSecret = useCallback(
-    () => startCheckoutSession(productId),
+    (): Promise<string> => startCheckoutSession(productId),
     [productId]
   )
 

@@ -61,5 +61,9 @@ export async function startCheckoutSession(productId: string) {
     }
   })
 
+  if (!session.client_secret) {
+    throw new Error("Failed to create checkout session")
+  }
+
   return session.client_secret
 }
