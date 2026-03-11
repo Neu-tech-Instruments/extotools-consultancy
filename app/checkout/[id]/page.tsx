@@ -52,8 +52,6 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
     return (
         <div className="min-h-screen animate-fade-in" style={{ display: 'flex', flexDirection: 'column', background: 'white' }}>
             <style dangerouslySetInnerHTML={{ __html: `
-                nav, footer { display: none !important; }
-                main { padding-top: 0 !important; }
                 @media (max-width: 960px) {
                     .checkout-grid {
                         grid-template-columns: 1fr !important;
