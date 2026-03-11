@@ -39,6 +39,9 @@ export async function startCheckoutSession(productId: string) {
     ui_mode: 'embedded',
     redirect_on_completion: 'never',
     locale: 'en',
+    adaptive_pricing: {
+      enabled: true,
+    },
     line_items: [
       {
         price_data: {

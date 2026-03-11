@@ -69,11 +69,11 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
 
             <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', minHeight: '100vh' }} className="checkout-grid">
                 {/* Left Side: Summary */}
-                <div className="checkout-left" style={{ background: '#F8FAFC', padding: '60px 60px 100px', borderRight: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                <div className="checkout-left" style={{ background: '#F8FAFC', padding: '100px 60px', borderRight: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                     <div style={{ maxWidth: '440px', width: '100%' }}>
-                        <Link href={product.slug === 'bundles' ? '/bundles' : `/extensions/${product.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.4)', fontSize: '0.85rem', marginBottom: '60px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <Link href={product.slug === 'bundles' ? '/bundles' : `/extensions/${product.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.2)', fontSize: '0.8rem', marginBottom: '32px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }} className="hover-glow">
                             <ArrowLeft size={14} />
-                            <span>Back to {product.name}</span>
+                            <span>Back</span>
                         </Link>
 
                         <div style={{ marginBottom: '48px' }}>
@@ -84,9 +84,15 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                                 </span>
                                 <span style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.4)', fontWeight: 600, marginLeft: '4px' }}>• SECURE CHECKOUT</span>
                             </div>
-                            <h2 style={{ fontSize: '1.2rem', color: 'rgba(0,0,0,0.5)', fontWeight: 500, marginBottom: '8px' }}>Pay ExToTools</h2>
-                            <div style={{ fontSize: '3.5rem', fontWeight: 700, color: '#1A1F36', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-                                ${product.price} <span style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>/ month</span>
+                            <h2 style={{ fontSize: '1.2rem', color: 'rgba(0,0,0,0.5)', fontWeight: 500, marginBottom: '8px' }}>Subscribe to {product.name}</h2>
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                                <div style={{ fontSize: '3.5rem', fontWeight: 700, color: '#1A1F36', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                                    ${product.price}
+                                </div>
+                                <div style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>/ month</div>
+                            </div>
+                            <div style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 600, marginTop: '8px', opacity: 0.8 }}>
+                                ✨ Local pricing applied at checkout
                             </div>
                         </div>
 
@@ -122,7 +128,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
 
                         <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.5)', fontSize: '1rem' }}>
-                                <span>Monthly Subtotal</span>
+                                <span>Monthly Subscription</span>
                                 <span>${product.price}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#1A1F36', fontWeight: 700, fontSize: '1.2rem', marginTop: '8px' }}>
@@ -130,7 +136,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                                 <span>${product.price}</span>
                             </div>
                             <div style={{ fontSize: '0.85rem', color: 'rgba(0,0,0,0.4)', textAlign: 'right', marginTop: '-8px' }}>
-                                Recurring billing every month
+                                Recurring billing every month. Cancel anytime.
                             </div>
                         </div>
 
@@ -146,7 +152,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                 </div>
 
                 {/* Right Side: Payment Form */}
-                <div className="checkout-right" style={{ padding: '165px 80px 100px', display: 'flex', background: 'white' }}>
+                <div className="checkout-right" style={{ padding: '100px 80px', display: 'flex', background: 'white' }}>
                     <div style={{ maxWidth: '440px', width: '100%' }}>
                         <div style={{ marginBottom: '32px' }}>
                              <Checkout productId={product.id} />
