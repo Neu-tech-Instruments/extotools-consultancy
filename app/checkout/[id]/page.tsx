@@ -69,19 +69,22 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
 
             <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', minHeight: '100vh' }} className="checkout-grid">
                 {/* Left Side: Summary */}
-                <div className="checkout-left" style={{ background: '#F8FAFC', padding: '80px 60px', borderRight: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                <div className="checkout-left" style={{ background: '#F8FAFC', padding: '60px 60px 100px', borderRight: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                     <div style={{ maxWidth: '440px', width: '100%' }}>
-                        <Link href={product.slug === 'bundles' ? '/bundles' : `/extensions/${product.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.4)', fontSize: '0.85rem', marginBottom: '40px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <Link href={product.slug === 'bundles' ? '/bundles' : `/extensions/${product.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.4)', fontSize: '0.85rem', marginBottom: '60px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                             <ArrowLeft size={14} />
                             <span>Back to {product.name}</span>
                         </Link>
 
                         <div style={{ marginBottom: '48px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-                                <img src="/dark.svg" alt="ExToTools" style={{ height: '20px' }} />
-                                <span style={{ fontSize: '0.9rem', color: 'rgba(0,0,0,0.4)', fontWeight: 600 }}>• SECURE CHECKOUT</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <img src="/tool-icon-20.png" alt="ExToTools Logo" style={{ height: '24px', width: 'auto' }} />
+                                <span style={{ fontWeight: 800, fontSize: '1.1rem', letterSpacing: '0.05em', color: '#1A1F36' }}>
+                                    EXTO<span style={{ color: 'var(--primary)' }}>TOOLS</span>
+                                </span>
+                                <span style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.4)', fontWeight: 600, marginLeft: '4px' }}>• SECURE CHECKOUT</span>
                             </div>
-                            <h2 style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.5)', fontWeight: 500, marginBottom: '8px' }}>Pay ExToTools</h2>
+                            <h2 style={{ fontSize: '1.2rem', color: 'rgba(0,0,0,0.5)', fontWeight: 500, marginBottom: '8px' }}>Pay ExToTools</h2>
                             <div style={{ fontSize: '3.5rem', fontWeight: 700, color: '#1A1F36', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                                 ${product.price} <span style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>/ month</span>
                             </div>
@@ -97,7 +100,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                                         <Zap size={28} color="var(--primary)" />
                                     )}
                                 </div>
-                                <div>
+                                <div style={{ paddingTop: '4px' }}>
                                     <div style={{ fontWeight: 700, fontSize: '1.2rem', color: '#1A1F36', marginBottom: '4px' }}>{product.name}</div>
                                     <p style={{ color: 'rgba(0,0,0,0.5)', fontSize: '0.95rem', lineHeight: 1.5 }}>
                                         {product.description || "Premium tool designed for professionals."}
@@ -143,7 +146,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                 </div>
 
                 {/* Right Side: Payment Form */}
-                <div className="checkout-right" style={{ padding: '80px 80px', display: 'flex', background: 'white' }}>
+                <div className="checkout-right" style={{ padding: '165px 80px 100px', display: 'flex', background: 'white' }}>
                     <div style={{ maxWidth: '440px', width: '100%' }}>
                         <div style={{ marginBottom: '32px' }}>
                              <Checkout productId={product.id} />
