@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 interface SubscribeButtonProps {
     id?: string;
@@ -13,6 +15,7 @@ interface SubscribeButtonProps {
 }
 
 export default function SubscribeButton({ id, slug, bundleId, selectedExtensions, price, isBuilt = true }: SubscribeButtonProps) {
+    const [isLoading, setIsLoading] = useState(false);
     const { data: session, status } = useSession();
     const router = useRouter();
 
@@ -25,12 +28,15 @@ export default function SubscribeButton({ id, slug, bundleId, selectedExtensions
 
         if (!isBuilt) return;
 
+        setIsLoading(true);
+
         // Redirect to the new embedded checkout page
         const productId = id || bundleId;
         if (productId) {
             router.push(`/checkout/${productId}`);
         } else {
             console.error("No product ID provided for checkout");
+            setIsLoading(false);
         }
     };
 
@@ -46,9 +52,17 @@ export default function SubscribeButton({ id, slug, bundleId, selectedExtensions
         <button
             onClick={handleSubscribe}
             className="btn btn-primary"
-            style={{ width: '100%' }}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+            disabled={isLoading}
         >
-            Subscribe for ${price}/mo
+            {isLoading ? (
+                <>
+                    <Loader2 className="animate-spin" size={18} />
+                    Redirecting...
+                </>
+            ) : (
+                `Subscribe for $${price}/mo`
+            )}
         </button>
     );
 }
