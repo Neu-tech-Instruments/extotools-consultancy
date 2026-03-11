@@ -38,13 +38,13 @@ export async function startCheckoutSession(productId: string) {
   const session = await stripe.checkout.sessions.create({
     ui_mode: 'embedded',
     redirect_on_completion: 'never',
+    locale: 'en',
     line_items: [
       {
         price_data: {
           currency: 'usd',
           product_data: {
             name: name,
-            description: description || undefined,
           },
           unit_amount: Math.round(price * 100),
           recurring: {

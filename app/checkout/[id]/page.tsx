@@ -69,9 +69,9 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
 
             <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', minHeight: '100vh' }} className="checkout-grid">
                 {/* Left Side: Summary */}
-                <div className="checkout-left" style={{ background: '#F8FAFC', padding: '100px 60px', borderRight: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                <div className="checkout-left" style={{ background: '#F8FAFC', padding: '80px 60px', borderRight: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                     <div style={{ maxWidth: '440px', width: '100%' }}>
-                        <Link href={product.slug === 'bundles' ? '/bundles' : `/extensions/${product.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.4)', fontSize: '0.85rem', marginBottom: '48px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <Link href={product.slug === 'bundles' ? '/bundles' : `/extensions/${product.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.4)', fontSize: '0.85rem', marginBottom: '40px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                             <ArrowLeft size={14} />
                             <span>Back to {product.name}</span>
                         </Link>
@@ -82,8 +82,8 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                                 <span style={{ fontSize: '0.9rem', color: 'rgba(0,0,0,0.4)', fontWeight: 600 }}>• SECURE CHECKOUT</span>
                             </div>
                             <h2 style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.5)', fontWeight: 500, marginBottom: '8px' }}>Pay ExToTools</h2>
-                            <div style={{ fontSize: '4rem', fontWeight: 700, color: '#1A1F36', letterSpacing: '-0.02em', lineHeight: 1 }}>
-                                ${product.price}
+                            <div style={{ fontSize: '3.5rem', fontWeight: 700, color: '#1A1F36', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                                ${product.price} <span style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>/ month</span>
                             </div>
                         </div>
 
@@ -119,16 +119,19 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
 
                         <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.5)', fontSize: '1rem' }}>
-                                <span>Subtotal</span>
+                                <span>Monthly Subtotal</span>
                                 <span>${product.price}</span>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#1A1F36', fontWeight: 700, fontSize: '1.3rem', marginTop: '8px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#1A1F36', fontWeight: 700, fontSize: '1.2rem', marginTop: '8px' }}>
                                 <span>Total due today</span>
                                 <span>${product.price}</span>
                             </div>
+                            <div style={{ fontSize: '0.85rem', color: 'rgba(0,0,0,0.4)', textAlign: 'right', marginTop: '-8px' }}>
+                                Recurring billing every month
+                            </div>
                         </div>
 
-                        <div style={{ marginTop: 'auto', paddingTop: '80px', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem', color: 'rgba(0,0,0,0.3)', fontWeight: 500 }}>
+                        <div style={{ marginTop: 'auto', paddingTop: '60px', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem', color: 'rgba(0,0,0,0.3)', fontWeight: 500 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 Powered by <strong style={{ color: 'rgba(0,0,0,0.4)', fontWeight: 700 }}>stripe</strong>
                             </div>
@@ -140,7 +143,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                 </div>
 
                 {/* Right Side: Payment Form */}
-                <div className="checkout-right" style={{ padding: '100px 80px', display: 'flex', background: 'white' }}>
+                <div className="checkout-right" style={{ padding: '80px 80px', display: 'flex', background: 'white' }}>
                     <div style={{ maxWidth: '440px', width: '100%' }}>
                         <div style={{ marginBottom: '32px' }}>
                              <Checkout productId={product.id} />
