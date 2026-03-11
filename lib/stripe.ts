@@ -1,10 +1,10 @@
 import Stripe from "stripe";
 
 export const getStripe = async () => {
-    const stripeSecretKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder";
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY || process.env.STRIPE_API_KEY || "sk_test_placeholder";
 
     const stripeInstance = new Stripe(stripeSecretKey, {
-        apiVersion: "2026-01-28.clover" as any,
+        apiVersion: "2024-12-18.acacia" as any, // Updated to a stable version
         appInfo: {
             name: "ExToTools",
             version: "0.1.0",

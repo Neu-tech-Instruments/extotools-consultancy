@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
 
 interface SubscribeButtonProps {
+    id?: string;
     slug?: string;
     bundleId?: string;
     selectedExtensions?: string[];
@@ -13,37 +12,25 @@ interface SubscribeButtonProps {
     isBuilt?: boolean;
 }
 
-export default function SubscribeButton({ slug, bundleId, selectedExtensions, price, isBuilt = true }: SubscribeButtonProps) {
-    const [isLoading, setIsLoading] = useState(false);
+export default function SubscribeButton({ id, slug, bundleId, selectedExtensions, price, isBuilt = true }: SubscribeButtonProps) {
     const { data: session, status } = useSession();
     const router = useRouter();
 
-    const handleSubscribe = async () => {
+    const handleSubscribe = () => {
         if (status !== "authenticated") {
-            router.push("/login");
+            const currentPath = window.location.pathname;
+            router.push(`/login?callbackUrl=${currentPath}`);
             return;
         }
 
         if (!isBuilt) return;
 
-        setIsLoading(true);
-
-        try {
-            const response = await fetch("/api/stripe/checkout", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ slug, bundleId, selectedExtensions }),
-            });
-
-            const data = await response.json();
-            if (data.url) {
-                window.location.href = data.url;
-            }
-        } catch (error) {
-            console.error("Subscription error:", error);
-            alert("Something went wrong. Please try again later.");
-        } finally {
-            setIsLoading(false);
+        // Redirect to the new embedded checkout page
+        const productId = id || bundleId;
+        if (productId) {
+            router.push(`/checkout/${productId}`);
+        } else {
+            console.error("No product ID provided for checkout");
         }
     };
 
@@ -60,9 +47,8 @@ export default function SubscribeButton({ slug, bundleId, selectedExtensions, pr
             onClick={handleSubscribe}
             className="btn btn-primary"
             style={{ width: '100%' }}
-            disabled={isLoading}
         >
-            {isLoading ? <Loader2 className="animate-spin" size={20} /> : `Subscribe for $${price}/mo`}
+            Subscribe for ${price}/mo
         </button>
     );
 }

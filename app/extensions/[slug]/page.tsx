@@ -159,6 +159,7 @@ export default async function ExtensionPage({ params }: ExtensionPageProps) {
                         </div>
 
                         <SubscribeButton
+                            id={extension.id}
                             slug={extension.slug}
                             price={extension.price}
                             isBuilt={extension.isLive}
