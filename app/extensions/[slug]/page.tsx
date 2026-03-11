@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { CheckCircle, Chrome, Shield, Zap, ArrowLeft, Star } from "lucide-react";
 import Link from "next/link";
 import SubscribeButton from "@/components/SubscribeButton";
+import Price from "@/components/Price";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -138,7 +139,9 @@ export default async function ExtensionPage({ params }: ExtensionPageProps) {
                                 Subscription Plan
                             </span>
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '4px', marginTop: '8px' }}>
-                                <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--primary)' }}>${extension.price}</span>
+                                <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--primary)' }}>
+                                    <Price amount={extension.price} />
+                                </span>
                                 <span style={{ color: 'rgba(15, 23, 42, 0.4)', fontSize: '1.1rem' }}>/mo</span>
                             </div>
                         </div>
@@ -270,7 +273,9 @@ export default async function ExtensionPage({ params }: ExtensionPageProps) {
                             </p>
 
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
-                                <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>${ext.price}</span>
+                                <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>
+                                    <Price amount={ext.price} />
+                                </span>
                                 <div style={{
                                     padding: '2px 10px',
                                     borderRadius: '100px',

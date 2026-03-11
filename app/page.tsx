@@ -9,6 +9,7 @@ import Reveal from "@/components/Reveal";
 import AbstractComposition from "@/components/AbstractComposition";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/context/CartContext";
+import Price from "@/components/Price";
 
 type Extension = {
   id: string;
@@ -332,7 +333,9 @@ export default function Home() {
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                           <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: solidAccent, background: accent, padding: '4px 8px', borderRadius: '4px', marginBottom: '8px' }}>PRO / MONTH</span>
-                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace', lineHeight: 1 }}>${ext.price}</span>
+                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace', lineHeight: 1 }}>
+                            <Price amount={ext.price} />
+                          </span>
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 1, color: solidAccent }}>
@@ -414,7 +417,9 @@ export default function Home() {
                       <Zap size={28} color="var(--primary)" />
                       <h3 className="font-serif" style={{ fontSize: '2.5rem' }}>{bundle.name}</h3>
                     </div>
-                    <span style={{ fontSize: '2rem', fontWeight: 800 }}>${bundle.price}</span>
+                    <span style={{ fontSize: '2rem', fontWeight: 800 }}>
+                      <Price amount={bundle.price} />
+                    </span>
                   </div>
                   <p style={{ fontSize: '1.1rem', color: 'var(--accent-navy)', opacity: 0.6, marginBottom: '40px', lineHeight: 1.6 }}>
                     {bundle.description}

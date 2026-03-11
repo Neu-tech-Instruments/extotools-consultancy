@@ -6,6 +6,7 @@ import { useCart } from "@/context/CartContext";
 import { extensions } from "@/lib/extensions";
 import { useState } from "react";
 import Link from "next/link";
+import Price from "./Price";
 
 export default function SlideCart() {
     const { cart, removeFromCart, addToCart, totalPrice, itemCount, isCartOpen, setIsCartOpen } = useCart();
@@ -93,7 +94,9 @@ export default function SlideCart() {
                                                     </div>
                                                     <div style={{ flex: 1 }}>
                                                         <h4 style={{ fontWeight: 600, fontSize: '1rem' }}>{ext.name}</h4>
-                                                        <span style={{ fontSize: '0.8rem', opacity: 0.6 }}>${ext.price}/mo</span>
+                                                        <span style={{ fontSize: '0.8rem', opacity: 0.6 }}>
+                                                            <Price amount={ext.price} />/mo
+                                                        </span>
                                                     </div>
                                                     <button
                                                         onClick={() => addToCart({ id: ext.slug, type: 'extension', name: ext.name, price: ext.price, quantity: 1 })}
@@ -136,7 +139,7 @@ export default function SlideCart() {
                                                 </span>
                                                 <h4 className="font-serif" style={{ fontSize: '1.25rem', marginTop: '4px' }}>{item.name}</h4>
                                                 <span style={{ fontWeight: 800, color: 'var(--primary)', marginTop: '8px', display: 'block' }}>
-                                                    ${item.price}
+                                                    <Price amount={item.price} />
                                                 </span>
                                             </div>
                                             <button
@@ -156,7 +159,9 @@ export default function SlideCart() {
                             <div style={{ paddingTop: '40px', borderTop: '1px solid var(--card-border)', padding: '40px 40px 0 40px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
                                     <span style={{ fontSize: '1rem', fontWeight: 600, opacity: 0.6 }}>Subtotal</span>
-                                    <span style={{ fontSize: '2rem', fontWeight: 800 }}>${totalPrice}</span>
+                                    <span style={{ fontSize: '2rem', fontWeight: 800 }}>
+                                        <Price amount={totalPrice} />
+                                    </span>
                                 </div>
 
                                 <button

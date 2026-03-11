@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { redirect, notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Checkout from "@/components/Checkout";
+import Price from "@/components/Price";
 import { ArrowLeft, ShieldCheck, Zap, Lock, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { bundles } from "@/lib/extensions";
@@ -87,7 +88,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                             <h2 style={{ fontSize: '1.2rem', color: 'rgba(0,0,0,0.5)', fontWeight: 500, marginBottom: '8px' }}>Subscribe to {product.name}</h2>
                             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
                                 <div style={{ fontSize: '3.5rem', fontWeight: 700, color: '#1A1F36', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-                                    ${product.price}
+                                    <Price amount={product.price} />
                                 </div>
                                 <div style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>/ month</div>
                             </div>
@@ -129,11 +130,11 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                         <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.5)', fontSize: '1rem' }}>
                                 <span>Monthly Subscription</span>
-                                <span>${product.price}</span>
+                                <span><Price amount={product.price} /></span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', color: '#1A1F36', fontWeight: 700, fontSize: '1.2rem', marginTop: '8px' }}>
                                 <span>Total due today</span>
-                                <span>${product.price}</span>
+                                <span><Price amount={product.price} /></span>
                             </div>
                             <div style={{ fontSize: '0.85rem', color: 'rgba(0,0,0,0.4)', textAlign: 'right', marginTop: '-8px' }}>
                                 Recurring billing every month. Cancel anytime.

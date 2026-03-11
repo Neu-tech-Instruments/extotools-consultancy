@@ -6,6 +6,7 @@ import Link from "next/link";
 import SubscribeButton from "@/components/SubscribeButton";
 import CustomBundleSelector from "@/components/CustomBundleSelector";
 import { useState } from "react";
+import Price from "@/components/Price";
 
 export default function BundlesPage() {
     const [selections, setSelections] = useState<Record<string, string[]>>({});
@@ -60,7 +61,9 @@ export default function BundlesPage() {
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '24px' }}>
-                            <span style={{ fontSize: '3rem', fontWeight: 800 }}>${bundle.price}</span>
+                            <span style={{ fontSize: '3rem', fontWeight: 800 }}>
+                                <Price amount={bundle.price} />
+                            </span>
                             <span style={{ color: 'rgba(15, 23, 42, 0.4)', fontSize: '1.1rem' }}>/mo</span>
                         </div>
 
