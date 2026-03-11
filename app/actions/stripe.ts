@@ -40,7 +40,7 @@ export async function startCheckoutSession(productId: string) {
     redirect_on_completion: 'never',
     locale: 'en',
     adaptive_pricing: {
-      enabled: true,
+      enabled: false,
     },
     line_items: [
       {

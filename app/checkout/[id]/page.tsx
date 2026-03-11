@@ -93,7 +93,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                                 <div style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>/ month</div>
                             </div>
                             <div style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 600, marginTop: '8px', opacity: 0.8 }}>
-                                ✨ Local pricing applied at checkout
+                                ✨ Prices localized for your region (Charged in USD)
                             </div>
                         </div>
 
