@@ -24,7 +24,8 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
         name: extension.name,
         slug: extension.slug,
         price: extension.price,
-        description: extension.description
+        description: extension.description,
+        image: extension.image
     } : null;
 
     // 2. Try finding as Bundle
@@ -36,7 +37,8 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                 name: bundle.name,
                 slug: 'bundles',
                 price: bundle.price,
-                description: bundle.description
+                description: bundle.description,
+                image: null
             };
         }
     }
@@ -46,92 +48,78 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
     }
 
     return (
-        <div className="min-h-screen bg-architect grid-dots animate-fade-in" style={{ padding: '80px 0' }}>
-            {/* Geometric background accents */}
-            <div style={{ position: 'fixed', top: '10%', right: '5%', fontSize: '12rem', opacity: 0.03, fontFamily: 'Instrument Serif', pointerEvents: 'none', userSelect: 'none' }}>EXTO</div>
-            
-            <div className="container" style={{ maxWidth: '1100px' }}>
-                <Link href={product.slug === 'bundles' ? '/bundles' : `/extensions/${product.slug}`} className="animated-underline" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '48px', color: 'var(--primary)', fontWeight: 700, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    <ArrowLeft size={16} />
-                    Back to {product.name}
-                </Link>
+        <div className="min-h-screen bg-white animate-fade-in" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '100vh' }} className="checkout-grid">
+                <style dangerouslySetInnerHTML={{ __html: `
+                    @media (max-width: 960px) {
+                        .checkout-grid {
+                            grid-template-columns: 1fr !important;
+                        }
+                        .checkout-left {
+                            padding: 40px 20px !important;
+                            border-right: none !important;
+                            border-bottom: 1px solid rgba(0,0,0,0.05);
+                        }
+                        .checkout-right {
+                            padding: 40px 20px !important;
+                        }
+                    }
+                `}} />
 
-                <div className="grid grid-cols-2" style={{ gap: '80px', alignItems: 'start' }}>
-                    {/* Left Column: Order Summary */}
-                    <div>
-                        <div style={{ marginBottom: '40px' }}>
-                            <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.2em', opacity: 0.6 }}>Secured Checkout</span>
-                            <h1 style={{ fontSize: 'clamp(3rem, 5vw, 4.5rem)', margin: '12px 0 24px' }}>Complete <br/><span className="text-gradient">Purchase</span></h1>
-                            <p style={{ fontSize: '1.1rem', color: 'rgba(15, 23, 42, 0.6)', lineHeight: 1.6 }}>
-                                You are about to unlock full access to <strong>{product.name}</strong>. Enjoy premium features and dedicated support.
-                            </p>
-                        </div>
+                {/* Left Side: Summary */}
+                <div className="checkout-left" style={{ background: '#F6F9FC', padding: '80px 60px', borderRight: '1px solid rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ maxWidth: '420px', width: '100%', margin: '0 0 0 auto' }}>
+                        <Link href={product.slug === 'bundles' ? '/bundles' : `/extensions/${product.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.4)', fontSize: '0.9rem', marginBottom: '32px' }}>
+                            <ArrowLeft size={16} />
+                            <img src="/dark.svg" alt="ExToTools" style={{ height: '24px', marginLeft: '8px' }} />
+                        </Link>
 
-                        <div className="card" style={{ padding: '32px', background: 'white', marginBottom: '32px' }}>
-                            <h3 style={{ fontSize: '1.25rem', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <Zap size={20} color="var(--primary)" />
-                                Order Details
-                            </h3>
-                            
-                            <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '16px', borderBottom: '1px solid var(--card-border)', marginBottom: '16px' }}>
-                                <span style={{ color: 'rgba(15, 23, 42, 0.5)' }}>Product</span>
-                                <span style={{ fontWeight: 700 }}>{product.name}</span>
-                            </div>
-                            
-                            <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '16px', borderBottom: '1px solid var(--card-border)', marginBottom: '16px' }}>
-                                <span style={{ color: 'rgba(15, 23, 42, 0.5)' }}>Billing Cycle</span>
-                                <span style={{ fontWeight: 700 }}>Monthly</span>
-                            </div>
-
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingTop: '8px' }}>
-                                <span style={{ fontSize: '1.1rem', fontWeight: 600 }}>Total Due</span>
-                                <div style={{ textAlign: 'right' }}>
-                                    <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)', lineHeight: 1 }}>${product.price}</div>
-                                    <div style={{ fontSize: '0.8rem', color: 'rgba(15, 23, 42, 0.4)', marginTop: '4px' }}>billed monthly</div>
-                                </div>
+                        <div style={{ marginBottom: '32px' }}>
+                            <span style={{ fontSize: '1.2rem', color: 'rgba(0,0,0,0.5)', fontWeight: 500 }}>Pay ExToTools</span>
+                            <div style={{ fontSize: '3.5rem', fontWeight: 700, margin: '8px 0 32px', color: '#1A1F36' }}>
+                                ${product.price}.00
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                                <div style={{ padding: '10px', background: 'var(--primary-glow)', borderRadius: '8px', color: 'var(--primary)' }}>
-                                    <Lock size={18} />
-                                </div>
-                                <div>
-                                    <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>Bank-Level Security</div>
-                                    <p style={{ fontSize: '0.85rem', color: 'rgba(15, 23, 42, 0.5)' }}>Your payment details are encrypted and processed by Stripe.</p>
-                                </div>
+                        <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '32px' }}>
+                            <div style={{ width: '64px', height: '64px', background: 'white', borderRadius: '8px', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', overflow: 'hidden' }}>
+                                {product.image ? (
+                                    <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                ) : (
+                                    <Zap size={32} color="var(--primary)" />
+                                )}
                             </div>
-                            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                                <div style={{ padding: '10px', background: 'rgba(108, 208, 161, 0.1)', borderRadius: '8px', color: '#16a34a' }}>
-                                    <ShieldCheck size={18} />
-                                </div>
-                                <div>
-                                    <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>Instant Access</div>
-                                    <p style={{ fontSize: '0.85rem', color: 'rgba(15, 23, 42, 0.5)' }}>Tools are activated immediately after successful payment.</p>
-                                </div>
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontWeight: 600, fontSize: '1.1rem', color: '#1A1F36' }}>{product.name}</div>
+                                <div style={{ color: 'rgba(0,0,0,0.5)', fontSize: '0.9rem' }}>Qty 1</div>
                             </div>
+                            <div style={{ fontWeight: 600, color: '#1A1F36' }}>${product.price}.00</div>
+                        </div>
+
+                        <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.5)', fontSize: '0.95rem' }}>
+                                <span>Subtotal</span>
+                                <span>${product.price}.00</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#1A1F36', fontWeight: 700, fontSize: '1.1rem', marginTop: '8px' }}>
+                                <span>Total due</span>
+                                <span>${product.price}.00</span>
+                            </div>
+                        </div>
+
+                        <div style={{ marginTop: 'auto', paddingTop: '60px', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.8rem', color: 'rgba(0,0,0,0.3)' }}>
+                            <span>Powered by <strong style={{ color: 'rgba(0,0,0,0.5)' }}>stripe</strong></span>
+                            <span style={{ borderLeft: '1px solid currentColor', paddingLeft: '12px' }}>Terms</span>
+                            <span>Privacy</span>
                         </div>
                     </div>
+                </div>
 
-                    {/* Right Column: Checkout Widget */}
-                    <div style={{ position: 'sticky', top: '40px' }}>
-                        <div className="card" style={{ padding: '0', overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.08)' }}>
-                            <div style={{ background: 'var(--accent-navy)', padding: '24px 32px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                    <CreditCard size={20} color="var(--secondary)" />
-                                    <span style={{ fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', fontSize: '0.85rem' }}>Secure Payment</span>
-                                </div>
-                                <img src="/dark.svg" alt="ExToTools" style={{ height: '18px', opacity: 0.8 }} />
-                            </div>
-                            <div style={{ padding: '32px' }}>
-                                <Checkout productId={product.id} />
-                            </div>
-                            <div style={{ padding: '16px 32px', borderTop: '1px solid var(--card-border)', background: 'rgba(15, 23, 42, 0.02)', textAlign: 'center' }}>
-                                <p style={{ fontSize: '0.75rem', color: 'rgba(15, 23, 42, 0.4)', margin: 0 }}>
-                                    By completing your purchase, you agree to our <Link href="/terms" className="animated-underline">Terms</Link> and <Link href="/privacy" className="animated-underline">Privacy Policy</Link>.
-                                </p>
-                            </div>
+                {/* Right Side: Payment Form */}
+                <div className="checkout-right" style={{ padding: '80px 60px' }}>
+                    <div style={{ maxWidth: '420px', width: '100%', margin: '0 auto 0 0' }}>
+                        <div style={{ marginBottom: '32px' }}>
+                             <Checkout productId={product.id} />
                         </div>
                     </div>
                 </div>
