@@ -45,6 +45,7 @@ export default async function DashboardPage() {
 
     // Ensure user exists and has a license key
     let userLicenseKey = "";
+    let detectedSlugs: string[] = [];
     let dbUserId = session.user.id;
 
     try {
@@ -60,6 +61,7 @@ export default async function DashboardPage() {
         });
 
         dbUserId = user.id;
+        detectedSlugs = user.detectedExtensions ? user.detectedExtensions.split(',') : [];
 
         if (user?.licenseKey) {
             userLicenseKey = user.licenseKey;
@@ -140,6 +142,7 @@ export default async function DashboardPage() {
                         allExtensions={allDbExtensions as any}
                         activeSlugs={activeExtensions.map(ext => ext.slug)}
                         userEmail={session.user.email || ""}
+                        serverDetectedSlugs={detectedSlugs}
                     />
                 </div>
 

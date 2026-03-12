@@ -32,11 +32,23 @@ interface ExtensionListProps {
     allExtensions: ExtensionData[];
     activeSlugs: string[]; // Slugs the user has a premium subscription/bundle for
     userEmail?: string;
+    serverDetectedSlugs?: string[];
 }
 
-export default function ExtensionList({ allExtensions, activeSlugs, userEmail }: ExtensionListProps) {
-    const [installedSlugs, setInstalledSlugs] = useState<Set<string>>(new Set());
+export default function ExtensionList({ allExtensions, activeSlugs, userEmail, serverDetectedSlugs = [] }: ExtensionListProps) {
+    const [installedSlugs, setInstalledSlugs] = useState<Set<string>>(new Set(serverDetectedSlugs));
     const [isScanning, setIsScanning] = useState(true);
+
+    useEffect(() => {
+        // Initialize with server-detected slugs
+        if (serverDetectedSlugs.length > 0) {
+            setInstalledSlugs(prev => {
+                const next = new Set(prev);
+                serverDetectedSlugs.forEach(slug => next.add(slug));
+                return next;
+            });
+        }
+    }, [serverDetectedSlugs]);
 
     useEffect(() => {
         // Only run extension detection in the browser
@@ -46,7 +58,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail }:
         }
 
         const checkInstallations = async () => {
-            const newInstalledSlugs = new Set<string>();
+            const newInstalledSlugs = new Set<string>(installedSlugs);
 
             // Ping all known ExToTools Extension IDs
             const checks = Object.entries(CHROME_EXTENSION_IDS).map(([slug, id]) => {
@@ -57,7 +69,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail }:
                                 // Extension is not installed or not listening
                                 resolve();
                             } else if (response && response.installed) {
-                                newInstalledSlugs.add(slug);
+                                setInstalledSlugs(prev => new Set(prev).add(slug));
                                 resolve();
                             } else {
                                 resolve();
@@ -70,7 +82,6 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail }:
             });
 
             await Promise.all(checks);
-            setInstalledSlugs(newInstalledSlugs);
             setIsScanning(false);
         };
 
@@ -106,7 +117,9 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail }:
     }, [userEmail]);
 
     const renderStatusBadge = (ext: ExtensionData, isPremium: boolean, isInstalled: boolean) => {
-        if (!isInstalled) {
+        const isActuallyInstalled = isInstalled || serverDetectedSlugs.includes(ext.slug);
+
+        if (!isActuallyInstalled) {
             return (
                 <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(15, 23, 42, 0.1)', padding: '2px 8px', borderRadius: '12px' }}>
                     Not Installed
@@ -133,7 +146,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail }:
         <div className="grid grid-cols-1" style={{ gap: '16px' }}>
             {allExtensions.map(ext => {
                 const isPremium = activeSlugs.includes(ext.slug);
-                const isInstalled = installedSlugs.has(ext.slug);
+                const isInstalled = installedSlugs.has(ext.slug) || serverDetectedSlugs.includes(ext.slug);
 
                 return (
                     <div key={ext.slug} style={{

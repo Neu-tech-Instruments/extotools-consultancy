@@ -49,6 +49,7 @@ model User {
   firstName     String?
   lastName      String?
   country       String?
+  detectedExtensions String? @default("") // Comma-separated or JSON list of slugs
 }
 
 model VerificationToken {

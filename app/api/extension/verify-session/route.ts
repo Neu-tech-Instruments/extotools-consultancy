@@ -38,6 +38,22 @@ export async function POST(req: Request) {
         const hasSpecificExt = subscriptions.some(s => s.extension?.slug === extensionSlug);
 
         if (hasBundle || hasSpecificExt) {
+            // Track that this extension is installed/detected for this user
+            try {
+                const currentDetected = user.detectedExtensions ? user.detectedExtensions.split(',') : [];
+                if (!currentDetected.includes(extensionSlug)) {
+                    await prisma.user.update({
+                        where: { id: user.id },
+                        data: {
+                            detectedExtensions: [...currentDetected, extensionSlug].join(',')
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error("Failed to update detectedExtensions:", e);
+                // Non-blocking error
+            }
+
             return NextResponse.json({
                 isPremium: true,
                 message: "Premium subscription verified."
