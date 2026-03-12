@@ -266,6 +266,47 @@ export default function SettingsPage() {
                 </form>
             </div>
 
+            {/* Support Section */}
+            <div className="card" style={{ padding: 'clamp(24px, 4vw, 40px)', marginBottom: '24px' }}>
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'rgba(15, 23, 42, 0.8)' }}>Support & Resources</h3>
+                <p style={{ fontSize: '0.9rem', color: 'rgba(15, 23, 42, 0.5)', marginBottom: '20px' }}>
+                    Need help? Our documentation and support team are here for you.
+                </p>
+                <div style={{ display: 'flex', gap: '32px' }}>
+                    <a href="#" style={{ 
+                        color: 'var(--primary)', 
+                        textDecoration: 'none', 
+                        fontSize: '0.9rem', 
+                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                    }}>
+                        Documentation →
+                    </a>
+                    <a href="#" style={{ 
+                        color: 'var(--primary)', 
+                        textDecoration: 'none', 
+                        fontSize: '0.9rem', 
+                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                    }}>
+                        Contact Support →
+                    </a>
+                    <a href="#" style={{ 
+                        color: 'rgba(15, 23, 42, 0.4)', 
+                        textDecoration: 'none', 
+                        fontSize: '0.9rem', 
+                        fontWeight: 500,
+                        marginLeft: 'auto'
+                    }}>
+                        Give Feedback
+                    </a>
+                </div>
+            </div>
+
             {/* Sign Out Section */}
             <div className="card" style={{ padding: 'clamp(24px, 4vw, 40px)', marginBottom: '24px' }}>
                 <h3 style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'rgba(15, 23, 42, 0.8)' }}>Sign Out</h3>

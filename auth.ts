@@ -49,6 +49,7 @@ export const {
                     token.firstName = dbUser.firstName;
                     token.lastName = dbUser.lastName;
                     token.country = dbUser.country;
+                    token.createdAt = dbUser.createdAt;
                 } catch (e) {
                     console.error("Error upserting user in JWT callback:", e);
                     token.id = user.id;
@@ -61,12 +62,13 @@ export const {
                 try {
                     const dbUser = await prisma.user.findUnique({
                         where: { id: token.id as string },
-                        select: { firstName: true, lastName: true, country: true }
+                        select: { firstName: true, lastName: true, country: true, createdAt: true }
                     });
                     if (dbUser) {
                         token.firstName = dbUser.firstName;
                         token.lastName = dbUser.lastName;
                         token.country = dbUser.country;
+                        token.createdAt = dbUser.createdAt;
                     }
                 } catch (e) {
                     console.error("Prisma DB lookup bypassed in JWT callback to preserve session flow.");
@@ -80,6 +82,7 @@ export const {
                 (session.user as any).firstName = token.firstName;
                 (session.user as any).lastName = token.lastName;
                 (session.user as any).country = token.country;
+                (session.user as any).createdAt = token.createdAt;
             }
             return session;
         }

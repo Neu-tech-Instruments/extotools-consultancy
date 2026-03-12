@@ -50,6 +50,7 @@ model User {
   lastName      String?
   country       String?
   detectedExtensions String? @default("") // Comma-separated or JSON list of slugs
+  createdAt     DateTime  @default(now())
 }
 
 model VerificationToken {
