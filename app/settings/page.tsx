@@ -274,8 +274,29 @@ export default function SettingsPage() {
                 </p>
                 <button
                     onClick={handleSignOut}
-                    className="btn btn-outline"
-                    style={{ gap: '8px', color: 'rgba(15, 23, 42, 0.6)', borderColor: 'var(--card-border)' }}
+                    style={{ 
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px', 
+                        color: 'rgba(15, 23, 42, 0.6)', 
+                        borderColor: 'var(--card-border)',
+                        background: 'transparent',
+                        border: '1px solid var(--card-border)',
+                        padding: '12px 24px',
+                        fontSize: '0.9rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        borderRadius: '0'
+                    }}
+                    onMouseOver={(e) => {
+                        e.currentTarget.style.background = 'rgba(15, 23, 42, 0.03)';
+                        e.currentTarget.style.color = 'var(--primary)';
+                    }}
+                    onMouseOut={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = 'rgba(15, 23, 42, 0.6)';
+                    }}
                 >
                     <LogOut size={18} />
                     Sign Out
