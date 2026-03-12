@@ -227,8 +227,8 @@ function SuccessContent() {
                                     width: '8px', 
                                     height: '8px', 
                                     borderRadius: '50%', 
-                                    background: 'var(--primary)',
-                                    boxShadow: '0 0 10px var(--primary)'
+                                    background: '#22c55e',
+                                    boxShadow: '0 0 10px #22c55e'
                                 }} />
                                 Premium Active
                             </motion.div>
