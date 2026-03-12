@@ -61,7 +61,8 @@ export default async function DashboardPage() {
         });
 
         dbUserId = user.id;
-        detectedSlugs = user.detectedExtensions ? user.detectedExtensions.split(',') : [];
+        const detectedRaw = (user as any).detectedExtensions || "";
+        detectedSlugs = detectedRaw.split(',').map((s: string) => s.trim().toLowerCase()).filter(Boolean);
 
         if (user?.licenseKey) {
             userLicenseKey = user.licenseKey;
