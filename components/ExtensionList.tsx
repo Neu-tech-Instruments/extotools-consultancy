@@ -142,7 +142,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
 
         if (!isActuallyInstalled) {
             return (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(15, 23, 42, 0.1)', padding: '2px 8px', borderRadius: '12px' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(15, 23, 42, 0.1)', padding: '2px 8px', borderRadius: '0' }}>
                     Not Installed
                 </span>
             );
@@ -150,14 +150,14 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
 
         if (isPremium) {
             return (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(34, 197, 94, 0.1)', color: 'rgb(22, 163, 74)', padding: '2px 8px', borderRadius: '12px' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(34, 197, 94, 0.1)', color: 'rgb(22, 163, 74)', padding: '2px 8px', borderRadius: '0' }}>
                     <CheckCircle2 size={12} /> Premium
                 </span>
             );
         }
 
         return (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(34, 197, 94, 0.1)', color: 'rgb(22, 163, 74)', padding: '2px 8px', borderRadius: '12px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(34, 197, 94, 0.1)', color: 'rgb(22, 163, 74)', padding: '2px 8px', borderRadius: '0' }}>
                 <CheckCircle2 size={12} /> Active
             </span>
         );
@@ -176,7 +176,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                         justifyContent: 'space-between',
                         padding: '20px',
                         background: 'rgba(15, 23, 42, 0.02)',
-                        borderRadius: '12px',
+                        borderRadius: '0',
                         border: isPremium ? '1px solid var(--primary)' : '1px solid var(--card-border)'
                     }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -186,13 +186,13 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                                 display: 'flex', 
                                 alignItems: 'center', 
                                 justifyContent: 'center',
-                                borderRadius: '8px',
+                                borderRadius: '0',
                                 overflow: 'hidden',
                                 color: isPremium ? 'var(--primary)' : 'rgba(15, 23, 42, 0.4)',
                                 background: isInstalled && ext.image ? 'transparent' : 'rgba(15, 23, 42, 0.05)'
                             }}>
                                 {isInstalled && ext.image ? (
-                                    <img src={ext.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    <img src={ext.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                 ) : (
                                     <Chrome size={20} />
                                 )}
@@ -207,13 +207,13 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                         </div>
 
                         {!isInstalled ? (
-                            <Link href={ext.chromeWebStoreLink || "#"} className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
+                            <Link href={ext.chromeWebStoreLink || "#"} className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '0.9rem', borderRadius: '0' }}>
                                 Install Extension
                                 <ExternalLink size={14} />
                             </Link>
                         ) : (
                             !isPremium && (
-                                <Link href="/#collection" className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
+                                <Link href="/#collection" className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem', borderRadius: '0' }}>
                                     Upgrade to Premium
                                 </Link>
                             )
