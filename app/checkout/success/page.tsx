@@ -75,13 +75,14 @@ export default function SuccessPage() {
                             className="card"
                             style={{ cursor: 'default' }}
                         >
-                            <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'flex-start' }}>
                                 <div style={{ 
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     width: '56px',
                                     height: '56px',
+                                    flexShrink: 0,
                                     borderRadius: '50%', 
                                     background: 'rgba(35, 34, 200, 0.1)', 
                                     color: 'var(--primary)', 
@@ -106,13 +107,14 @@ export default function SuccessPage() {
                             className="card"
                             style={{ cursor: 'default' }}
                         >
-                            <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'flex-start' }}>
                                 <div style={{ 
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     width: '56px',
                                     height: '56px',
+                                    flexShrink: 0,
                                     borderRadius: '50%', 
                                     background: 'rgba(35, 34, 200, 0.1)', 
                                     color: 'var(--primary)', 
