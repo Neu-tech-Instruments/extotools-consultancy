@@ -41,7 +41,7 @@ export async function POST(req: Request) {
                 enabled: true,
             },
             locale: 'en',
-            success_url: `${process.env.NEXTAUTH_URL}/dashboard?success=true`,
+            success_url: `${process.env.NEXTAUTH_URL}/checkout/success`,
             cancel_url: `${process.env.NEXTAUTH_URL}/?canceled=true`,
             metadata: {
                 userId: session.user.id,
