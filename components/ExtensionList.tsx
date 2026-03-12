@@ -58,30 +58,49 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
         }
 
         const checkInstallations = async () => {
-            const newInstalledSlugs = new Set<string>(installedSlugs);
-
+            console.log("[ExToTools] Starting extension scan...", { CHROME_EXTENSION_IDS, serverDetectedSlugs });
+            
             // Ping all known ExToTools Extension IDs
             const checks = Object.entries(CHROME_EXTENSION_IDS).map(([slug, id]) => {
                 return new Promise<void>((resolve) => {
+                    let resolved = false;
+                    const safeResolve = () => { if (!resolved) { resolved = true; resolve(); } };
+
+                    // Method 1: Message passing
                     try {
                         window.chrome!.runtime!.sendMessage(id, { action: "ping" }, (response: any) => {
-                            if (window.chrome!.runtime!.lastError) {
-                                // Extension is not installed or not listening
-                                resolve();
-                            } else if (response && response.installed) {
+                            if (!window.chrome!.runtime!.lastError && response && response.installed) {
+                                console.log(`[ExToTools] Detected ${slug} via message passing`);
                                 setInstalledSlugs(prev => new Set(prev).add(slug));
-                                resolve();
-                            } else {
-                                resolve();
                             }
+                            safeResolve();
                         });
                     } catch (e) {
-                        resolve();
+                        // Messaging might be blocked
                     }
+
+                    // Method 2: Image-based detection (fallback)
+                    // Many extensions have a manifest-defined 'web_accessible_resources'
+                    // We'll try to load a common icon or placeholder
+                    const img = new Image();
+                    img.onload = () => {
+                        console.log(`[ExToTools] Detected ${slug} via image fallback`);
+                        setInstalledSlugs(prev => new Set(prev).add(slug));
+                        safeResolve();
+                    };
+                    img.onerror = () => {
+                        safeResolve();
+                    };
+                    // Common paths for extension assets
+                    img.src = `chrome-extension://${id}/icons/icon48.png`;
+                    
+                    // Cleanup timeout
+                    setTimeout(safeResolve, 2000);
                 });
             });
 
             await Promise.all(checks);
+            console.log("[ExToTools] Scan complete.");
             setIsScanning(false);
         };
 
