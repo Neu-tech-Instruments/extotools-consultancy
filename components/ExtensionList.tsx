@@ -179,10 +179,10 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                         borderRadius: '0',
                         border: isPremium ? '1px solid var(--primary)' : '1px solid var(--card-border)'
                     }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                             <div style={{ 
-                                width: '32px', 
-                                height: '32px', 
+                                width: '48px', 
+                                height: '48px', 
                                 display: 'flex', 
                                 alignItems: 'center', 
                                 justifyContent: 'center',
@@ -194,7 +194,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                                 {isInstalled && ext.image ? (
                                     <img src={ext.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                 ) : (
-                                    <Chrome size={20} />
+                                    <Chrome size={24} />
                                 )}
                             </div>
                             <div>
