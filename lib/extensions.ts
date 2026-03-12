@@ -7,6 +7,7 @@ export interface ExtensionData {
   features: string[];
   isBuilt: boolean;
   chromeWebStoreLink?: string;
+  image?: string;
 }
 
 export const extensions: ExtensionData[] = []; // Migrated to Database

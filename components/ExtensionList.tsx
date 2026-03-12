@@ -180,8 +180,22 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                         border: isPremium ? '1px solid var(--primary)' : '1px solid var(--card-border)'
                     }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                            <div style={{ color: isPremium ? 'var(--primary)' : 'rgba(15, 23, 42, 0.4)' }}>
-                                <Chrome size={24} />
+                            <div style={{ 
+                                width: '32px', 
+                                height: '32px', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center',
+                                borderRadius: '8px',
+                                overflow: 'hidden',
+                                color: isPremium ? 'var(--primary)' : 'rgba(15, 23, 42, 0.4)',
+                                background: isInstalled && ext.image ? 'transparent' : 'rgba(15, 23, 42, 0.05)'
+                            }}>
+                                {isInstalled && ext.image ? (
+                                    <img src={ext.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <Chrome size={20} />
+                                )}
                             </div>
                             <div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
