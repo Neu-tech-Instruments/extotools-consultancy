@@ -213,8 +213,23 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                             </Link>
                         ) : (
                             !isPremium && (
-                                <Link href="/#collection" className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem', borderRadius: '0' }}>
-                                    Upgrade to Premium
+                                <Link 
+                                    href="/#collection" 
+                                    style={{ 
+                                        color: 'var(--primary)',
+                                        fontSize: '0.8rem',
+                                        fontWeight: 700,
+                                        letterSpacing: '0.05em',
+                                        textDecoration: 'none',
+                                        textTransform: 'uppercase',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        transition: 'opacity 0.2s ease'
+                                    }}
+                                    className="hover:opacity-70"
+                                >
+                                    Unlock Premium →
                                 </Link>
                             )
                         )}
