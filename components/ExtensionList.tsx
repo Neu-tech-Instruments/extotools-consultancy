@@ -157,7 +157,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
         }
 
         return (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(234, 179, 8, 0.1)', color: 'rgb(202, 138, 4)', padding: '2px 8px', borderRadius: '12px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(34, 197, 94, 0.1)', color: 'rgb(22, 163, 74)', padding: '2px 8px', borderRadius: '12px' }}>
                 <CheckCircle2 size={12} /> Active
             </span>
         );
