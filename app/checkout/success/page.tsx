@@ -5,10 +5,8 @@ import { ArrowRight, Chrome, Layout, ChevronRight, Loader2, Sparkles } from "luc
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
-import { useCurrency } from "@/context/CurrencyContext";
 
 function SuccessContent() {
-    const { formatPrice } = useCurrency();
     const searchParams = useSearchParams();
     const sessionId = searchParams.get("session_id");
     const [loading, setLoading] = useState(true);
@@ -49,28 +47,29 @@ function SuccessContent() {
     return (
         <div style={{ position: 'relative', overflow: 'hidden', background: '#fff' }}>
             {/* Background Accent */}
-            <div style={{ 
-                position: 'absolute', 
-                top: '-10%', 
-                right: '-5%', 
-                width: '60%', 
-                height: '70%', 
-                background: 'radial-gradient(circle, rgba(35, 34, 200, 0.03) 0%, rgba(255,255,255,0) 70%)', 
-                zIndex: 0 
+            <div style={{
+                position: 'absolute',
+                top: '-10%',
+                right: '-5%',
+                width: '60%',
+                height: '70%',
+                background: 'radial-gradient(circle, rgba(35, 34, 200, 0.03) 0%, rgba(255,255,255,0) 70%)',
+                zIndex: 0
             }} />
 
             <main className="container" style={{ position: 'relative', zIndex: 10, paddingTop: '100px', paddingBottom: '80px' }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-                    
+
                     {/* Main Section */}
-                    <div style={{ 
-                        display: 'grid', 
-                        gridTemplateColumns: '1fr 1fr', 
-                        gap: '80px', 
-                        alignItems: 'center', 
-                        marginBottom: '100px' 
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
+                        gap: '80px',
+                        alignItems: 'center',
+                        marginBottom: '100px'
                     }} className="success-grid">
-                        <style dangerouslySetInnerHTML={{ __html: `
+                        <style dangerouslySetInnerHTML={{
+                            __html: `
                             @media (max-width: 860px) {
                                 .success-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
                                 .image-container { order: -1; }
@@ -84,11 +83,11 @@ function SuccessContent() {
                         >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
                                 <div style={{ width: '32px', height: '1px', background: 'var(--primary)' }} />
-                                <span style={{ 
-                                    textTransform: 'uppercase', 
-                                    letterSpacing: '0.4em', 
-                                    fontSize: '11px', 
-                                    fontWeight: 800, 
+                                <span style={{
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.4em',
+                                    fontSize: '11px',
+                                    fontWeight: 800,
                                     color: 'var(--primary)'
                                 }}>
                                     Confirmed
@@ -99,7 +98,7 @@ function SuccessContent() {
                                 Payment <br />
                                 <span className="text-gradient">Successful.</span>
                             </h1>
-                            
+
                             {loading ? (
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'rgba(0,0,0,0.4)', fontSize: '1.1rem' }}>
                                     <Loader2 className="animate-spin" size={20} />
@@ -108,18 +107,18 @@ function SuccessContent() {
                             ) : details ? (
                                 <div style={{ marginBottom: '40px' }}>
                                     <p style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.6)', lineHeight: 1.6, marginBottom: '24px' }}>
-                                        Successfully subscribed to <strong style={{ color: '#000', fontWeight: 700 }}>{details.productName}</strong> at <strong style={{ color: 'var(--primary)' }}>{formatPrice(details.amount)}/{details.interval}</strong>.
+                                        Successfully subscribed to <strong style={{ color: '#000', fontWeight: 700 }}>{details.productName}</strong> at <strong style={{ color: 'var(--primary)' }}>{new Intl.NumberFormat('en-US', { style: 'currency', currency: details.currency }).format(details.amount)}/{details.interval}</strong>.
                                     </p>
-                                    <div style={{ 
-                                        display: 'inline-flex', 
-                                        alignItems: 'center', 
-                                        gap: '10px', 
-                                        background: 'linear-gradient(135deg, rgba(35, 34, 200, 0.05) 0%, rgba(35, 34, 200, 0.02) 100%)', 
+                                    <div style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '10px',
+                                        background: 'linear-gradient(135deg, rgba(35, 34, 200, 0.05) 0%, rgba(35, 34, 200, 0.02) 100%)',
                                         border: '1px solid rgba(35, 34, 200, 0.1)',
-                                        color: 'var(--primary)', 
-                                        padding: '8px 16px', 
-                                        borderRadius: '0', 
-                                        fontSize: '0.8rem', 
+                                        color: 'var(--primary)',
+                                        padding: '8px 16px',
+                                        borderRadius: '0',
+                                        fontSize: '0.8rem',
                                         fontWeight: 700,
                                         letterSpacing: '0.05em',
                                         textTransform: 'uppercase'
@@ -150,15 +149,15 @@ function SuccessContent() {
                             className="image-container"
                             style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}
                         >
-                            <div style={{ 
-                                width: '100%', 
-                                maxWidth: '400px', 
-                                aspectRatio: '1/1', 
-                                background: '#F9FAFB', 
-                                borderRadius: '0', 
-                                border: '1px solid rgba(0,0,0,0.05)', 
-                                display: 'flex', 
-                                alignItems: 'center', 
+                            <div style={{
+                                width: '100%',
+                                maxWidth: '400px',
+                                aspectRatio: '1/1',
+                                background: '#F9FAFB',
+                                borderRadius: '0',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                display: 'flex',
+                                alignItems: 'center',
                                 justifyContent: 'center',
                                 padding: '40px',
                                 boxShadow: '0 20px 40px rgba(0,0,0,0.03)'
@@ -166,29 +165,29 @@ function SuccessContent() {
                                 {loading ? (
                                     <div className="animate-pulse" style={{ width: '80%', height: '80%', background: 'rgba(0,0,0,0.03)', borderRadius: '12px' }} />
                                 ) : details?.images && details.images.length > 0 ? (
-                                    <div style={{ 
-                                        display: 'grid', 
-                                        gridTemplateColumns: details.images.length > 1 ? '1fr 1fr' : '1fr', 
-                                        gap: '24px', 
+                                    <div style={{
+                                        display: 'grid',
+                                        gridTemplateColumns: details.images.length > 1 ? '1fr 1fr' : '1fr',
+                                        gap: '24px',
                                         width: '100%',
                                         padding: '20px'
                                     }}>
                                         {details.images.slice(0, 4).map((img, i) => (
-                                            <motion.img 
+                                            <motion.img
                                                 key={i}
                                                 initial={{ opacity: 0, scale: 0.8 }}
                                                 animate={{ opacity: 1, scale: 1 }}
                                                 transition={{ delay: 0.5 + (i * 0.1) }}
-                                                src={img} 
-                                                alt="Extension Icon" 
-                                                style={{ 
-                                                    width: '100%', 
-                                                    height: '100%', 
+                                                src={img}
+                                                alt="Extension Icon"
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
                                                     maxHeight: '100px',
                                                     objectFit: 'contain',
                                                     filter: 'drop-shadow(0 20px 40px rgba(35, 34, 200, 0.15))',
                                                     transform: `rotate(${i % 2 === 0 ? '-5deg' : '5deg'})`
-                                                }} 
+                                                }}
                                             />
                                         ))}
                                     </div>
@@ -199,22 +198,22 @@ function SuccessContent() {
                                     </div>
                                 )}
                             </div>
-                            
+
                             {/* Floating Badge - Glassmorphism Redesign */}
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 1, duration: 0.8 }}
-                                style={{ 
-                                    position: 'absolute', 
-                                    bottom: '-16px', 
-                                    right: '32px', 
-                                    background: 'rgba(255, 255, 255, 0.8)', 
+                                style={{
+                                    position: 'absolute',
+                                    bottom: '-16px',
+                                    right: '32px',
+                                    background: 'rgba(255, 255, 255, 0.8)',
                                     backdropFilter: 'blur(12px) saturate(180%)',
                                     WebkitBackdropFilter: 'blur(12px) saturate(180%)',
-                                    color: '#111', 
-                                    padding: '10px 20px', 
-                                    borderRadius: '0', 
+                                    color: '#111',
+                                    padding: '10px 20px',
+                                    borderRadius: '0',
                                     border: '1px solid rgba(0, 0, 0, 0.08)',
                                     boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
                                     fontSize: '0.95rem',
@@ -225,10 +224,10 @@ function SuccessContent() {
                                     letterSpacing: '-0.01em'
                                 }}
                             >
-                                <div style={{ 
-                                    width: '8px', 
-                                    height: '8px', 
-                                    borderRadius: '50%', 
+                                <div style={{
+                                    width: '8px',
+                                    height: '8px',
+                                    borderRadius: '50%',
                                     background: '#22c55e',
                                     boxShadow: '0 0 10px #22c55e'
                                 }} />
@@ -243,27 +242,27 @@ function SuccessContent() {
                             <h2 className="font-serif" style={{ fontSize: '2rem', color: '#111' }}>How to activate.</h2>
                         </div>
 
-                        <div style={{ 
-                            display: 'grid', 
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-                            gap: '40px' 
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                            gap: '40px'
                         }}>
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.4, duration: 0.8 }}
                                 className="card"
-                                style={{ 
-                                    background: 'var(--architect-bg)', 
-                                    padding: '40px', 
-                                    borderRadius: '0', 
+                                style={{
+                                    background: 'var(--architect-bg)',
+                                    padding: '40px',
+                                    borderRadius: '0',
                                     border: '1px solid var(--architect-line)',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'flex-start'
                                 }}
                             >
-                                <div style={{ 
+                                <div style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -273,10 +272,10 @@ function SuccessContent() {
                                     minHeight: '56px',
                                     aspectRatio: '1/1',
                                     flexShrink: 0,
-                                    borderRadius: '50%', 
-                                    background: 'rgba(35, 34, 200, 0.1)', 
-                                    color: 'var(--primary)', 
-                                    marginBottom: '32px' 
+                                    borderRadius: '50%',
+                                    background: 'rgba(35, 34, 200, 0.1)',
+                                    color: 'var(--primary)',
+                                    marginBottom: '32px'
                                 }}>
                                     <Chrome size={24} />
                                 </div>
@@ -294,17 +293,17 @@ function SuccessContent() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5, duration: 0.8 }}
                                 className="card"
-                                style={{ 
-                                    background: 'var(--architect-bg)', 
-                                    padding: '40px', 
-                                    borderRadius: '0', 
+                                style={{
+                                    background: 'var(--architect-bg)',
+                                    padding: '40px',
+                                    borderRadius: '0',
                                     border: '1px solid var(--architect-line)',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'flex-start'
                                 }}
                             >
-                                <div style={{ 
+                                <div style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -314,10 +313,10 @@ function SuccessContent() {
                                     minHeight: '56px',
                                     aspectRatio: '1/1',
                                     flexShrink: 0,
-                                    borderRadius: '50%', 
-                                    background: 'rgba(35, 34, 200, 0.1)', 
-                                    color: 'var(--primary)', 
-                                    marginBottom: '32px' 
+                                    borderRadius: '50%',
+                                    background: 'rgba(35, 34, 200, 0.1)',
+                                    color: 'var(--primary)',
+                                    marginBottom: '32px'
                                 }}>
                                     <Layout size={24} />
                                 </div>
@@ -337,9 +336,9 @@ function SuccessContent() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1, duration: 1 }}
-                        style={{ 
-                            marginTop: '100px', 
-                            paddingTop: '40px', 
+                        style={{
+                            marginTop: '100px',
+                            paddingTop: '40px',
                             borderTop: '1px solid rgba(0,0,0,0.04)',
                             textAlign: 'center',
                             display: 'flex',

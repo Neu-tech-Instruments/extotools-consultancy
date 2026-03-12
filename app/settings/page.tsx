@@ -267,7 +267,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Sign Out Section */}
-            <div className="card" style={{ padding: 'clamp(24px, 4vw, 40px)' }}>
+            <div className="card" style={{ padding: 'clamp(24px, 4vw, 40px)', marginBottom: '24px' }}>
                 <h3 style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'rgba(15, 23, 42, 0.8)' }}>Sign Out</h3>
                 <p style={{ fontSize: '0.9rem', color: 'rgba(15, 23, 42, 0.5)', marginBottom: '20px' }}>
                     Sign out of your ExToTools account on this device.
@@ -275,11 +275,67 @@ export default function SettingsPage() {
                 <button
                     onClick={handleSignOut}
                     className="btn btn-outline"
-                    style={{ gap: '8px', color: '#dc2626', borderColor: 'rgba(239, 68, 68, 0.3)' }}
+                    style={{ gap: '8px', color: 'rgba(15, 23, 42, 0.6)', borderColor: 'var(--card-border)' }}
                 >
                     <LogOut size={18} />
                     Sign Out
                 </button>
+            </div>
+
+            {/* Danger Zone */}
+            <div style={{ marginTop: '40px', paddingTop: '40px', borderTop: '1px solid rgba(239, 68, 68, 0.1)' }}>
+                <h3 style={{ 
+                    fontSize: '0.8rem', 
+                    fontWeight: 800, 
+                    color: '#dc2626', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '0.15em',
+                    marginBottom: '24px'
+                }}>
+                    Danger Zone
+                </h3>
+                <div className="card" style={{ 
+                    padding: '32px', 
+                    border: '1px solid rgba(239, 68, 68, 0.1)',
+                    background: 'rgba(239, 68, 68, 0.02)'
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+                        <div>
+                            <h4 style={{ margin: '0 0 4px 0', fontSize: '1rem', color: '#dc2626' }}>Delete Account</h4>
+                            <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(220, 38, 38, 0.6)' }}>
+                                Permanently remove your account and all subscriptions. This action cannot be undone.
+                            </p>
+                        </div>
+                        <button
+                            onClick={async () => {
+                                if (window.confirm("ARE YOU ABSOLUTELY SURE? This will permanently delete your account and all active subscriptions. This cannot be undone.")) {
+                                    try {
+                                        const res = await fetch("/api/user/delete", { method: "DELETE" });
+                                        if (res.ok) {
+                                            await signOut({ callbackUrl: "/" });
+                                        } else {
+                                            alert("Failed to delete account. Please contact support.");
+                                        }
+                                    } catch (err) {
+                                        console.error("Delete account error:", err);
+                                        alert("An error occurred.");
+                                    }
+                                }
+                            }}
+                            className="btn"
+                            style={{ 
+                                background: 'transparent', 
+                                color: '#dc2626', 
+                                border: '1px solid rgba(239, 68, 68, 0.2)',
+                                fontSize: '0.85rem',
+                                padding: '10px 20px',
+                                borderRadius: '0'
+                            }}
+                        >
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
