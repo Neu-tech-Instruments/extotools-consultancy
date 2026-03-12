@@ -132,10 +132,10 @@ function SuccessContent() {
                             )}
 
                             <div style={{ display: 'flex', gap: '20px' }}>
-                                <Link href="/dashboard" className="btn btn-primary" style={{ padding: '16px 32px', borderRadius: '4px', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                                <Link href="/dashboard" className="btn btn-primary" style={{ padding: '16px 32px', borderRadius: '0', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
                                     Go to Dashboard <ArrowRight size={18} />
                                 </Link>
-                                <Link href="/" className="btn btn-outline" style={{ padding: '16px 32px', borderRadius: '4px' }}>
+                                <Link href="/" className="btn btn-outline" style={{ padding: '16px 32px', borderRadius: '0' }}>
                                     Home
                                 </Link>
                             </div>
