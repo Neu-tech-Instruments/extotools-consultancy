@@ -178,7 +178,7 @@ export default function Navbar() {
                                 }}>
                                     <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(15, 23, 42, 0.05)', marginBottom: '4px' }}>
                                         <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 700, color: 'var(--foreground)' }}>
-                                            {session.user?.firstName || session.user?.name || 'User'}
+                                            {(session.user as any)?.firstName || session.user?.name || 'User'}
                                         </p>
                                         <p style={{ margin: 0, fontSize: '0.75rem', color: 'rgba(15, 23, 42, 0.4)', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                             {session.user?.email}
