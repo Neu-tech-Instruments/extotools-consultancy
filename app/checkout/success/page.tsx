@@ -159,13 +159,14 @@ function SuccessContent() {
                                 boxShadow: '0 20px 40px rgba(0,0,0,0.03)'
                             }}>
                                 {loading ? (
-                                    <div style={{ width: '80%', height: '80%', background: 'rgba(0,0,0,0.03)', borderRadius: '12px', className: 'animate-pulse' }} />
+                                    <div className="animate-pulse" style={{ width: '80%', height: '80%', background: 'rgba(0,0,0,0.03)', borderRadius: '12px' }} />
                                 ) : details?.images && details.images.length > 0 ? (
                                     <div style={{ 
                                         display: 'grid', 
                                         gridTemplateColumns: details.images.length > 1 ? '1fr 1fr' : '1fr', 
                                         gap: '24px', 
-                                        width: '100%' 
+                                        width: '100%',
+                                        padding: '20px'
                                     }}>
                                         {details.images.slice(0, 4).map((img, i) => (
                                             <motion.img 
@@ -174,12 +175,13 @@ function SuccessContent() {
                                                 animate={{ opacity: 1, scale: 1 }}
                                                 transition={{ delay: 0.5 + (i * 0.1) }}
                                                 src={img} 
-                                                alt="Extension" 
+                                                alt="Extension Icon" 
                                                 style={{ 
                                                     width: '100%', 
-                                                    height: 'auto', 
+                                                    height: '100%', 
+                                                    maxHeight: '120px',
                                                     objectFit: 'contain',
-                                                    filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))'
+                                                    filter: 'drop-shadow(0 15px 30px rgba(35, 34, 200, 0.2))'
                                                 }} 
                                             />
                                         ))}
@@ -322,11 +324,17 @@ function SuccessContent() {
                             marginTop: '100px', 
                             paddingTop: '40px', 
                             borderTop: '1px solid rgba(0,0,0,0.04)',
-                            textAlign: 'center'
+                            textAlign: 'center',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '8px'
                         }}
                     >
                         <div style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.5em', color: 'rgba(0,0,0,0.2)', textTransform: 'uppercase' }}>
                             ExToTools / Professional Workspace 2024
+                        </div>
+                        <div style={{ fontSize: '9px', color: 'rgba(0,0,0,0.1)', letterSpacing: '0.1em' }}>
+                            BUILD V2.1.0-PREMIUM
                         </div>
                     </motion.div>
                 </div>
