@@ -19,6 +19,7 @@ function SuccessContent() {
 
     useEffect(() => {
         if (sessionId) {
+            setLoading(true);
             fetch(`/api/stripe/session?session_id=${sessionId}`)
                 .then(res => res.json())
                 .then(data => {
@@ -29,6 +30,15 @@ function SuccessContent() {
                     console.error("Error fetching session:", err);
                     setLoading(false);
                 });
+        } else {
+            // Demo Mode for previewing design without a real session
+            setDetails({
+                productName: "Full Professional Bundle",
+                amount: 1.99,
+                interval: "month",
+                currency: "usd"
+            });
+            setLoading(false);
         }
     }, [sessionId]);
 
@@ -114,6 +124,9 @@ function SuccessContent() {
                                     justifyContent: 'center',
                                     width: '56px',
                                     height: '56px',
+                                    minWidth: '56px',
+                                    minHeight: '56px',
+                                    aspectRatio: '1/1',
                                     flexShrink: 0,
                                     borderRadius: '50%', 
                                     background: 'rgba(35, 34, 200, 0.1)', 
@@ -146,6 +159,9 @@ function SuccessContent() {
                                     justifyContent: 'center',
                                     width: '56px',
                                     height: '56px',
+                                    minWidth: '56px',
+                                    minHeight: '56px',
+                                    aspectRatio: '1/1',
                                     flexShrink: 0,
                                     borderRadius: '50%', 
                                     background: 'rgba(35, 34, 200, 0.1)', 
