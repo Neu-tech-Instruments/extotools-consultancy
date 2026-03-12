@@ -77,11 +77,14 @@ export default function SuccessPage() {
                         >
                             <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                                 <div style={{ 
-                                    padding: '16px', 
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '56px',
+                                    height: '56px',
                                     borderRadius: '50%', 
                                     background: 'rgba(35, 34, 200, 0.1)', 
                                     color: 'var(--primary)', 
-                                    width: 'fit-content', 
                                     marginBottom: '24px' 
                                 }}>
                                     <Chrome size={24} />
@@ -105,11 +108,14 @@ export default function SuccessPage() {
                         >
                             <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                                 <div style={{ 
-                                    padding: '16px', 
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '56px',
+                                    height: '56px',
                                     borderRadius: '50%', 
                                     background: 'rgba(35, 34, 200, 0.1)', 
                                     color: 'var(--primary)', 
-                                    width: 'fit-content', 
                                     marginBottom: '24px' 
                                 }}>
                                     <Layout size={24} />
