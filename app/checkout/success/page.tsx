@@ -148,7 +148,6 @@ export default function SuccessPage() {
                                 More Tools
                             </Link>
                         </div>
-                        
                         <div className="vertical-text desktop-only" style={{ opacity: 0.2 }}>
                             EST. 2024 / EXTOTOOLS
                         </div>
