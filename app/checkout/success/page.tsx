@@ -5,8 +5,10 @@ import { ArrowRight, Chrome, Layout, ChevronRight, Loader2, Sparkles } from "luc
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
+import { useCurrency } from "@/context/CurrencyContext";
 
 function SuccessContent() {
+    const { formatPrice } = useCurrency();
     const searchParams = useSearchParams();
     const sessionId = searchParams.get("session_id");
     const [loading, setLoading] = useState(true);
@@ -106,7 +108,7 @@ function SuccessContent() {
                             ) : details ? (
                                 <div style={{ marginBottom: '40px' }}>
                                     <p style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.6)', lineHeight: 1.6, marginBottom: '24px' }}>
-                                        Successfully subscribed to <strong style={{ color: '#000', fontWeight: 700 }}>{details.productName}</strong> at <strong style={{ color: 'var(--primary)' }}>{new Intl.NumberFormat('en-US', { style: 'currency', currency: details.currency }).format(details.amount)}/{details.interval}</strong>.
+                                        Successfully subscribed to <strong style={{ color: '#000', fontWeight: 700 }}>{details.productName}</strong> at <strong style={{ color: 'var(--primary)' }}>{formatPrice(details.amount)}/{details.interval}</strong>.
                                     </p>
                                     <div style={{ 
                                         display: 'inline-flex', 
