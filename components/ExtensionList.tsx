@@ -229,7 +229,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                                     }}
                                     className="hover:opacity-70"
                                 >
-                                    GET PREMIUM →
+                                    GO FOR PREMIUM
                                 </Link>
                             )
                         )}
