@@ -56,11 +56,11 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
 
         const checkInstallations = async () => {
             console.log("[ExToTools] Starting extension scan...", { CHROME_EXTENSION_IDS, serverDetectedSlugs });
-            
+
             // Layer 1: Check DOM attributes (Fastest - set by content script)
             const isInstalledViaDOM = document.documentElement.getAttribute('data-extotools-installed') === 'true';
             const userEmailViaDOM = document.documentElement.getAttribute('data-extotools-user');
-            
+
             if (isInstalledViaDOM) {
                 console.log("[ExToTools] Detected extension via DOM signal");
                 // For now, we only have one extension slug "full-view-pro"
@@ -96,13 +96,13 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                         };
                         img.onerror = () => { safeResolve(); };
                         img.src = `chrome-extension://${id}/icons/icon48.png`;
-                        
+
                         setTimeout(safeResolve, 2000);
                     });
                 });
                 await Promise.all(checks);
             }
-            
+
             console.log("[ExToTools] Scan complete.");
             setIsScanning(false);
         };
@@ -179,12 +179,12 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                         borderRadius: '0',
                         border: isPremium ? '1px solid var(--primary)' : '1px solid var(--card-border)'
                     }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                            <div style={{ 
-                                width: '48px', 
-                                height: '48px', 
-                                display: 'flex', 
-                                alignItems: 'center', 
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                display: 'flex',
+                                alignItems: 'center',
                                 justifyContent: 'center',
                                 borderRadius: '0',
                                 overflow: 'hidden',
@@ -194,7 +194,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                                 {isInstalled && ext.image ? (
                                     <img src={ext.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                 ) : (
-                                    <Chrome size={24} />
+                                    <Chrome size={32} />
                                 )}
                             </div>
                             <div>
@@ -213,9 +213,9 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                             </Link>
                         ) : (
                             !isPremium && (
-                                <Link 
-                                    href="/#collection" 
-                                    style={{ 
+                                <Link
+                                    href="/#collection"
+                                    style={{
                                         color: 'var(--primary)',
                                         fontSize: '0.8rem',
                                         fontWeight: 700,
@@ -229,7 +229,7 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                                     }}
                                     className="hover:opacity-70"
                                 >
-                                    GET PRO →
+                                    GET PREMIUM →
                                 </Link>
                             )
                         )}
