@@ -129,33 +129,43 @@ export default function Navbar() {
                                     justifyContent: 'center',
                                     width: '32px',
                                     height: '32px',
-                                    borderRadius: '50%',
-                                    background: 'rgba(15, 23, 42, 0.05)',
-                                    border: '1px solid var(--card-border)',
-                                    color: 'var(--foreground)',
-                                    overflow: 'hidden',
+                                    background: 'transparent',
+                                    border: 'none',
                                     cursor: 'pointer',
                                     padding: 0,
                                     position: 'relative',
                                     transition: 'all 0.2s ease'
                                 }}
                             >
-                                {session.user?.image ? (
-                                    <img src={session.user.image} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                ) : (
-                                    <User size={16} opacity={0.6} />
-                                )}
-                                {/* Pro Badge Dot */}
+                                <div style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    borderRadius: '50%',
+                                    background: 'rgba(15, 23, 42, 0.05)',
+                                    border: '1px solid var(--card-border)',
+                                    overflow: 'hidden',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    {session.user?.image ? (
+                                        <img src={session.user.image} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    ) : (
+                                        <User size={16} opacity={0.6} />
+                                    )}
+                                </div>
+                                {/* Pro Badge Dot - Positioned outside the overflow-hidden container */}
                                 {session.user?.email && (
                                     <div style={{
                                         position: 'absolute',
-                                        bottom: '-1px',
-                                        right: '-1px',
-                                        width: '10px',
-                                        height: '10px',
+                                        bottom: '0px',
+                                        right: '0px',
+                                        width: '12px',
+                                        height: '12px',
                                         background: 'var(--primary)',
                                         border: '2px solid white',
-                                        borderRadius: '50%'
+                                        borderRadius: '50%',
+                                        zIndex: 2
                                     }} title="Pro Member" />
                                 )}
                             </button>
