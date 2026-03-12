@@ -52,68 +52,71 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
 
     useEffect(() => {
         // Only run extension detection in the browser
-        if (typeof window === "undefined" || !window.chrome || !window.chrome.runtime) {
-            setIsScanning(false);
-            return;
-        }
+        if (typeof window === "undefined") return;
 
         const checkInstallations = async () => {
             console.log("[ExToTools] Starting extension scan...", { CHROME_EXTENSION_IDS, serverDetectedSlugs });
             
-            // Ping all known ExToTools Extension IDs
-            const checks = Object.entries(CHROME_EXTENSION_IDS).map(([slug, id]) => {
-                return new Promise<void>((resolve) => {
-                    let resolved = false;
-                    const safeResolve = () => { if (!resolved) { resolved = true; resolve(); } };
+            // Layer 1: Check DOM attributes (Fastest - set by content script)
+            const isInstalledViaDOM = document.documentElement.getAttribute('data-extotools-installed') === 'true';
+            const userEmailViaDOM = document.documentElement.getAttribute('data-extotools-user');
+            
+            if (isInstalledViaDOM) {
+                console.log("[ExToTools] Detected extension via DOM signal");
+                // For now, we only have one extension slug "full-view-pro"
+                setInstalledSlugs(prev => new Set(prev).add('full-view-pro'));
+            }
 
-                    // Method 1: Message passing
-                    try {
-                        window.chrome!.runtime!.sendMessage(id, { action: "ping" }, (response: any) => {
-                            if (!window.chrome!.runtime!.lastError && response && response.installed) {
-                                console.log(`[ExToTools] Detected ${slug} via message passing`);
-                                setInstalledSlugs(prev => new Set(prev).add(slug));
-                            }
+            // Layer 2: Official Handshake (externally_connectable) + Fallbacks
+            if (window.chrome && window.chrome.runtime) {
+                const checks = Object.entries(CHROME_EXTENSION_IDS).map(([slug, id]) => {
+                    return new Promise<void>((resolve) => {
+                        let resolved = false;
+                        const safeResolve = () => { if (!resolved) { resolved = true; resolve(); } };
+
+                        // Try direct messaging (Requires externally_connectable in manifest)
+                        try {
+                            window.chrome!.runtime!.sendMessage(id, { action: "ping" }, (response: any) => {
+                                if (!window.chrome!.runtime!.lastError && response && response.installed) {
+                                    console.log(`[ExToTools] Detected ${slug} via direct message`);
+                                    setInstalledSlugs(prev => new Set(prev).add(slug));
+                                }
+                                safeResolve();
+                            });
+                        } catch (e) {
+                            // Messaging might be blocked
+                        }
+
+                        // Try Image-based detection (Requires web_accessible_resources in manifest)
+                        const img = new Image();
+                        img.onload = () => {
+                            console.log(`[ExToTools] Detected ${slug} via image fallback`);
+                            setInstalledSlugs(prev => new Set(prev).add(slug));
                             safeResolve();
-                        });
-                    } catch (e) {
-                        // Messaging might be blocked
-                    }
-
-                    // Method 2: Image-based detection (fallback)
-                    // Many extensions have a manifest-defined 'web_accessible_resources'
-                    // We'll try to load a common icon or placeholder
-                    const img = new Image();
-                    img.onload = () => {
-                        console.log(`[ExToTools] Detected ${slug} via image fallback`);
-                        setInstalledSlugs(prev => new Set(prev).add(slug));
-                        safeResolve();
-                    };
-                    img.onerror = () => {
-                        safeResolve();
-                    };
-                    // Common paths for extension assets
-                    img.src = `chrome-extension://${id}/icons/icon48.png`;
-                    
-                    // Cleanup timeout
-                    setTimeout(safeResolve, 2000);
+                        };
+                        img.onerror = () => { safeResolve(); };
+                        img.src = `chrome-extension://${id}/icons/icon48.png`;
+                        
+                        setTimeout(safeResolve, 2000);
+                    });
                 });
-            });
-
-            await Promise.all(checks);
+                await Promise.all(checks);
+            }
+            
             console.log("[ExToTools] Scan complete.");
             setIsScanning(false);
         };
 
         checkInstallations();
 
-        // Listen for "announcements" from extensions (via content scripts)
+        // Layer 3: Listen for pings/announcements
         const handleMessage = (event: MessageEvent) => {
-            // Only accept messages from the same origin or trusted sources if applicable
-            if (event.origin !== window.location.origin) return;
+            if (event.origin !== window.location.origin && event.origin !== "") return;
 
             const { data } = event;
-            if (data && data.type === 'EXTO_EXTENSION_STATUS' && data.installed) {
-                // If an email is provided by the extension, only trust it if it matches our logged-in user
+            // Handle both our custom EXTO_PONG and the general announcement
+            if ((data && data.type === 'EXTO_PONG') || (data && data.type === 'EXTO_EXTENSION_STATUS' && data.installed)) {
+                console.log("[ExToTools] Received extension message signal:", data);
                 if (data.email && userEmail && data.email.toLowerCase() === userEmail.toLowerCase()) {
                     setInstalledSlugs(prev => {
                         const next = new Set(prev);
@@ -121,7 +124,6 @@ export default function ExtensionList({ allExtensions, activeSlugs, userEmail, s
                         return next;
                     });
                 } else if (!data.email) {
-                    // Fallback for extensions that don't report email yet but are detected via message
                     setInstalledSlugs(prev => {
                         const next = new Set(prev);
                         if (data.slug) next.add(data.slug);
