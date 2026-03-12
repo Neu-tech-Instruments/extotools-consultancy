@@ -1,18 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CheckCircle2, ArrowRight, Chrome, Layout, ChevronRight } from "lucide-react";
+import { useEffect, useState, Suspense } from "react";
+import { ArrowRight, Chrome, Layout, ChevronRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 
-export default function SuccessPage() {
-    const [mounted, setMounted] = useState(false);
+function SuccessContent() {
+    const searchParams = useSearchParams();
+    const sessionId = searchParams.get("session_id");
+    const [loading, setLoading] = useState(!!sessionId);
+    const [details, setDetails] = useState<{
+        productName: string;
+        amount: number;
+        interval: string;
+        currency: string;
+    } | null>(null);
 
     useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) return null;
+        if (sessionId) {
+            fetch(`/api/stripe/session?session_id=${sessionId}`)
+                .then(res => res.json())
+                .then(data => {
+                    setDetails(data);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.error("Error fetching session:", err);
+                    setLoading(false);
+                });
+        }
+    }, [sessionId]);
 
     return (
         <div style={{ position: 'relative', overflow: 'hidden' }}>
@@ -46,9 +64,23 @@ export default function SuccessPage() {
                                 Payment <br />
                                 <span className="text-gradient">Successful.</span>
                             </h1>
-                            <p style={{ fontSize: '1.25rem', color: 'rgba(11, 10, 9, 0.4)', maxWidth: '400px', lineHeight: 1.6 }}>
-                                Your account is now upgraded. Your professional tools are ready for activation.
-                            </p>
+                            
+                            {loading ? (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(11, 10, 9, 0.4)' }}>
+                                    <Loader2 className="animate-spin" size={18} />
+                                    <span>Retrieving subscription details...</span>
+                                </div>
+                            ) : details ? (
+                                <p style={{ fontSize: '1.25rem', color: 'rgba(11, 10, 9, 0.6)', maxWidth: '500px', lineHeight: 1.6 }}>
+                                    You have successfully subscribed to <strong style={{ color: 'var(--foreground)' }}>{details.productName}</strong> for <strong style={{ color: 'var(--primary)' }}>{new Intl.NumberFormat('en-US', { style: 'currency', currency: details.currency }).format(details.amount)}/{details.interval}</strong>.
+                                    <br />
+                                    <span style={{ fontSize: '1rem', marginTop: '12px', display: 'block', opacity: 0.7 }}>Your professional tools are now activated and ready for use.</span>
+                                </p>
+                            ) : (
+                                <p style={{ fontSize: '1.25rem', color: 'rgba(11, 10, 9, 0.4)', maxWidth: '400px', lineHeight: 1.6 }}>
+                                    Your account is now upgraded. Your professional tools are ready for activation.
+                                </p>
+                            )}
                         </motion.div>
 
                         <motion.div
@@ -163,5 +195,21 @@ export default function SuccessPage() {
                 </div>
             </main>
         </div>
+    );
+}
+
+export default function SuccessPage() {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
+
+    return (
+        <Suspense fallback={null}>
+            <SuccessContent />
+        </Suspense>
     );
 }

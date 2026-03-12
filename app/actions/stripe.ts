@@ -41,7 +41,6 @@ export async function startCheckoutSession(productId: string, currency: string =
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
-      redirect_on_completion: 'never',
       locale: 'en',
       adaptive_pricing: {
         enabled: false,
@@ -65,7 +64,9 @@ export async function startCheckoutSession(productId: string, currency: string =
       metadata: {
           productId: productId,
           isBundle: String(!!bundles.find(b => b.id === productId))
-      }
+      },
+      redirect_on_completion: 'always',
+      return_url: `${process.env.NEXTAUTH_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     })
 
     if (!session.client_secret) {
