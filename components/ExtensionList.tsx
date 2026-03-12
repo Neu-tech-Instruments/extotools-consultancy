@@ -25,7 +25,7 @@ declare global {
 // Placeholder Chrome Web Store IDs for ExToTools
 // The user will need to update these with their actual published IDs
 export const CHROME_EXTENSION_IDS: Record<string, string> = {
-    "full-view-pro": "fdpohaocaechififmbbbbbknoalclacl",
+    "full-view-pro": "koebdhijeokpekjfgigpebkllmjbfknb",
 };
 
 interface ExtensionListProps {
