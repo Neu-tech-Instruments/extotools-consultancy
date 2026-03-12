@@ -12,6 +12,9 @@ async function main() {
         const result = await client.execute("SELECT * FROM Extension");
         console.log("Turso Prod Extensions count:", result.rows.length);
         console.log("Turso Prod Extensions:", result.rows);
+
+        const users = await client.execute("SELECT id, email, detectedExtensions FROM User");
+        console.log("Turso Prod Users:", users.rows);
     } catch (e) {
         console.error(e);
     }

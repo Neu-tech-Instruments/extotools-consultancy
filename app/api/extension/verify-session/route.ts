@@ -32,28 +32,29 @@ export async function POST(req: Request) {
             });
         }
 
+        // --- TRACK INSTALLATION ---
+        try {
+            const currentDetectedStr = (user as any).detectedExtensions || "";
+            const currentDetected = currentDetectedStr.split(',').filter(Boolean);
+            if (!currentDetected.includes(extensionSlug)) {
+                await prisma.user.update({
+                    where: { id: user.id },
+                    data: {
+                        detectedExtensions: [...currentDetected, extensionSlug].join(',')
+                    } as any
+                });
+            }
+        } catch (e) {
+            console.error("Failed to update detectedExtensions in verify-session:", e);
+        }
+        // ---------------------------
+
         // 2. Check if they have an active subscription for this specific extension or a global bundle
         const subscriptions = user.subscriptions;
         const hasBundle = subscriptions.some(s => s.isBundle);
         const hasSpecificExt = subscriptions.some(s => s.extension?.slug === extensionSlug);
 
         if (hasBundle || hasSpecificExt) {
-            // Track that this extension is installed/detected for this user
-            try {
-                const currentDetected = user.detectedExtensions ? user.detectedExtensions.split(',') : [];
-                if (!currentDetected.includes(extensionSlug)) {
-                    await prisma.user.update({
-                        where: { id: user.id },
-                        data: {
-                            detectedExtensions: [...currentDetected, extensionSlug].join(',')
-                        }
-                    });
-                }
-            } catch (e) {
-                console.error("Failed to update detectedExtensions:", e);
-                // Non-blocking error
-            }
-
             return NextResponse.json({
                 isPremium: true,
                 message: "Premium subscription verified."

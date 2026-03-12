@@ -35,20 +35,37 @@ export async function POST(req: Request) {
             sub.isBundle || (sub.extension?.slug === extensionSlug)
         );
 
-        if (!hasAccess) {
+        if (hasAccess) {
+            // --- TRACK INSTALLATION ---
+            try {
+                const currentDetectedStr = (user as any).detectedExtensions || "";
+                const currentDetected = currentDetectedStr.split(',').filter(Boolean);
+                if (!currentDetected.includes(extensionSlug)) {
+                    await prisma.user.update({
+                        where: { id: user.id },
+                        data: {
+                            detectedExtensions: [...currentDetected, extensionSlug].join(',')
+                        } as any
+                    });
+                }
+            } catch (e) {
+                console.error("Failed to update detectedExtensions in license-verify:", e);
+            }
+            // ---------------------------
+
             return NextResponse.json({
-                active: false,
-                message: "No active subscription found for this extension."
-            }, { status: 403 });
+                active: true,
+                user: {
+                    name: user.name,
+                    email: user.email
+                }
+            });
         }
 
         return NextResponse.json({
-            active: true,
-            user: {
-                name: user.name,
-                email: user.email
-            }
-        });
+            active: false,
+            message: "No active subscription found for this extension."
+        }, { status: 403 });
 
     } catch (error) {
         console.error("License verification error:", error);
