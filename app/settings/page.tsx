@@ -283,58 +283,65 @@ export default function SettingsPage() {
             </div>
 
             {/* Danger Zone */}
-            <div style={{ marginTop: '40px', paddingTop: '40px', borderTop: '1px solid rgba(239, 68, 68, 0.1)' }}>
-                <h3 style={{ 
-                    fontSize: '0.8rem', 
-                    fontWeight: 800, 
-                    color: '#dc2626', 
-                    textTransform: 'uppercase', 
-                    letterSpacing: '0.15em',
-                    marginBottom: '24px'
-                }}>
-                    Danger Zone
-                </h3>
-                <div className="card" style={{ 
-                    padding: '32px', 
-                    border: '1px solid rgba(239, 68, 68, 0.1)',
-                    background: 'rgba(239, 68, 68, 0.02)'
-                }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
-                        <div>
-                            <h4 style={{ margin: '0 0 4px 0', fontSize: '1rem', color: '#dc2626' }}>Delete Account</h4>
-                            <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(220, 38, 38, 0.6)' }}>
-                                Permanently remove your account and all subscriptions. This action cannot be undone.
-                            </p>
-                        </div>
-                        <button
-                            onClick={async () => {
-                                if (window.confirm("ARE YOU ABSOLUTELY SURE? This will permanently delete your account and all active subscriptions. This cannot be undone.")) {
-                                    try {
-                                        const res = await fetch("/api/user/delete", { method: "DELETE" });
-                                        if (res.ok) {
-                                            await signOut({ callbackUrl: "/" });
-                                        } else {
-                                            alert("Failed to delete account. Please contact support.");
-                                        }
-                                    } catch (err) {
-                                        console.error("Delete account error:", err);
-                                        alert("An error occurred.");
-                                    }
-                                }
-                            }}
-                            className="btn"
-                            style={{ 
-                                background: 'transparent', 
-                                color: '#dc2626', 
-                                border: '1px solid rgba(239, 68, 68, 0.2)',
-                                fontSize: '0.85rem',
-                                padding: '10px 20px',
-                                borderRadius: '0'
-                            }}
-                        >
-                            Delete Account
-                        </button>
+            <div style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px solid rgba(15, 23, 42, 0.05)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '40px' }}>
+                    <div style={{ maxWidth: '400px' }}>
+                        <h3 style={{ 
+                            fontSize: '0.75rem', 
+                            fontWeight: 700, 
+                            color: 'rgba(15, 23, 42, 0.3)', 
+                            textTransform: 'uppercase', 
+                            letterSpacing: '0.1em',
+                            marginBottom: '12px'
+                        }}>
+                            Account Management
+                        </h3>
+                        <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(15, 23, 42, 0.4)', lineHeight: 1.5 }}>
+                            Permanently remove your account and all associated data. This action is irreversible and will immediately cancel any active subscriptions.
+                        </p>
                     </div>
+                    <button
+                        onClick={async () => {
+                            if (window.confirm("ARE YOU ABSOLUTELY SURE? This will permanently delete your account and all active subscriptions. This cannot be undone.")) {
+                                try {
+                                    const res = await fetch("/api/user/delete", { method: "DELETE" });
+                                    if (res.ok) {
+                                        await signOut({ callbackUrl: "/" });
+                                    } else {
+                                        alert("Failed to delete account. Please contact support.");
+                                    }
+                                } catch (err) {
+                                    console.error("Delete account error:", err);
+                                    alert("An error occurred.");
+                                }
+                            }
+                        }}
+                        style={{ 
+                            background: 'transparent', 
+                            color: 'rgba(15, 23, 42, 0.3)', 
+                            border: '1px solid rgba(15, 23, 42, 0.1)',
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            padding: '8px 16px',
+                            borderRadius: '0',
+                            cursor: 'pointer',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em',
+                            transition: 'all 0.2s ease'
+                        }}
+                        onMouseOver={(e) => {
+                            e.currentTarget.style.color = '#dc2626';
+                            e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+                            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.02)';
+                        }}
+                        onMouseOut={(e) => {
+                            e.currentTarget.style.color = 'rgba(15, 23, 42, 0.3)';
+                            e.currentTarget.style.borderColor = 'rgba(15, 23, 42, 0.1)';
+                            e.currentTarget.style.background = 'transparent';
+                        }}
+                    >
+                        Delete Account
+                    </button>
                 </div>
             </div>
         </div>
