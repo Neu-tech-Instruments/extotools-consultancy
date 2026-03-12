@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { ShoppingCart, User, Menu, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
@@ -9,6 +9,7 @@ export default function Navbar() {
     const { data: session, status } = useSession();
     const { itemCount, setIsCartOpen, isCartOpen } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     const toggleMenu = () => {
         if (!isMenuOpen) setIsCartOpen(false);
@@ -118,27 +119,125 @@ export default function Navbar() {
                     {status === "loading" ? (
                         <div className="desktop-only" style={{ width: '48px', height: '14px', opacity: 0 }}></div>
                     ) : session ? (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-
-                            <a href="/dashboard" className="desktop-only" style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                width: '28px',
-                                height: '28px',
-                                borderRadius: '50%',
-                                background: 'rgba(15, 23, 42, 0.05)',
-                                border: '1px solid var(--card-border)',
-                                color: 'var(--foreground)',
-                                overflow: 'hidden',
-                                textDecoration: 'none'
-                            }}>
+                        <div style={{ position: 'relative' }}>
+                            <button 
+                                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                onBlur={() => setTimeout(() => setIsProfileOpen(false), 200)}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '32px',
+                                    height: '32px',
+                                    borderRadius: '50%',
+                                    background: 'rgba(15, 23, 42, 0.05)',
+                                    border: '1px solid var(--card-border)',
+                                    color: 'var(--foreground)',
+                                    overflow: 'hidden',
+                                    cursor: 'pointer',
+                                    padding: 0,
+                                    position: 'relative',
+                                    transition: 'all 0.2s ease'
+                                }}
+                            >
                                 {session.user?.image ? (
                                     <img src={session.user.image} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 ) : (
-                                    <User size={14} opacity={0.6} />
+                                    <User size={16} opacity={0.6} />
                                 )}
-                            </a>
+                                {/* Pro Badge Dot */}
+                                {session.user?.email && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        bottom: '-1px',
+                                        right: '-1px',
+                                        width: '10px',
+                                        height: '10px',
+                                        background: 'var(--primary)',
+                                        border: '2px solid white',
+                                        borderRadius: '50%'
+                                    }} title="Pro Member" />
+                                )}
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {isProfileOpen && (
+                                <div className="glass" style={{
+                                    position: 'absolute',
+                                    top: 'calc(100% + 12px)',
+                                    right: 0,
+                                    width: '220px',
+                                    background: 'rgba(255, 255, 255, 0.95)',
+                                    backdropFilter: 'blur(20px)',
+                                    border: '1px solid var(--architect-line)',
+                                    boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                                    padding: '8px 0',
+                                    zIndex: 10000,
+                                    display: 'flex',
+                                    flexDirection: 'column'
+                                }}>
+                                    <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(15, 23, 42, 0.05)', marginBottom: '4px' }}>
+                                        <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 700, color: 'var(--foreground)' }}>
+                                            {session.user?.firstName || session.user?.name || 'User'}
+                                        </p>
+                                        <p style={{ margin: 0, fontSize: '0.75rem', color: 'rgba(15, 23, 42, 0.4)', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {session.user?.email}
+                                        </p>
+                                    </div>
+                                    
+                                    <a href="/dashboard" style={{
+                                        padding: '10px 16px',
+                                        fontSize: '0.85rem',
+                                        fontWeight: 600,
+                                        textDecoration: 'none',
+                                        color: 'rgba(15, 23, 42, 0.7)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px',
+                                        transition: 'all 0.2s ease'
+                                    }} onMouseOver={(e) => e.currentTarget.style.background = 'rgba(15, 23, 42, 0.03)'} onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}>
+                                        <img src="/tool-icon-20.png" style={{ width: '14px', height: '14px', opacity: 0.6 }} />
+                                        Dashboard
+                                    </a>
+                                    
+                                    <a href="/settings" style={{
+                                        padding: '10px 16px',
+                                        fontSize: '0.85rem',
+                                        fontWeight: 600,
+                                        textDecoration: 'none',
+                                        color: 'rgba(15, 23, 42, 0.7)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '10px',
+                                        transition: 'all 0.2s ease'
+                                    }} onMouseOver={(e) => e.currentTarget.style.background = 'rgba(15, 23, 42, 0.03)'} onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}>
+                                        <User size={14} opacity={0.6} />
+                                        Settings
+                                    </a>
+
+                                    <div style={{ margin: '4px 0', borderTop: '1px solid rgba(15, 23, 42, 0.05)' }} />
+                                    
+                                    <button 
+                                        onClick={() => signOut({ callbackUrl: "/" })}
+                                        style={{
+                                            padding: '10px 16px',
+                                            fontSize: '0.85rem',
+                                            fontWeight: 600,
+                                            border: 'none',
+                                            background: 'transparent',
+                                            color: '#dc2626',
+                                            textAlign: 'left',
+                                            cursor: 'pointer',
+                                            width: '100%',
+                                            transition: 'all 0.2s ease'
+                                        }}
+                                        onMouseOver={(e) => e.currentTarget.style.background = 'rgba(220, 38, 38, 0.03)'}
+                                        onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                                    >
+                                        Sign Out
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <a href="/login" className="desktop-only" style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--primary)', cursor: 'pointer' }}>
