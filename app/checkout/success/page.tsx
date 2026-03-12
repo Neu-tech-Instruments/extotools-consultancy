@@ -15,12 +15,7 @@ export default function SuccessPage() {
     if (!mounted) return null;
 
     return (
-        <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', backgroundColor: 'var(--background)' }}>
-            {/* Architectural Background */}
-            <div className="bg-architect grid-dots" style={{ opacity: 0.2 }} />
-            <div className="vertical-line" style={{ left: '10%', opacity: 0.1 }} />
-            <div className="vertical-line" style={{ right: '10%', opacity: 0.1 }} />
-            
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
             <main className="container" style={{ position: 'relative', zIndex: 10, paddingTop: '120px', paddingBottom: '80px' }}>
                 <div style={{ maxWidth: '900px', margin: '0 auto' }}>
                     {/* Header Section */}
