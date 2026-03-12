@@ -14,7 +14,7 @@ export default function GeometricIcon() {
                     width: '180px',
                     height: '180px',
                     background: 'var(--primary)',
-                    borderRadius: '40px',
+                    borderRadius: '0',
                     zIndex: 2,
                     position: 'relative',
                     boxShadow: '20px 20px 0 var(--secondary)',

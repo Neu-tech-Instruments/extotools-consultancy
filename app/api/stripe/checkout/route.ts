@@ -37,6 +37,10 @@ export async function POST(req: Request) {
             mode: "subscription",
             customer_email: session.user.email ?? undefined,
             line_items,
+            adaptive_pricing: {
+                enabled: true,
+            },
+            locale: 'en',
             success_url: `${process.env.NEXTAUTH_URL}/dashboard?success=true`,
             cancel_url: `${process.env.NEXTAUTH_URL}/?canceled=true`,
             metadata: {

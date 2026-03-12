@@ -25,11 +25,7 @@ declare global {
 // Placeholder Chrome Web Store IDs for ExToTools
 // The user will need to update these with their actual published IDs
 export const CHROME_EXTENSION_IDS: Record<string, string> = {
-    "extension-one": "aabcddefghijklmnopqrstuvwxyz",
-    "extension-two": "bbccddefghijklmnopqrstuvwxyz",
-    "extension-three": "cccddefghijklmnopqrstuvwxyz",
-    "extension-four": "ddcddefghijklmnopqrstuvwxyz",
-    "extension-five": "eecddefghijklmnopqrstuvwxyz"
+    "full-view-pro": "fdpohaocaechififmbbbbbknoalclacl",
 };
 
 interface ExtensionListProps {
@@ -92,14 +88,14 @@ export default function ExtensionList({ allExtensions, activeSlugs }: ExtensionL
         if (isPremium) {
             return (
                 <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(34, 197, 94, 0.1)', color: 'rgb(22, 163, 74)', padding: '2px 8px', borderRadius: '12px' }}>
-                    <CheckCircle2 size={12} /> Premium Active
+                    <CheckCircle2 size={12} /> Premium
                 </span>
             );
         }
 
         return (
             <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700, background: 'rgba(234, 179, 8, 0.1)', color: 'rgb(202, 138, 4)', padding: '2px 8px', borderRadius: '12px' }}>
-                <ShieldAlert size={12} /> Free Version
+                <CheckCircle2 size={12} /> Active
             </span>
         );
     };

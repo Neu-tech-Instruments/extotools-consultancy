@@ -93,14 +93,14 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                                 <div style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>/ month</div>
                             </div>
                             <div style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 600, marginTop: '8px', opacity: 0.8 }}>
-                                ✨ Prices localized for your region (Charged in USD)
+                                ✨ Secure payment through Stripe
                             </div>
                         </div>
 
                         {/* Product Detail Card */}
                         <div style={{ marginBottom: '40px' }}>
                             <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '24px' }}>
-                                <div style={{ width: '56px', height: '56px', background: 'white', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                                <div style={{ width: '56px', height: '56px', background: 'white', borderRadius: '0', border: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                                     {product.image ? (
                                         <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                     ) : (
@@ -116,7 +116,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                             </div>
 
                             {/* Keypoints */}
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', background: 'rgba(255,255,255,0.5)', padding: '24px', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.03)' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', background: 'rgba(255,255,255,0.5)', padding: '24px', borderRadius: '0', border: '1px solid rgba(0,0,0,0.03)' }}>
                                 <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'rgba(0,0,0,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>What's included</div>
                                 {product.features.slice(0, 3).map((feature, i) => (
                                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.95rem', color: '#1A1F36' }}>

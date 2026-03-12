@@ -177,7 +177,7 @@ export default function SlideCart() {
                                     padding: '16px',
                                     background: 'var(--primary-glow)',
                                     border: '1px solid var(--primary)',
-                                    borderRadius: '4px',
+                                    borderRadius: '0',
                                     color: 'var(--primary)',
                                     textAlign: 'center',
                                     fontWeight: 600,

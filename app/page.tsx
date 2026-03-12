@@ -314,7 +314,7 @@ export default function Home() {
                               width: '64px',
                               height: '64px',
                               background: accent,
-                              borderRadius: '12px',
+                              borderRadius: '0',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
@@ -332,7 +332,7 @@ export default function Home() {
 
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: solidAccent, background: accent, padding: '4px 8px', borderRadius: '4px', marginBottom: '8px' }}>PRO / MONTH</span>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: solidAccent, background: accent, padding: '4px 8px', borderRadius: '0', marginBottom: '8px' }}>PRO / MONTH</span>
                           <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace', lineHeight: 1 }}>
                             <Price amount={ext.price} />
                           </span>
@@ -673,7 +673,7 @@ export default function Home() {
                       style={{
                         width: '80px',
                         height: '80px',
-                        borderRadius: '50%',
+                        borderRadius: '0',
                         objectFit: 'cover',
                         border: `2px solid ${review.accent}`,
                         flexShrink: 0,
@@ -685,7 +685,7 @@ export default function Home() {
                     <div style={{
                       width: '80px',
                       height: '80px',
-                      borderRadius: '50%',
+                      borderRadius: '0',
                       background: review.accent,
                       display: 'flex',
                       alignItems: 'center',

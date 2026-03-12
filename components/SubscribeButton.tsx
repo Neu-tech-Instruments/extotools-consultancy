@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface SubscribeButtonProps {
     id?: string;
@@ -18,6 +19,7 @@ export default function SubscribeButton({ id, slug, bundleId, selectedExtensions
     const [isLoading, setIsLoading] = useState(false);
     const { data: session, status } = useSession();
     const router = useRouter();
+    const { formatPrice } = useCurrency();
 
     const handleSubscribe = () => {
         if (status !== "authenticated") {
@@ -61,7 +63,7 @@ export default function SubscribeButton({ id, slug, bundleId, selectedExtensions
                     Redirecting...
                 </>
             ) : (
-                `Subscribe for $${price}/mo`
+                `Subscribe for ${formatPrice(price)}/mo`
             )}
         </button>
     );

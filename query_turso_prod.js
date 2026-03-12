@@ -1,5 +1,5 @@
 const { createClient } = require("@libsql/client");
-require("dotenv").config({ path: ".env.production.local" });
+require("dotenv").config({ path: ".env.local" });
 
 async function main() {
     console.log("URL:", process.env.DATABASE_URL);

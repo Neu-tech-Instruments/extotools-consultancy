@@ -26,24 +26,20 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
         const geoData = await geoRes.json();
         const userCurrency = geoData.currency || "USD";
 
-        if (userCurrency !== "USD") {
-          // 2. Fetch exchange rates
-          const rateRes = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
-          const rateData = await rateRes.json();
-          const newRate = rateData.rates[userCurrency] || 1;
+        // Filter: only allow USD and EUR for now as per requirement (fixed 9.99)
+        // If it's something else, we fallback to USD.
+        const supportedCurrency = ["USD", "EUR"].includes(userCurrency) ? userCurrency : "USD";
+        setCurrency(supportedCurrency);
+        setRate(1); // FIXED RATE: 9.99 is 9.99 regardless of currency
 
-          setCurrency(userCurrency);
-          setRate(newRate);
-
-          // Get symbol
-          const formatter = new Intl.NumberFormat(undefined, {
-            style: "currency",
-            currency: userCurrency,
-          });
-          const parts = formatter.formatToParts(0);
-          const foundSymbol = parts.find((part) => part.type === "currency")?.value || userCurrency;
-          setSymbol(foundSymbol);
-        }
+        // Get symbol
+        const formatter = new Intl.NumberFormat(undefined, {
+          style: "currency",
+          currency: supportedCurrency,
+        });
+        const parts = formatter.formatToParts(0);
+        const foundSymbol = parts.find((part) => part.type === "currency")?.value || supportedCurrency;
+        setSymbol(foundSymbol);
       } catch (error) {
         console.error("Failed to fetch adaptive pricing:", error);
       } finally {

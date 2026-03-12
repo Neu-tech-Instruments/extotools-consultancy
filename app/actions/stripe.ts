@@ -4,8 +4,11 @@ import { getStripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
 import { bundles } from '@/lib/extensions'
 
-export async function startCheckoutSession(productId: string) {
+export async function startCheckoutSession(productId: string, currency: string = 'usd') {
   const stripe = await getStripe()
+  
+  // Ensure currency is lowercase for Stripe
+  const stripeCurrency = currency.toLowerCase()
 
   let name = ""
   let description = ""
@@ -34,39 +37,48 @@ export async function startCheckoutSession(productId: string) {
     throw new Error("Product not found")
   }
 
-  // Create Checkout Sessions from body params.
-  const session = await stripe.checkout.sessions.create({
-    ui_mode: 'embedded',
-    redirect_on_completion: 'never',
-    locale: 'en',
-    adaptive_pricing: {
-      enabled: false,
-    },
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: name,
-          },
-          unit_amount: Math.round(price * 100),
-          recurring: {
-            interval: 'month',
-          },
-        },
-        quantity: 1,
+  try {
+    // Create Checkout Sessions from body params.
+    const session = await stripe.checkout.sessions.create({
+      ui_mode: 'embedded',
+      redirect_on_completion: 'never',
+      locale: 'en',
+      adaptive_pricing: {
+        enabled: false,
       },
-    ],
-    mode: 'subscription',
-    metadata: {
-        productId: productId,
-        isBundle: String(!!bundles.find(b => b.id === productId))
+      line_items: [
+        {
+          price_data: {
+            currency: stripeCurrency,
+            product_data: {
+              name: name,
+            },
+            unit_amount: Math.round(price * 100),
+            recurring: {
+              interval: 'month',
+            },
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      metadata: {
+          productId: productId,
+          isBundle: String(!!bundles.find(b => b.id === productId))
+      }
+    })
+
+    if (!session.client_secret) {
+      console.error("Stripe Session missing client_secret");
+      throw new Error("Failed to create checkout session")
     }
-  })
 
-  if (!session.client_secret) {
-    throw new Error("Failed to create checkout session")
+    return session.client_secret
+  } catch (error: any) {
+    console.error("STRIPE SESSION ERROR:", error.message);
+    if (error.raw) {
+        console.error("STRIPE RAW ERROR:", JSON.stringify(error.raw, null, 2));
+    }
+    throw error;
   }
-
-  return session.client_secret
 }

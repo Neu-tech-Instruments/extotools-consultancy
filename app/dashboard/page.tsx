@@ -172,7 +172,7 @@ export default async function DashboardPage() {
                                 <span>{session.user?.email}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Active Tools</span>
+                                <span style={{ color: 'rgba(15, 23, 42, 0.4)' }}>Premium Tools</span>
                                 <span>{activeExtensions.length}</span>
                             </div>
                         </div>
