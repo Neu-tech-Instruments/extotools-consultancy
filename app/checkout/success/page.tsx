@@ -111,15 +111,18 @@ function SuccessContent() {
                                     <div style={{ 
                                         display: 'inline-flex', 
                                         alignItems: 'center', 
-                                        gap: '8px', 
-                                        background: 'rgba(34, 197, 94, 0.08)', 
-                                        color: '#15803d', 
-                                        padding: '8px 16px', 
+                                        gap: '10px', 
+                                        background: 'linear-gradient(135deg, rgba(35, 34, 200, 0.05) 0%, rgba(35, 34, 200, 0.02) 100%)', 
+                                        border: '1px solid rgba(35, 34, 200, 0.1)',
+                                        color: 'var(--primary)', 
+                                        padding: '10px 20px', 
                                         borderRadius: '100px', 
-                                        fontSize: '0.9rem', 
-                                        fontWeight: 600 
+                                        fontSize: '0.85rem', 
+                                        fontWeight: 700,
+                                        letterSpacing: '0.05em',
+                                        textTransform: 'uppercase'
                                     }}>
-                                        <Sparkles size={16} /> Subscription Active
+                                        <Sparkles size={14} /> Subscription Active
                                     </div>
                                 </div>
                             ) : (
@@ -179,9 +182,10 @@ function SuccessContent() {
                                                 style={{ 
                                                     width: '100%', 
                                                     height: '100%', 
-                                                    maxHeight: '120px',
+                                                    maxHeight: '100px',
                                                     objectFit: 'contain',
-                                                    filter: 'drop-shadow(0 15px 30px rgba(35, 34, 200, 0.2))'
+                                                    filter: 'drop-shadow(0 20px 40px rgba(35, 34, 200, 0.15))',
+                                                    transform: `rotate(${i % 2 === 0 ? '-5deg' : '5deg'})`
                                                 }} 
                                             />
                                         ))}
@@ -194,28 +198,39 @@ function SuccessContent() {
                                 )}
                             </div>
                             
-                            {/* Floating Badge */}
+                            {/* Floating Badge - Glassmorphism Redesign */}
                             <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 1, duration: 0.6 }}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 1, duration: 0.8 }}
                                 style={{ 
                                     position: 'absolute', 
-                                    bottom: '-20px', 
-                                    right: '20px', 
-                                    background: '#111', 
-                                    color: '#fff', 
-                                    padding: '12px 24px', 
-                                    borderRadius: '8px', 
-                                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-                                    fontSize: '0.9rem',
+                                    bottom: '-16px', 
+                                    right: '32px', 
+                                    background: 'rgba(255, 255, 255, 0.8)', 
+                                    backdropFilter: 'blur(12px) saturate(180%)',
+                                    WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+                                    color: '#111', 
+                                    padding: '12px 28px', 
+                                    borderRadius: '12px', 
+                                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                                    boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                                    fontSize: '0.95rem',
                                     fontWeight: 700,
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '10px'
+                                    gap: '12px',
+                                    letterSpacing: '-0.01em'
                                 }}
                             >
-                                <Sparkles size={16} color="var(--primary)" /> Premium Active
+                                <div style={{ 
+                                    width: '8px', 
+                                    height: '8px', 
+                                    borderRadius: '50%', 
+                                    background: 'var(--primary)',
+                                    boxShadow: '0 0 10px var(--primary)'
+                                }} />
+                                Premium Active
                             </motion.div>
                         </motion.div>
                     </div>
