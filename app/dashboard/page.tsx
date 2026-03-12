@@ -139,6 +139,7 @@ export default async function DashboardPage() {
                     <ExtensionList
                         allExtensions={allDbExtensions as any}
                         activeSlugs={activeExtensions.map(ext => ext.slug)}
+                        userEmail={session.user.email || ""}
                     />
                 </div>
 

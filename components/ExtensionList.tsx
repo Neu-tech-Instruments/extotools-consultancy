@@ -31,9 +31,10 @@ export const CHROME_EXTENSION_IDS: Record<string, string> = {
 interface ExtensionListProps {
     allExtensions: ExtensionData[];
     activeSlugs: string[]; // Slugs the user has a premium subscription/bundle for
+    userEmail?: string;
 }
 
-export default function ExtensionList({ allExtensions, activeSlugs }: ExtensionListProps) {
+export default function ExtensionList({ allExtensions, activeSlugs, userEmail }: ExtensionListProps) {
     const [installedSlugs, setInstalledSlugs] = useState<Set<string>>(new Set());
     const [isScanning, setIsScanning] = useState(true);
 
@@ -74,7 +75,35 @@ export default function ExtensionList({ allExtensions, activeSlugs }: ExtensionL
         };
 
         checkInstallations();
-    }, []);
+
+        // Listen for "announcements" from extensions (via content scripts)
+        const handleMessage = (event: MessageEvent) => {
+            // Only accept messages from the same origin or trusted sources if applicable
+            if (event.origin !== window.location.origin) return;
+
+            const { data } = event;
+            if (data && data.type === 'EXTO_EXTENSION_STATUS' && data.installed) {
+                // If an email is provided by the extension, only trust it if it matches our logged-in user
+                if (data.email && userEmail && data.email.toLowerCase() === userEmail.toLowerCase()) {
+                    setInstalledSlugs(prev => {
+                        const next = new Set(prev);
+                        if (data.slug) next.add(data.slug);
+                        return next;
+                    });
+                } else if (!data.email) {
+                    // Fallback for extensions that don't report email yet but are detected via message
+                    setInstalledSlugs(prev => {
+                        const next = new Set(prev);
+                        if (data.slug) next.add(data.slug);
+                        return next;
+                    });
+                }
+            }
+        };
+
+        window.addEventListener("message", handleMessage);
+        return () => window.removeEventListener("message", handleMessage);
+    }, [userEmail]);
 
     const renderStatusBadge = (ext: ExtensionData, isPremium: boolean, isInstalled: boolean) => {
         if (!isInstalled) {
