@@ -737,8 +737,21 @@ export default function Home() {
           </div>
         </div >
       </section>
-      {/* FAQ Section */}
-      <section style={{ padding: '100px 0', background: '#0F172A', position: 'relative', overflow: 'hidden' }}>
+      {/* FAQ Section: Senior Edition */}
+      <section style={{ padding: '160px 0', background: '#080C14', position: 'relative', overflow: 'hidden' }}>
+        {/* Animated Noise Overlay (Film Grain) */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 5,
+          opacity: 0.12,
+          pointerEvents: 'none',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }} />
+
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -748,7 +761,7 @@ export default function Home() {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.4,
+          opacity: 0.35,
         }}>
           <video
             ref={videoRef3}
@@ -766,143 +779,173 @@ export default function Home() {
           </video>
         </div>
 
-        {/* Cinematic Blur Mask */}
+        {/* Breathing Mesh Background Accents */}
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            x: [0, 50, 0],
+            opacity: [0.15, 0.25, 0.15] 
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            position: 'absolute',
+            top: '-20%',
+            right: '-10%',
+            width: '60%',
+            height: '80%',
+            background: 'radial-gradient(circle, rgba(79, 70, 229, 0.8) 0%, transparent 70%)',
+            filter: 'blur(120px)',
+            zIndex: 1,
+            pointerEvents: 'none'
+          }} 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            x: [0, -40, 0],
+            opacity: [0.1, 0.2, 0.1] 
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            position: 'absolute',
+            bottom: '-10%',
+            left: '-10%',
+            width: '50%',
+            height: '70%',
+            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%)',
+            filter: 'blur(120px)',
+            zIndex: 1,
+            pointerEvents: 'none'
+          }} 
+        />
+
+        {/* Cinematic Center Content Area Mask */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          zIndex: 1,
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          maskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
-          pointerEvents: 'none'
+          zIndex: 2,
+          backdropFilter: 'blur(32px)',
+          WebkitBackdropFilter: 'blur(32px)',
+          maskImage: 'radial-gradient(circle, black 0%, transparent 85%)',
+          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 85%)',
+          pointerEvents: 'none',
+          opacity: 0.9
         }} />
 
-        {/* Ambient Dark Overlay for contrast */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(to right, #0F172A 0%, transparent 30%, transparent 70%, #0F172A 100%), linear-gradient(to bottom, #0F172A 0%, transparent 20%, transparent 80%, #0F172A 100%)',
-          zIndex: 1,
-          opacity: 0.6,
-          pointerEvents: 'none'
-        }} />
-
-        {/* Vibrant Mesh Background Accents */}
-        <div style={{
-          position: 'absolute',
-          top: '-20%',
-          right: '-10%',
-          width: '60%',
-          height: '80%',
-          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.12) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-          zIndex: 1,
-          pointerEvents: 'none'
-        }} />
-        <div style={{
-          position: 'absolute',
-          bottom: '-10%',
-          left: '-10%',
-          width: '50%',
-          height: '70%',
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-          zIndex: 1,
-          pointerEvents: 'none'
-        }} />
-
-        <div className="container" style={{ maxWidth: '1000px', position: 'relative', zIndex: 2 }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <span style={{ 
-              fontSize: '0.75rem', 
-              fontWeight: 900, 
-              background: 'linear-gradient(135deg, #2322C8 0%, #8B5CF6 50%, #EC4899 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              textTransform: 'uppercase', 
-              letterSpacing: '0.25em',
-              display: 'block',
-              marginBottom: '12px'
-            }}>
-              Support Centers
-            </span>
-            <h2 className="font-serif" style={{ fontSize: '3rem', marginBottom: '12px', color: 'white', letterSpacing: '-0.02em' }}>Common Questions.</h2>
-            <p style={{ color: 'white', opacity: 0.7, fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>
-              Everything you need to know about the professional workspace.
+        <div className="container" style={{ maxWidth: '1100px', position: 'relative', zIndex: 10 }}>
+          <div style={{ textAlign: 'center', marginBottom: '100px' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '24px' }}
+            >
+              <span style={{ height: '1px', width: '30px', background: 'rgba(255,255,255,0.2)' }} />
+              <span style={{ 
+                fontSize: '0.75rem', 
+                fontWeight: 800, 
+                color: 'rgba(255,255,255,0.5)',
+                textTransform: 'uppercase', 
+                letterSpacing: '0.4em'
+              }}>
+                Library / Support
+              </span>
+              <span style={{ height: '1px', width: '30px', background: 'rgba(255,255,255,0.2)' }} />
+            </motion.div>
+            <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', color: 'white', letterSpacing: '-0.04em', lineHeight: 1.1, marginBottom: '20px' }}>
+              Common <span style={{ fontStyle: 'italic', fontWeight: 'lighter', opacity: 0.6 }}>questions</span>.
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto', fontWeight: 400 }}>
+              Curated intelligence for power users. Everything you need to master the collection.
             </p>
           </div>
 
           <div style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
-            gap: '30px 60px' 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', 
+            gap: '24px' 
           }}>
             {FAQS.map((faq, i) => (
               <motion.div 
                 key={i}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.1, duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                whileHover={{ y: -8 }}
                 style={{ 
-                  padding: '24px 0',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                  padding: '40px',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(8px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '20px',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
               >
+                {/* Corner Accents */}
+                <div style={{ position: 'absolute', top: 0, right: 0, width: '40px', height: '40px', borderRight: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.1)', opacity: 0.5 }} />
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em' }}>
+                    Q–0{i + 1} / 2026
+                  </span>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)', opacity: 0.4 }} />
+                </div>
+                
                 <h3 style={{ 
-                  fontSize: '1.15rem', 
-                  fontWeight: 700, 
+                  fontSize: '1.25rem', 
+                  fontWeight: 600, 
                   color: 'white', 
-                  letterSpacing: '-0.01em',
-                  marginBottom: '12px'
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1.4
                 }}>
                   {faq.question}
                 </h3>
                 <p style={{ 
-                  color: 'white', 
-                  opacity: 0.7, 
-                  lineHeight: 1.6, 
+                  color: 'rgba(255,255,255,0.5)', 
+                  lineHeight: 1.8, 
                   fontSize: '1rem',
-                  margin: 0 
+                  margin: 0,
+                  fontWeight: 400
                 }}>
                   {faq.answer}
                 </p>
+
+                <motion.div 
+                  initial={{ width: 0 }}
+                  whileHover={{ width: '100%' }}
+                  style={{ position: 'absolute', bottom: 0, left: 0, height: '2px', background: 'linear-gradient(to right, var(--primary), #8B5CF6)', opacity: 0.6 }}
+                />
               </motion.div>
             ))}
-            <div style={{ borderTop: '1px solid rgba(15, 23, 42, 0.08)' }} />
           </div>
 
-          <div style={{ marginTop: '80px', textAlign: 'center' }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '16px 32px',
-              background: 'white',
-              border: '1px solid rgba(0,0,0,0.05)',
-              borderRadius: '0',
-              boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)'
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            style={{ marginTop: '100px', textAlign: 'center' }}
+          >
+            <div style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              gap: '24px', 
+              padding: '24px 48px', 
+              background: 'rgba(255,255,255,0.03)', 
+              border: '1px solid rgba(255,255,255,0.05)',
+              backdropFilter: 'blur(10px)'
             }}>
-              <p style={{ color: 'var(--accent-navy)', opacity: 0.5, fontSize: '0.95rem', margin: 0 }}>
-                Still have questions?
-              </p>
-              <Link href="/contact" style={{ 
-                color: 'var(--primary)', 
-                fontWeight: 700, 
-                textDecoration: 'none',
-                fontSize: '0.95rem'
-              }}>
-                Get in touch
+              <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.95rem', fontWeight: 500 }}>Still have questions?</span>
+              <Link href="/contact" style={{ color: 'white', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', borderBottom: '1px solid var(--primary)', paddingBottom: '2px' }}>
+                Open Support Ticket
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
