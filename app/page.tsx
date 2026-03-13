@@ -330,17 +330,17 @@ export default function Home() {
                         {ext.shortDescription}
                       </p>
 
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'monospace', color: solidAccent, background: accent, padding: '4px 8px', borderRadius: '0', marginBottom: '8px' }}>PRO / MONTH</span>
-                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace', lineHeight: 1 }}>
-                            <Price amount={ext.price} />
-                          </span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid rgba(15, 23, 42, 0.03)' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                            <Price amount={ext.price} variant="editorial" style={{ fontSize: '2.5rem', fontWeight: 700, color: 'var(--primary)', lineHeight: 1 }} />
+                            <span style={{ fontSize: '0.65rem', fontWeight: 800, opacity: 0.25, letterSpacing: '0.15em', marginLeft: '6px', alignSelf: 'baseline' }}>/MO</span>
+                          </div>
                         </div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 1, color: solidAccent }}>
-                          <span style={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: '0.1em' }}>DETAIL</span>
-                          <ArrowRight size={20} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', opacity: 0.5, color: solidAccent, transition: 'all 0.3s ease' }}>
+                          <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.2em' }}>DETAIL</span>
+                          <ArrowRight size={16} strokeWidth={3} />
                         </div>
                       </div>
                     </Link>
