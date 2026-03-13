@@ -737,14 +737,27 @@ export default function Home() {
         </div >
       </section >
       {/* FAQ Section */}
-      <section style={{ padding: '120px 0', background: 'white', position: 'relative' }}>
-        <div className="container" style={{ maxWidth: '800px' }}>
+      <section style={{ padding: '160px 0', background: 'var(--bg)', position: 'relative' }}>
+        <div className="container" style={{ maxWidth: '900px' }}>
           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <h2 className="font-serif" style={{ fontSize: '3.5rem', marginBottom: '16px', color: 'var(--accent-navy)' }}>Common Questions.</h2>
-            <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.2rem' }}>Everything you need to know about the professional workspace.</p>
+            <span style={{ 
+              fontSize: '0.8rem', 
+              fontWeight: 800, 
+              color: 'var(--primary)', 
+              textTransform: 'uppercase', 
+              letterSpacing: '0.15em',
+              display: 'block',
+              marginBottom: '16px'
+            }}>
+              Support
+            </span>
+            <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', marginBottom: '16px', color: 'var(--accent-navy)' }}>Common Questions.</h2>
+            <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.2rem', maxWidth: '500px', margin: '0 auto' }}>
+              Everything you need to know about the professional workspace.
+            </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', background: 'var(--architect-line)', border: '1px solid var(--architect-line)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {FAQS.map((faq, i) => (
               <motion.div 
                 key={i}
@@ -753,25 +766,69 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 style={{ 
-                  background: 'white', 
-                  padding: '40px',
-                  transition: 'background 0.3s ease'
+                  padding: '40px 0',
+                  borderTop: '1px solid rgba(15, 23, 42, 0.08)',
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(250px, 1fr) 2fr',
+                  gap: '40px',
+                  position: 'relative',
+                  transition: 'all 0.3s ease'
                 }}
-                className="hover-faq"
+                className="faq-item"
               >
                 <style dangerouslySetInnerHTML={{ __html: `
-                  .hover-faq:hover { background: #fafafa !important; }
+                  .faq-item:hover h3 { color: var(--primary) !important; }
+                  @media (max-width: 768px) {
+                    .faq-item { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
+                  }
                 `}} />
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '16px', color: 'var(--accent-navy)', letterSpacing: '-0.01em' }}>{faq.question}</h3>
-                <p style={{ color: 'var(--accent-navy)', opacity: 0.7, lineHeight: 1.7, fontSize: '1.05rem' }}>{faq.answer}</p>
+                <h3 style={{ 
+                  fontSize: '1.3rem', 
+                  fontWeight: 700, 
+                  color: 'var(--accent-navy)', 
+                  letterSpacing: '-0.01em',
+                  margin: 0,
+                  transition: 'color 0.3s ease'
+                }}>
+                  {faq.question}
+                </h3>
+                <p style={{ 
+                  color: 'var(--accent-navy)', 
+                  opacity: 0.7, 
+                  lineHeight: 1.8, 
+                  fontSize: '1.1rem',
+                  margin: 0 
+                }}>
+                  {faq.answer}
+                </p>
               </motion.div>
             ))}
+            <div style={{ borderTop: '1px solid rgba(15, 23, 42, 0.08)' }} />
           </div>
 
-          <div style={{ marginTop: '60px', textAlign: 'center' }}>
-            <p style={{ color: 'var(--accent-navy)', opacity: 0.5, fontSize: '0.9rem' }}>
-              Still have questions? <Link href="/contact" style={{ color: 'var(--primary)', fontWeight: 700, textDecoration: 'none' }}>Get in touch with support.</Link>
-            </p>
+          <div style={{ marginTop: '80px', textAlign: 'center' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '16px 32px',
+              background: 'white',
+              border: '1px solid rgba(0,0,0,0.05)',
+              borderRadius: '0',
+              boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)'
+            }}>
+              <p style={{ color: 'var(--accent-navy)', opacity: 0.5, fontSize: '0.95rem', margin: 0 }}>
+                Still have questions?
+              </p>
+              <Link href="/contact" style={{ 
+                color: 'var(--primary)', 
+                fontWeight: 700, 
+                textDecoration: 'none',
+                fontSize: '0.95rem'
+              }}>
+                Get in touch
+              </Link>
+            </div>
           </div>
         </div>
       </section>
