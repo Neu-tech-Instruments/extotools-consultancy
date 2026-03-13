@@ -738,6 +738,21 @@ export default function Home() {
       </section >
       {/* FAQ Section */}
       <section style={{ padding: '160px 0', background: '#f8faff', position: 'relative', overflow: 'hidden' }}>
+        {/* User Provided Background Image */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'url(/faq-bg.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.15, // High transparency to keep it sophisticated and professional
+          zIndex: 0,
+          pointerEvents: 'none'
+        }} />
+
         {/* Vibrant Mesh Background Accents */}
         <div style={{
           position: 'absolute',
@@ -745,8 +760,9 @@ export default function Home() {
           right: '-10%',
           width: '60%',
           height: '80%',
-          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.12) 0%, transparent 70%)',
           filter: 'blur(100px)',
+          zIndex: 1,
           pointerEvents: 'none'
         }} />
         <div style={{
@@ -755,22 +771,13 @@ export default function Home() {
           left: '-10%',
           width: '50%',
           height: '70%',
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%)',
           filter: 'blur(100px)',
-          pointerEvents: 'none'
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: '20%',
-          left: '20%',
-          width: '40%',
-          height: '40%',
-          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, transparent 70%)',
-          filter: 'blur(80px)',
+          zIndex: 1,
           pointerEvents: 'none'
         }} />
 
-        <div className="container" style={{ maxWidth: '900px', position: 'relative', zIndex: 1 }}>
+        <div className="container" style={{ maxWidth: '900px', position: 'relative', zIndex: 2 }}>
           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
             <span style={{ 
               fontSize: '0.8rem', 
