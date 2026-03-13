@@ -736,9 +736,9 @@ export default function Home() {
             ))}
           </div>
         </div >
-      </section >
+      </section>
       {/* FAQ Section */}
-      <section style={{ padding: '160px 0', background: '#0F172A', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '100px 0', background: '#0F172A', position: 'relative', overflow: 'hidden' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -748,7 +748,7 @@ export default function Home() {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.5, // Increased visibility
+          opacity: 0.4,
         }}>
           <video
             ref={videoRef3}
@@ -766,7 +766,7 @@ export default function Home() {
           </video>
         </div>
 
-        {/* Cinematic Blur Mask: Blurs center, clear sides */}
+        {/* Cinematic Blur Mask */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -774,8 +774,8 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           maskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
           WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
           pointerEvents: 'none'
@@ -818,10 +818,10 @@ export default function Home() {
           pointerEvents: 'none'
         }} />
 
-        <div className="container" style={{ maxWidth: '900px', position: 'relative', zIndex: 2 }}>
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+        <div className="container" style={{ maxWidth: '1000px', position: 'relative', zIndex: 2 }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <span style={{ 
-              fontSize: '0.8rem', 
+              fontSize: '0.75rem', 
               fontWeight: 900, 
               background: 'linear-gradient(135deg, #2322C8 0%, #8B5CF6 50%, #EC4899 100%)',
               WebkitBackgroundClip: 'text',
@@ -829,56 +829,47 @@ export default function Home() {
               textTransform: 'uppercase', 
               letterSpacing: '0.25em',
               display: 'block',
-              marginBottom: '16px'
+              marginBottom: '12px'
             }}>
               Support Centers
             </span>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(3.5rem, 6vw, 5.5rem)', marginBottom: '16px', color: 'white', letterSpacing: '-0.03em' }}>Common Questions.</h2>
-            <p style={{ color: 'white', opacity: 0.7, fontSize: '1.25rem', maxWidth: '550px', margin: '0 auto', lineHeight: 1.5 }}>
-              Everything you need to know about navigating the professional workspace.
+            <h2 className="font-serif" style={{ fontSize: '3rem', marginBottom: '12px', color: 'white', letterSpacing: '-0.02em' }}>Common Questions.</h2>
+            <p style={{ color: 'white', opacity: 0.7, fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>
+              Everything you need to know about the professional workspace.
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
+            gap: '30px 60px' 
+          }}>
             {FAQS.map((faq, i) => (
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6 }}
+                transition={{ delay: i * 0.1 }}
                 style={{ 
-                  padding: '48px 0',
+                  padding: '24px 0',
                   borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                  display: 'grid',
-                  gridTemplateColumns: 'minmax(280px, 1fr) 2fr',
-                  gap: '48px',
-                  position: 'relative',
-                  transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
-                className="faq-item"
               >
-                <style dangerouslySetInnerHTML={{ __html: `
-                  .faq-item h3 { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-                  @media (max-width: 768px) {
-                    .faq-item { grid-template-columns: 1fr; gap: 20px; padding: 40px 0; }
-                  }
-                `}} />
                 <h3 style={{ 
-                  fontSize: '1.3rem', 
+                  fontSize: '1.15rem', 
                   fontWeight: 700, 
                   color: 'white', 
                   letterSpacing: '-0.01em',
-                  margin: 0,
-                  transition: 'color 0.3s ease'
+                  marginBottom: '12px'
                 }}>
                   {faq.question}
                 </h3>
                 <p style={{ 
                   color: 'white', 
                   opacity: 0.7, 
-                  lineHeight: 1.8, 
-                  fontSize: '1.1rem',
+                  lineHeight: 1.6, 
+                  fontSize: '1rem',
                   margin: 0 
                 }}>
                   {faq.answer}
