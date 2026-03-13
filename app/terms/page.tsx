@@ -91,7 +91,7 @@ export default function TermsPage() {
                     If you have any questions regarding these terms, please contact us at <a href="mailto:info@extotools.com" style={{ color: 'var(--primary)', fontWeight: 600 }}>info@extotools.com</a>.
                 </p>
                 <p style={{ color: 'rgba(15, 23, 42, 0.4)', fontSize: '0.85rem' }}>
-                    Business Address: ExToTools, [Your Street Address], [Your City], [Your Country]
+                    Business Address: ExToTools, Melkweg 9, Amsterdam, Netherlands
                 </p>
             </footer>
         </div>

@@ -84,7 +84,7 @@ export default function RefundPage() {
                     </span>
                 </div>
                 <p style={{ marginTop: '16px', fontSize: '0.85rem', color: 'rgba(15, 23, 42, 0.4)' }}>
-                    Business Address: ExToTools, [Your Street Address], [Your City], [Your Country]
+                    Business Address: ExToTools, Melkweg 9, Amsterdam, Netherlands
                 </p>
             </footer>
         </div>
