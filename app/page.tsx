@@ -859,7 +859,6 @@ export default function Home() {
                 className="faq-item"
               >
                 <style dangerouslySetInnerHTML={{ __html: `
-                  .faq-item:hover h3 { color: #4F46E5 !important; }
                   .faq-item h3 { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
                   @media (max-width: 768px) {
                     .faq-item { grid-template-columns: 1fr; gap: 20px; padding: 40px 0; }
