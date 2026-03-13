@@ -738,7 +738,7 @@ export default function Home() {
         </div >
       </section >
       {/* FAQ Section */}
-      <section style={{ padding: '160px 0', background: '#f8faff', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '160px 0', background: '#0a0f1e', position: 'relative', overflow: 'hidden' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -748,7 +748,7 @@ export default function Home() {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.15, // White filter effect through low opacity on a light bg
+          opacity: 0.4, // Increased opacity for better visibility on sides
         }}>
           <video
             ref={videoRef3}
@@ -766,7 +766,7 @@ export default function Home() {
           </video>
         </div>
 
-        {/* Blurred Center / Visible Sides Effect */}
+        {/* Focused Light Center Effect (Readability Zone) */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -774,21 +774,20 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: 1,
+          background: 'radial-gradient(circle, rgba(248, 250, 255, 1) 0%, rgba(248, 250, 255, 0.95) 30%, transparent 70%)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          maskImage: 'radial-gradient(circle, black 20%, transparent 60%)',
-          WebkitMaskImage: 'radial-gradient(circle, black 20%, transparent 60%)',
           pointerEvents: 'none'
         }} />
 
-        {/* Vibrant Mesh Background Accents */}
+        {/* Vibrant Mesh Background Accents - Layered for depth */}
         <div style={{
           position: 'absolute',
           top: '-20%',
           right: '-10%',
           width: '60%',
           height: '80%',
-          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.15) 0%, transparent 70%)',
           filter: 'blur(100px)',
           zIndex: 1,
           pointerEvents: 'none'
