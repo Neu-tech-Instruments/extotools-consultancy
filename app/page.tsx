@@ -738,7 +738,7 @@ export default function Home() {
         </div >
       </section >
       {/* FAQ Section */}
-      <section style={{ padding: '160px 0', background: '#0a0f1e', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '160px 0', background: '#0F172A', position: 'relative', overflow: 'hidden' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -748,7 +748,7 @@ export default function Home() {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.4, // Increased opacity for better visibility on sides
+          opacity: 0.5, // Increased visibility
         }}>
           <video
             ref={videoRef3}
@@ -766,7 +766,7 @@ export default function Home() {
           </video>
         </div>
 
-        {/* Focused Light Center Effect (Readability Zone) */}
+        {/* Cinematic Blur Mask: Blurs center, clear sides */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -774,20 +774,34 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          background: 'radial-gradient(circle, rgba(248, 250, 255, 1) 0%, rgba(248, 250, 255, 0.95) 30%, transparent 70%)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          maskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
           pointerEvents: 'none'
         }} />
 
-        {/* Vibrant Mesh Background Accents - Layered for depth */}
+        {/* Ambient Dark Overlay for contrast */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(to right, #0F172A 0%, transparent 30%, transparent 70%, #0F172A 100%), linear-gradient(to bottom, #0F172A 0%, transparent 20%, transparent 80%, #0F172A 100%)',
+          zIndex: 1,
+          opacity: 0.6,
+          pointerEvents: 'none'
+        }} />
+
+        {/* Vibrant Mesh Background Accents */}
         <div style={{
           position: 'absolute',
           top: '-20%',
           right: '-10%',
           width: '60%',
           height: '80%',
-          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.12) 0%, transparent 70%)',
           filter: 'blur(100px)',
           zIndex: 1,
           pointerEvents: 'none'
@@ -819,8 +833,8 @@ export default function Home() {
             }}>
               Support Centers
             </span>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(3.5rem, 6vw, 5.5rem)', marginBottom: '16px', color: 'var(--accent-navy)', letterSpacing: '-0.03em' }}>Common Questions.</h2>
-            <p style={{ color: 'var(--accent-navy)', opacity: 0.7, fontSize: '1.25rem', maxWidth: '550px', margin: '0 auto', lineHeight: 1.5 }}>
+            <h2 className="font-serif" style={{ fontSize: 'clamp(3.5rem, 6vw, 5.5rem)', marginBottom: '16px', color: 'white', letterSpacing: '-0.03em' }}>Common Questions.</h2>
+            <p style={{ color: 'white', opacity: 0.7, fontSize: '1.25rem', maxWidth: '550px', margin: '0 auto', lineHeight: 1.5 }}>
               Everything you need to know about navigating the professional workspace.
             </p>
           </div>
@@ -835,7 +849,7 @@ export default function Home() {
                 transition={{ delay: i * 0.1, duration: 0.6 }}
                 style={{ 
                   padding: '48px 0',
-                  borderTop: '1px solid rgba(15, 23, 42, 0.08)',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                   display: 'grid',
                   gridTemplateColumns: 'minmax(280px, 1fr) 2fr',
                   gap: '48px',
@@ -861,7 +875,7 @@ export default function Home() {
                     transform: translateY(-50%) scaleY(1);
                     opacity: 1;
                   }
-                  .faq-item:hover h3 { color: #2322C8 !important; transform: translateX(12px); }
+                  .faq-item:hover h3 { color: #4F46E5 !important; transform: translateX(12px); }
                   .faq-item h3 { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
                   @media (max-width: 768px) {
                     .faq-item { grid-template-columns: 1fr; gap: 20px; padding: 40px 0; }
@@ -872,7 +886,7 @@ export default function Home() {
                 <h3 style={{ 
                   fontSize: '1.3rem', 
                   fontWeight: 700, 
-                  color: 'var(--accent-navy)', 
+                  color: 'white', 
                   letterSpacing: '-0.01em',
                   margin: 0,
                   transition: 'color 0.3s ease'
@@ -880,7 +894,7 @@ export default function Home() {
                   {faq.question}
                 </h3>
                 <p style={{ 
-                  color: 'var(--accent-navy)', 
+                  color: 'white', 
                   opacity: 0.7, 
                   lineHeight: 1.8, 
                   fontSize: '1.1rem',
