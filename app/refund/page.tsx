@@ -1,30 +1,30 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Eye, Lock, Globe, Mail, ArrowLeft } from "lucide-react";
+import { RefreshCcw, XCircle, Clock, CreditCard, ArrowLeft, Mail } from "lucide-react";
 import Link from "next/link";
 
-export default function PrivacyPage() {
+export default function RefundPage() {
     const sections = [
         {
-            title: "Data Collection",
-            content: "We collect only the minimum amount of data necessary to provide our services. This includes basic account information and technical data required for our Chrome extensions to function correctly.",
-            icon: <Eye size={24} className="text-secondary" />
+            title: "7-Day Satisfaction Guarantee",
+            content: "We want you to be completely satisfied with ExToTools. If for any reason our extensions do not meet your expectations, we offer a full refund within the first 7 days of your initial purchase.",
+            icon: <RefreshCcw size={24} className="text-primary" />
         },
         {
-            title: "Data Usage",
-            content: "Your data is used solely to provide and improve our tools. We do not sell your personal information to third parties or use it for advertising purposes.",
-            icon: <Globe size={24} className="text-secondary" />
+            title: "Cancellation Policy",
+            content: "You can cancel your subscription at any time directly through your dashboard. Upon cancellation, you will continue to have access to premium features until the end of your current billing period.",
+            icon: <XCircle size={24} className="text-primary" />
         },
         {
-            title: "Security",
-            content: "All data transmissions are conducted over secure HTTPS connections. Sensitive information, including payment processing data handled through Stripe, is encrypted at rest using industry-standard protocols.",
-            icon: <Lock size={24} className="text-secondary" />
+            title: "Fulfillment & Access",
+            content: "Access to all premium features is granted immediately upon successful payment verification. There are no shipping or handling fees for our digital extension services.",
+            icon: <Clock size={24} className="text-primary" />
         },
         {
-            title: "User Rights",
-            content: "You have the right to access, export, or delete your personal data at any time. You can manage these preferences through your account dashboard.",
-            icon: <Shield size={24} className="text-secondary" />
+            title: "Processing Refunds",
+            content: "Once approved, refunds are processed back to your original payment method. Please note that it may take 5-10 business days for the credit to appear on your statement.",
+            icon: <CreditCard size={24} className="text-primary" />
         }
     ];
 
@@ -37,14 +37,14 @@ export default function PrivacyPage() {
 
             <header style={{ marginBottom: '80px' }}>
                 <h1 className="font-serif" style={{ fontSize: 'clamp(3rem, 8vw, 4.5rem)', marginBottom: '24px', lineHeight: 1.1 }}>
-                    Privacy <span className="text-gradient">Policy</span>
+                    Refund <span className="text-gradient">& Cancellation</span>
                 </h1>
                 <p style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', color: 'rgba(15, 23, 42, 0.6)', maxWidth: '700px' }}>
-                    Your privacy is our priority. This policy outlines how we handle your data with transparency and security.
+                    Our commitment to transparency and fairness. Here is everything you need to know about our refund process.
                 </p>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '32px', marginBottom: '80px' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '32px', maxWidth: '1000px' }}>
                 {sections.map((section, index) => (
                     <motion.div
                         key={index}
@@ -60,14 +60,14 @@ export default function PrivacyPage() {
                                 width: '48px',
                                 height: '48px',
                                 borderRadius: '12px',
-                                background: 'rgba(10, 180, 255, 0.05)',
+                                background: 'rgba(35, 34, 200, 0.05)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}>
                                 {section.icon}
                             </div>
-                            <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>{section.title}</h2>
+                            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>{section.title}</h2>
                         </div>
                         <p style={{ color: 'rgba(15, 23, 42, 0.7)', lineHeight: 1.8, margin: 0, fontSize: '1.05rem' }}>
                             {section.content}
@@ -76,23 +76,11 @@ export default function PrivacyPage() {
                 ))}
             </div>
 
-            <section className="card" style={{ padding: '40px', background: 'rgba(35, 34, 200, 0.02)', borderStyle: 'dashed' }}>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '24px' }}>Chrome Web Store Compliance</h2>
-                <div style={{ lineHeight: 1.8, color: 'rgba(15, 23, 42, 0.8)', fontSize: '1.1rem' }}>
-                    <p style={{ marginBottom: '16px' }}>
-                        Our use of information received from Google APIs will adhere to the <strong>Chrome Web Store User Data Policy</strong>, including the Limited Use requirements.
-                    </p>
-                    <p>
-                        We do not allow any third-party advertising platforms, data brokers, or information resellers to access your data. Transfers of data are limited to providing or improving the single purpose of our extensions.
-                    </p>
-                </div>
-            </section>
-
             <footer style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px solid var(--card-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'rgba(15, 23, 42, 0.5)' }}>
                     <Mail size={18} />
                     <span style={{ fontSize: '0.95rem' }}>
-                        Questions about your privacy? Reach out at <a href="mailto:info@extotools.com" style={{ color: 'var(--primary)', fontWeight: 600 }}>info@extotools.com</a>
+                        Need a refund? Contact our support team at <a href="mailto:info@extotools.com" style={{ color: 'var(--primary)', fontWeight: 600 }}>info@extotools.com</a>
                     </span>
                 </div>
                 <p style={{ marginTop: '16px', fontSize: '0.85rem', color: 'rgba(15, 23, 42, 0.4)' }}>

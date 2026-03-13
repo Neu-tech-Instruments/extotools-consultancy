@@ -55,6 +55,7 @@ export default function Footer() {
                             <h4 style={{ marginBottom: '16px', marginTop: '4px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'Inter, sans-serif', lineHeight: 1 }}>Support</h4>
                             <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: 'rgba(255, 255, 255, 0.8)' }}>
                                 <li><a href="/contact">Contact Us</a></li>
+                                <li><a href="/refund">Refund Policy</a></li>
                                 <li><a href="/terms">Terms of Service</a></li>
                                 <li><a href="/privacy">Privacy Policy</a></li>
                             </ul>

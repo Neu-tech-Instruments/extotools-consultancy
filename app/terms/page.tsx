@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Scale, FileText, Lock, AlertCircle, ArrowLeft } from "lucide-react";
+import { Shield, Scale, FileText, Lock, AlertCircle, ArrowLeft, Clock } from "lucide-react";
 import Link from "next/link";
 
 export default function TermsPage() {
@@ -23,11 +23,16 @@ export default function TermsPage() {
         },
         {
             title: "4. Subscription & Billing",
-            content: "Subscriptions are billed in advance on a monthly or annual basis. You can cancel your subscription at any time through your dashboard. Refunds are subject to our refund policy.",
+            content: "Subscriptions are billed in advance on a monthly or annual basis. You can cancel your subscription at any time through your dashboard. Refunds are granted within 7 days of purchase; please see our Refund Policy for full details.",
             icon: <Lock size={24} className="text-primary" />
         },
         {
-            title: "5. Intellectual Property",
+            title: "5. Fulfillment & Delivery",
+            content: "ExToTools provides digital software services. Upon purchase, premium features are activated immediately on your account associated with your logged-in email. No physical goods are shipped.",
+            icon: <Clock size={24} className="text-primary" />
+        },
+        {
+            title: "6. Intellectual Property",
             content: "All intellectual property rights in the extensions and the website are owned by ExToTools. Your use of the services does not grant you any ownership rights.",
             icon: <Shield size={24} className="text-primary" />
         }
@@ -82,8 +87,11 @@ export default function TermsPage() {
             </div>
 
             <footer style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px solid var(--card-border)' }}>
-                <p style={{ color: 'rgba(15, 23, 42, 0.5)', fontSize: '0.9rem' }}>
+                <p style={{ color: 'rgba(15, 23, 42, 0.5)', fontSize: '0.9rem', marginBottom: '8px' }}>
                     If you have any questions regarding these terms, please contact us at <a href="mailto:info@extotools.com" style={{ color: 'var(--primary)', fontWeight: 600 }}>info@extotools.com</a>.
+                </p>
+                <p style={{ color: 'rgba(15, 23, 42, 0.4)', fontSize: '0.85rem' }}>
+                    Business Address: ExToTools, [Your Street Address], [Your City], [Your Country]
                 </p>
             </footer>
         </div>
