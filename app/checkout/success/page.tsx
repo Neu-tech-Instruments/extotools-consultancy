@@ -5,6 +5,7 @@ import { ArrowRight, Chrome, Layout, ChevronRight, Loader2, Sparkles } from "luc
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "next/navigation";
+import Price from "@/components/Price";
 
 function SuccessContent() {
     const searchParams = useSearchParams();
@@ -34,8 +35,8 @@ function SuccessContent() {
         } else {
             // Demo Mode for previewing design without a real session
             setDetails({
-                productName: "Full Professional Bundle",
-                amount: 1.99,
+                productName: "Premium Bundle",
+                amount: 9.99,
                 interval: "month",
                 currency: "usd",
                 images: ["/tool-icon-20.png", "/tool-icon-20.png", "/tool-icon-20.png"]

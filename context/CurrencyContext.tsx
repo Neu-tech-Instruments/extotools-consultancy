@@ -34,22 +34,38 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
 
         // Signal 3: Geo-IP
         let geoCurrency = "USD";
+        let geoCountry = "";
         try {
           const geoRes = await fetch("https://ipapi.co/json/");
           if (geoRes.ok) {
             const geoData = await geoRes.json();
             geoCurrency = geoData.currency || "USD";
+            geoCountry = geoData.country_code || "";
           }
         } catch (e) {
           console.warn("[ExToTools] Geo-IP failed.");
         }
 
-        // Priority Logic: If Timezone or Language or Geo-IP says Europe, it's EUR.
-        if (isEuroTimezone || isEuroLang || geoCurrency === "EUR") {
+        const euroCountries = [
+          'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 
+          'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 
+          'SI', 'ES', 'SE', 'CH', 'NO', 'IS', 'LI', 'GB'
+        ];
+        const isEuroCountry = euroCountries.includes(geoCountry.toUpperCase());
+
+        // Priority Logic: If Timezone or Language or Geo-Country says Europe, it's EUR.
+        if (isEuroTimezone || isEuroLang || geoCurrency === "EUR" || isEuroCountry) {
           userCurrency = "EUR";
-          console.log("[ExToTools] European Signal Detected:", { isEuroTimezone, isEuroLang, geoCurrency });
+          console.log("[ExToTools] European Signal Detected:", { 
+            isEuroTimezone, 
+            isEuroLang, 
+            isEuroCountry,
+            country: geoCountry,
+            geoCurrency 
+          });
         } else {
           userCurrency = geoCurrency;
+          console.log("[ExToTools] No European signal, using Geo-IP currency:", userCurrency);
         }
 
         // Filter: only allow USD and EUR for now
