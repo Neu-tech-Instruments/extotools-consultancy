@@ -737,26 +737,36 @@ export default function Home() {
         </div >
       </section >
       {/* FAQ Section */}
-      <section style={{ padding: '160px 0', background: '#FAFBFF', position: 'relative', overflow: 'hidden' }}>
-        {/* Colorful Background Accents */}
+      <section style={{ padding: '160px 0', background: '#f8faff', position: 'relative', overflow: 'hidden' }}>
+        {/* Vibrant Mesh Background Accents */}
         <div style={{
           position: 'absolute',
-          top: '-10%',
-          right: '-5%',
-          width: '40%',
-          height: '60%',
-          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.05) 0%, transparent 70%)',
+          top: '-20%',
+          right: '-10%',
+          width: '60%',
+          height: '80%',
+          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.15) 0%, transparent 70%)',
           filter: 'blur(100px)',
           pointerEvents: 'none'
         }} />
         <div style={{
           position: 'absolute',
-          bottom: '10%',
-          left: '-5%',
-          width: '30%',
-          height: '50%',
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%)',
+          bottom: '-10%',
+          left: '-10%',
+          width: '50%',
+          height: '70%',
+          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)',
           filter: 'blur(100px)',
+          pointerEvents: 'none'
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '20%',
+          width: '40%',
+          height: '40%',
+          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, transparent 70%)',
+          filter: 'blur(80px)',
           pointerEvents: 'none'
         }} />
 
@@ -764,20 +774,20 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
             <span style={{ 
               fontSize: '0.8rem', 
-              fontWeight: 800, 
-              background: 'linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%)',
+              fontWeight: 900, 
+              background: 'linear-gradient(135deg, #2322C8 0%, #8B5CF6 50%, #EC4899 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               textTransform: 'uppercase', 
-              letterSpacing: '0.2em',
+              letterSpacing: '0.25em',
               display: 'block',
               marginBottom: '16px'
             }}>
-              Support
+              Support Centers
             </span>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(3.5rem, 6vw, 5rem)', marginBottom: '16px', color: 'var(--accent-navy)', letterSpacing: '-0.02em' }}>Common Questions.</h2>
-            <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.2rem', maxWidth: '500px', margin: '0 auto' }}>
-              Everything you need to know about the professional workspace.
+            <h2 className="font-serif" style={{ fontSize: 'clamp(3.5rem, 6vw, 5.5rem)', marginBottom: '16px', color: 'var(--accent-navy)', letterSpacing: '-0.03em' }}>Common Questions.</h2>
+            <p style={{ color: 'var(--accent-navy)', opacity: 0.7, fontSize: '1.25rem', maxWidth: '550px', margin: '0 auto', lineHeight: 1.5 }}>
+              Everything you need to know about navigating the professional workspace.
             </p>
           </div>
 
@@ -785,26 +795,43 @@ export default function Home() {
             {FAQS.map((faq, i) => (
               <motion.div 
                 key={i}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
                 style={{ 
-                  padding: '40px 0',
-                  borderTop: '1px solid rgba(15, 23, 42, 0.06)',
+                  padding: '48px 0',
+                  borderTop: '1px solid rgba(15, 23, 42, 0.08)',
                   display: 'grid',
-                  gridTemplateColumns: 'minmax(250px, 1fr) 2fr',
-                  gap: '40px',
+                  gridTemplateColumns: 'minmax(280px, 1fr) 2fr',
+                  gap: '48px',
                   position: 'relative',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+                  transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
                 className="faq-item"
               >
                 <style dangerouslySetInnerHTML={{ __html: `
-                  .faq-item:hover h3 { color: var(--primary) !important; transform: translateX(10px); }
+                  .faq-item::before {
+                    content: "";
+                    position: absolute;
+                    left: -40px;
+                    top: 50%;
+                    transform: translateY(-50%) scaleY(0);
+                    width: 4px;
+                    height: 40px;
+                    background: linear-gradient(to bottom, #2322C8, #8B5CF6);
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    opacity: 0;
+                  }
+                  .faq-item:hover::before {
+                    transform: translateY(-50%) scaleY(1);
+                    opacity: 1;
+                  }
+                  .faq-item:hover h3 { color: #2322C8 !important; transform: translateX(12px); }
                   .faq-item h3 { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
                   @media (max-width: 768px) {
-                    .faq-item { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
+                    .faq-item { grid-template-columns: 1fr; gap: 20px; padding: 40px 0; }
+                    .faq-item::before { display: none; }
                     .faq-item:hover h3 { transform: none; }
                   }
                 `}} />
