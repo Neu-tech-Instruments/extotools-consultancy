@@ -342,7 +342,7 @@ export default function Home() {
                           }}>
                             PREMIUM / MONTH
                           </span>
-                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace', lineHeight: 1 }}>
+                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', lineHeight: 1, letterSpacing: '-0.03em' }}>
                             <Price amount={ext.price} />
                           </span>
                         </div>

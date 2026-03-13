@@ -33,7 +33,7 @@ export default function Price({ amount, className, style, showCurrencyCode = fal
 
   return (
     <span className={className} style={style}>
-      {formatPrice(amount)}
+      {formatPrice(amount).replace(/\s/g, '')}
       {showCurrencyCode && currency !== "USD" && (
         <span style={{ fontSize: '0.7em', marginLeft: '4px', opacity: 0.6 }}>
           {currency}
