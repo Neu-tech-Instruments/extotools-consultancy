@@ -738,7 +738,7 @@ export default function Home() {
         </div >
       </section>
       {/* FAQ Section */}
-      <section style={{ padding: '100px 0', background: 'white', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '100px 0', background: '#0F172A', position: 'relative', overflow: 'hidden' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -748,7 +748,7 @@ export default function Home() {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.5, // Subtle cinematic visibility on white
+          opacity: 0.8, // High visibility for the boat scenery
         }}>
           <video
             ref={videoRef3}
@@ -766,30 +766,44 @@ export default function Home() {
           </video>
         </div>
 
-        {/* Cinematic Blur Mask: Blurs center for readability, clear sides for boat */}
+        {/* Dark Filter on the Sides */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
+          background: 'rgba(15, 23, 42, 0.7)',
+          maskImage: 'radial-gradient(circle, transparent 0%, black 70%)',
+          WebkitMaskImage: 'radial-gradient(circle, transparent 0%, black 70%)',
           zIndex: 1,
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          maskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
           pointerEvents: 'none'
         }} />
 
-        {/* Soft White Filter Layer */}
+        {/* White Light Focus in the Middle */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'rgba(255, 255, 255, 0.4)',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 80%)',
           zIndex: 1,
+          pointerEvents: 'none'
+        }} />
+
+        {/* Cinematic Blur focus for the text area */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 1,
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          maskImage: 'radial-gradient(circle, black 0%, transparent 60%)',
+          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 60%)',
           pointerEvents: 'none'
         }} />
 
