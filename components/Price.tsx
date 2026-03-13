@@ -20,10 +20,13 @@ export default function Price({ amount, className, style, showCurrencyCode = fal
   }, []);
 
   if (!mounted || isLoading) {
-    const isEuroZone = typeof Intl !== 'undefined' && Intl.DateTimeFormat().resolvedOptions().timeZone?.startsWith('Europe/');
+    const tz = typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : '';
+    const isEuroZone = tz?.startsWith('Europe/') && tz !== 'Europe/London';
+    const isUKZone = tz === 'Europe/London';
+    
     return (
       <span className={className} style={style}>
-        {isEuroZone ? "€" : "$"}{amount.toFixed(2)}
+        {isUKZone ? "£" : isEuroZone ? "€" : "$"}{amount.toFixed(2)}
       </span>
     );
   }

@@ -49,29 +49,31 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
         const euroCountries = [
           'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 
           'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 
-          'SI', 'ES', 'SE', 'CH', 'NO', 'IS', 'LI', 'GB'
+          'SI', 'ES', 'SE', 'CH', 'NO', 'IS', 'LI'
         ];
-        const isEuroCountry = euroCountries.includes(geoCountry.toUpperCase());
+        const ukCountries = ['GB']; // United Kingdom specifically for Pounds
 
-        // Priority Logic: If Timezone or Language or Geo-Country says Europe, it's EUR.
-        if (isEuroTimezone || isEuroLang || geoCurrency === "EUR" || isEuroCountry) {
+        const isUKCountry = ukCountries.includes(geoCountry.toUpperCase());
+        const isEuroCountry = euroCountries.includes(geoCountry.toUpperCase());
+        const isUKTimezone = timeZone === 'Europe/London';
+        const isUKLang = lang.toLowerCase().startsWith('en-gb');
+
+        // Priority Logic: UK -> GBP, Europe -> EUR, Else -> USD
+        if (isUKCountry || isUKTimezone || isUKLang || geoCurrency === "GBP") {
+          userCurrency = "GBP";
+          console.log("[ExToTools] UK Signal Detected (GBP):", { isUKCountry, isUKTimezone, isUKLang, country: geoCountry });
+        } else if (isEuroCountry || isEuroTimezone || isEuroLang || geoCurrency === "EUR") {
           userCurrency = "EUR";
-          console.log("[ExToTools] European Signal Detected:", { 
-            isEuroTimezone, 
-            isEuroLang, 
-            isEuroCountry,
-            country: geoCountry,
-            geoCurrency 
-          });
+          console.log("[ExToTools] European Signal Detected (EUR):", { isEuroCountry, isEuroTimezone, isEuroLang, country: geoCountry });
         } else {
-          userCurrency = geoCurrency;
-          console.log("[ExToTools] No European signal, using Geo-IP currency:", userCurrency);
+          userCurrency = geoCurrency === "GBP" || geoCurrency === "EUR" ? "USD" : geoCurrency;
+          console.log("[ExToTools] Standard Signal (USD or local):", { country: geoCountry, geoCurrency });
         }
 
-        // Filter: only allow USD and EUR for now
-        const supportedCurrency = ["USD", "EUR"].includes(userCurrency) ? userCurrency : "USD";
+        // Filter: only allow USD, EUR, and GBP
+        const supportedCurrency = ["USD", "EUR", "GBP"].includes(userCurrency) ? userCurrency : "USD";
         setCurrency(supportedCurrency);
-        setRate(1); // FIXED RATE: 1:1 for now as per requirement
+        setRate(1); // 1:1 for now
 
         // Get symbol
         const formatter = new Intl.NumberFormat(undefined, {
@@ -79,7 +81,8 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
           currency: supportedCurrency,
         });
         const parts = formatter.formatToParts(0);
-        const foundSymbol = parts.find((part) => part.type === "currency")?.value || (supportedCurrency === "EUR" ? "€" : "$");
+        const foundSymbol = parts.find((part) => part.type === "currency")?.value || 
+                          (supportedCurrency === "EUR" ? "€" : supportedCurrency === "GBP" ? "£" : "$");
         setSymbol(foundSymbol);
       } catch (error) {
         console.error("Failed to fetch adaptive pricing:", error);
