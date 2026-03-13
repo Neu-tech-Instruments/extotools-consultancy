@@ -68,6 +68,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoRef2 = useRef<HTMLVideoElement>(null);
+  const videoRef3 = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     // Fetch extensions from Database
@@ -88,7 +89,7 @@ export default function Home() {
     fetchExtensions();
 
     // Start playing background videos on mount and keep them playing
-    [videoRef, videoRef2].forEach(ref => {
+    [videoRef, videoRef2, videoRef3].forEach(ref => {
       if (ref.current) {
         ref.current.play().catch(e => console.error("Video play failed:", e));
       }
@@ -738,18 +739,45 @@ export default function Home() {
       </section >
       {/* FAQ Section */}
       <section style={{ padding: '160px 0', background: '#f8faff', position: 'relative', overflow: 'hidden' }}>
-        {/* User Provided Background Image */}
+        {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundImage: 'url(/faq-bg.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.15, // High transparency to keep it sophisticated and professional
           zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.15, // White filter effect through low opacity on a light bg
+        }}>
+          <video
+            ref={videoRef3}
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+          >
+            <source src="/faq-video.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        {/* Blurred Center / Visible Sides Effect */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 1,
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          maskImage: 'radial-gradient(circle, black 20%, transparent 60%)',
+          WebkitMaskImage: 'radial-gradient(circle, black 20%, transparent 60%)',
           pointerEvents: 'none'
         }} />
 
