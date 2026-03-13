@@ -859,28 +859,10 @@ export default function Home() {
                 className="faq-item"
               >
                 <style dangerouslySetInnerHTML={{ __html: `
-                  .faq-item::before {
-                    content: "";
-                    position: absolute;
-                    left: -40px;
-                    top: 50%;
-                    transform: translateY(-50%) scaleY(0);
-                    width: 4px;
-                    height: 40px;
-                    background: linear-gradient(to bottom, #2322C8, #8B5CF6);
-                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    opacity: 0;
-                  }
-                  .faq-item:hover::before {
-                    transform: translateY(-50%) scaleY(1);
-                    opacity: 1;
-                  }
-                  .faq-item:hover h3 { color: #4F46E5 !important; transform: translateX(12px); }
+                  .faq-item:hover h3 { color: #4F46E5 !important; }
                   .faq-item h3 { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
                   @media (max-width: 768px) {
                     .faq-item { grid-template-columns: 1fr; gap: 20px; padding: 40px 0; }
-                    .faq-item::before { display: none; }
-                    .faq-item:hover h3 { transform: none; }
                   }
                 `}} />
                 <h3 style={{ 
