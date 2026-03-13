@@ -25,31 +25,31 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
         
         // Signal 1: Browser Timezone (Very reliable)
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        if (timeZone?.startsWith('Europe/')) {
-          userCurrency = "EUR";
-          console.log("[ExToTools] Detected European timezone:", timeZone);
-        }
-
+        const isEuroTimezone = timeZone?.startsWith('Europe/');
+        
         // Signal 2: Browser Language
-        const lang = window.navigator.language;
+        const lang = typeof window !== 'undefined' ? window.navigator.language : '';
         const euroLangs = ['de', 'fr', 'nl', 'it', 'es', 'pt', 'fi', 'at', 'be'];
-        if (userCurrency === "USD" && euroLangs.some(el => lang.toLowerCase().startsWith(el))) {
-          userCurrency = "EUR";
-          console.log("[ExToTools] Detected European language:", lang);
-        }
+        const isEuroLang = euroLangs.some(el => lang.toLowerCase().startsWith(el));
 
-        // Signal 3: Geo-IP (Try as ultimate signal)
+        // Signal 3: Geo-IP
+        let geoCurrency = "USD";
         try {
           const geoRes = await fetch("https://ipapi.co/json/");
           if (geoRes.ok) {
             const geoData = await geoRes.json();
-            if (geoData.currency) {
-              userCurrency = geoData.currency;
-              console.log("[ExToTools] Geo-IP Currency:", userCurrency);
-            }
+            geoCurrency = geoData.currency || "USD";
           }
         } catch (e) {
-          console.warn("[ExToTools] Geo-IP fetch failed, relying on browser signals.");
+          console.warn("[ExToTools] Geo-IP failed.");
+        }
+
+        // Priority Logic: If Timezone or Language or Geo-IP says Europe, it's EUR.
+        if (isEuroTimezone || isEuroLang || geoCurrency === "EUR") {
+          userCurrency = "EUR";
+          console.log("[ExToTools] European Signal Detected:", { isEuroTimezone, isEuroLang, geoCurrency });
+        } else {
+          userCurrency = geoCurrency;
         }
 
         // Filter: only allow USD and EUR for now
