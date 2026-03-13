@@ -737,21 +737,45 @@ export default function Home() {
         </div >
       </section >
       {/* FAQ Section */}
-      <section style={{ padding: '160px 0', background: 'var(--bg)', position: 'relative' }}>
-        <div className="container" style={{ maxWidth: '900px' }}>
+      <section style={{ padding: '160px 0', background: '#FAFBFF', position: 'relative', overflow: 'hidden' }}>
+        {/* Colorful Background Accents */}
+        <div style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '-5%',
+          width: '40%',
+          height: '60%',
+          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.05) 0%, transparent 70%)',
+          filter: 'blur(100px)',
+          pointerEvents: 'none'
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          left: '-5%',
+          width: '30%',
+          height: '50%',
+          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%)',
+          filter: 'blur(100px)',
+          pointerEvents: 'none'
+        }} />
+
+        <div className="container" style={{ maxWidth: '900px', position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
             <span style={{ 
               fontSize: '0.8rem', 
               fontWeight: 800, 
-              color: 'var(--primary)', 
+              background: 'linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               textTransform: 'uppercase', 
-              letterSpacing: '0.15em',
+              letterSpacing: '0.2em',
               display: 'block',
               marginBottom: '16px'
             }}>
               Support
             </span>
-            <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', marginBottom: '16px', color: 'var(--accent-navy)' }}>Common Questions.</h2>
+            <h2 className="font-serif" style={{ fontSize: 'clamp(3.5rem, 6vw, 5rem)', marginBottom: '16px', color: 'var(--accent-navy)', letterSpacing: '-0.02em' }}>Common Questions.</h2>
             <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.2rem', maxWidth: '500px', margin: '0 auto' }}>
               Everything you need to know about the professional workspace.
             </p>
@@ -767,19 +791,21 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 style={{ 
                   padding: '40px 0',
-                  borderTop: '1px solid rgba(15, 23, 42, 0.08)',
+                  borderTop: '1px solid rgba(15, 23, 42, 0.06)',
                   display: 'grid',
                   gridTemplateColumns: 'minmax(250px, 1fr) 2fr',
                   gap: '40px',
                   position: 'relative',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
                 className="faq-item"
               >
                 <style dangerouslySetInnerHTML={{ __html: `
-                  .faq-item:hover h3 { color: var(--primary) !important; }
+                  .faq-item:hover h3 { color: var(--primary) !important; transform: translateX(10px); }
+                  .faq-item h3 { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
                   @media (max-width: 768px) {
                     .faq-item { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
+                    .faq-item:hover h3 { transform: none; }
                   }
                 `}} />
                 <h3 style={{ 
