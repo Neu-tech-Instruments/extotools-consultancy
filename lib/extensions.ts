@@ -30,7 +30,7 @@ export const bundles: BundleData[] = [
   },
   {
     id: "bundle-10",
-    name: "Pro Pack (10 Extensions)",
+    name: "Premium Pack (10 Extensions)",
     description: "Ultimate value. Access to all current and future extensions (up to 10).",
     price: 60, // Deep discount
     extensionCount: 10,

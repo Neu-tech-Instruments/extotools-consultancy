@@ -300,10 +300,6 @@ export default function Home() {
                         e.currentTarget.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.05)';
                       }}
                     >
-                      <div style={{ position: 'absolute', top: '24px', right: '40px', fontSize: '0.8rem', fontWeight: 800, opacity: 0.1, fontFamily: 'var(--font-mono)' }}>
-                        {(index + 1).toString().padStart(2, '0')}
-                      </div>
-
                       <div style={{ marginBottom: '40px' }}>
                         <div style={{
                           width: '64px',
@@ -315,55 +311,50 @@ export default function Home() {
                             <img src={ext.image} alt={ext.name} style={{ maxWidth: '100%', maxHeight: '64px', objectFit: 'contain' }} />
                           ) : (
                             <div style={{
-                              width: '48px',
-                              height: '48px',
+                              width: '64px',
+                              height: '64px',
                               background: accent,
                               borderRadius: '0',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
-                              <Chrome size={24} color={solidAccent} />
+                              <Chrome size={32} color={solidAccent} />
                             </div>
                           )}
                         </div>
                       </div>
 
                       <h3 style={{ fontSize: '2.2rem', marginBottom: '16px', color: 'var(--accent-navy)', fontWeight: 700, letterSpacing: '-0.02em' }}>{ext.name}</h3>
-                      <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1rem', marginBottom: '32px', lineHeight: 1.5 }}>
+                      <p style={{ color: 'var(--accent-navy)', opacity: 0.9, fontSize: '1.1rem', marginBottom: '40px', flex: 1, lineHeight: 1.6 }}>
                         {ext.shortDescription}
                       </p>
 
-                      {/* Feature List to fill space */}
-                      <div style={{ marginBottom: '40px', flex: 1 }}>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                          {(() => {
-                            try {
-                              const features = JSON.parse(ext.features || '[]');
-                              return features.slice(0, 3).map((f: string, i: number) => (
-                                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--accent-navy)', opacity: 0.8, fontWeight: 500 }}>
-                                  <div style={{ width: '4px', height: '4px', background: solidAccent, borderRadius: '0' }} />
-                                  {f}
-                                </li>
-                              ));
-                            } catch (e) {
-                              return null;
-                            }
-                          })()}
-                        </ul>
-                      </div>
-
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', paddingTop: '32px', borderTop: '1px solid rgba(15, 23, 42, 0.03)' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                          <div style={{ display: 'flex', alignItems: 'baseline' }}>
-                            <Price amount={ext.price} variant="editorial" style={{ fontSize: '2.5rem', fontWeight: 700, color: 'var(--primary)', lineHeight: 1 }} />
-                            <span style={{ fontSize: '0.65rem', fontWeight: 800, opacity: 0.25, letterSpacing: '0.15em', marginLeft: '6px', alignSelf: 'baseline' }}>/MO</span>
-                          </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                          <span style={{ 
+                            fontSize: '0.7rem', 
+                            fontWeight: 900, 
+                            textTransform: 'uppercase', 
+                            letterSpacing: '0.15em', 
+                            fontFamily: 'monospace', 
+                            color: 'white', 
+                            background: solidAccent, 
+                            padding: '6px 12px', 
+                            borderRadius: '2px', 
+                            marginBottom: '12px',
+                            boxShadow: `0 4px 12px ${accent.replace('0.3', '0.15')}`
+                          }}>
+                            PREMIUM / MONTH
+                          </span>
+                          <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'monospace', lineHeight: 1 }}>
+                            <Price amount={ext.price} />
+                          </span>
                         </div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', opacity: 0.8, color: solidAccent, transition: 'all 0.3s ease' }}>
-                          <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.15em' }}>VIEW DETAILS</span>
-                          <ArrowRight size={14} strokeWidth={3} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 1, color: solidAccent }}>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: '0.1em' }}>DETAIL</span>
+                          <ArrowRight size={20} />
                         </div>
                       </div>
                     </Link>
