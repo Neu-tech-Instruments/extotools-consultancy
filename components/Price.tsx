@@ -20,14 +20,16 @@ export default function Price({ amount, className, style, showCurrencyCode = fal
   }, []);
 
   if (!mounted || isLoading) {
-    const tz = typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : '';
-    const isEuroZone = tz?.startsWith('Europe/') && tz !== 'Europe/London';
-    const isUKZone = tz === 'Europe/London';
-    
     return (
-      <span className={className} style={style}>
-        {isUKZone ? "£" : isEuroZone ? "€" : "$"}{amount.toFixed(2)}
-      </span>
+      <span className={`${className} animate-pulse`} style={{ 
+        ...style, 
+        display: 'inline-block',
+        width: '80px', 
+        height: '1em', 
+        background: 'rgba(59, 130, 246, 0.1)', 
+        borderRadius: '2px',
+        verticalAlign: 'middle'
+      }} />
     );
   }
 

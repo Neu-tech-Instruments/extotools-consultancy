@@ -43,6 +43,25 @@ const itemVariants = {
   },
 };
 
+const FAQS = [
+  {
+    question: "How do I activate the extensions after purchase?",
+    answer: "Simple. Once you subscribe, just log into the ExToTools extensions using your account email. Your premium status is synced instantly across all your devices."
+  },
+  {
+    question: "Can I cancel my subscription at any time?",
+    answer: "Yes, absolutely. You can manage and cancel your subscription directly from your dashboard with one click. No hidden contracts or complex exit flows."
+  },
+  {
+    question: "Do you offer custom bundles for teams?",
+    answer: "We do. For teams of 5 or more, contact our support for a personalized enterprise license and shared project workspaces."
+  },
+  {
+    question: "Are the extensions secure and privacy-focused?",
+    answer: "Security is our priority. We follow the latest Manifest V3 standards and never store your sensitive browsing data on our servers. Period."
+  }
+];
+
 export default function Home() {
   const { addToCart } = useCart();
   const [dbExtensions, setDbExtensions] = useState<Extension[]>([]);
@@ -717,6 +736,48 @@ export default function Home() {
           </div>
         </div >
       </section >
-    </div >
+      {/* FAQ Section */}
+      <section style={{ padding: '120px 0', background: 'white', position: 'relative' }}>
+        <div className="container" style={{ maxWidth: '800px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <h2 className="font-serif" style={{ fontSize: '3.5rem', marginBottom: '16px', color: 'var(--accent-navy)' }}>Common Questions.</h2>
+            <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.2rem' }}>Everything you need to know about the professional workspace.</p>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', background: 'var(--architect-line)', border: '1px solid var(--architect-line)' }}>
+            {FAQS.map((faq, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                style={{ 
+                  background: 'white', 
+                  padding: '40px',
+                  transition: 'background 0.3s ease'
+                }}
+                className="hover-faq"
+              >
+                <style dangerouslySetInnerHTML={{ __html: `
+                  .hover-faq:hover { background: #fafafa !important; }
+                `}} />
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '16px', color: 'var(--accent-navy)', letterSpacing: '-0.01em' }}>{faq.question}</h3>
+                <p style={{ color: 'var(--accent-navy)', opacity: 0.7, lineHeight: 1.7, fontSize: '1.05rem' }}>{faq.answer}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: '60px', textAlign: 'center' }}>
+            <p style={{ color: 'var(--accent-navy)', opacity: 0.5, fontSize: '0.9rem' }}>
+              Still have questions? <Link href="/contact" style={{ color: 'var(--primary)', fontWeight: 700, textDecoration: 'none' }}>Get in touch with support.</Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Spacing adjustments */}
+      <div style={{ height: '0px' }} />
+    </div>
   );
 }
