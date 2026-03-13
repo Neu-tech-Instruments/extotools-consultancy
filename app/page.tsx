@@ -238,15 +238,10 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-3" style={{ gap: 'clamp(20px, 3vw, 32px)', width: '100%' }}>
               {dbExtensions.map((ext, index) => {
-                const accentColors = [
-                  'rgba(110, 231, 183, 0.3)', // Mint
-                  'rgba(167, 139, 250, 0.3)', // Lavender
-                  'rgba(251, 146, 60, 0.3)',  // Tangerine
-                  'rgba(56, 189, 248, 0.3)',  // Sky
-                  'rgba(244, 114, 182, 0.3)', // Pink
-                ];
-                const accent = accentColors[index % accentColors.length];
-                const solidAccent = accent.replace('0.3', '1');
+                // Standardized brand secondary/blue for a more senior feel
+                const solidAccent = 'var(--primary)';
+                const accentAlpha = 'rgba(59, 130, 246, 0.1)'; // Subtle blue glow
+                const accentStrong = 'rgba(59, 130, 246, 0.3)';
 
                 return (
                   <motion.div
@@ -257,14 +252,14 @@ export default function Home() {
                     transition={{ duration: 0.8, delay: index * 0.1 }}
                     style={{ position: 'relative' }}
                   >
-                    {/* Localized Aura Glow */}
+                    {/* Localized Aura Glow - Brand Blue */}
                     <div style={{
                       position: 'absolute',
                       top: '20%',
                       left: '20%',
                       width: '80%',
                       height: '80%',
-                      background: accent.replace('0.3', '0.2'),
+                      background: accentAlpha,
                       filter: 'blur(80px)',
                       borderRadius: '50%',
                       zIndex: 0,
@@ -291,7 +286,7 @@ export default function Home() {
                         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
                         e.currentTarget.style.borderColor = solidAccent;
                         e.currentTarget.style.transform = 'translateY(-8px)';
-                        e.currentTarget.style.boxShadow = `0 25px 50px -15px ${accent.replace('0.3', '0.2')}`;
+                        e.currentTarget.style.boxShadow = `0 25px 50px -15px rgba(59, 130, 246, 0.2)`;
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)';
@@ -313,7 +308,7 @@ export default function Home() {
                             <div style={{
                               width: '64px',
                               height: '64px',
-                              background: accent,
+                              background: 'rgba(15, 23, 42, 0.05)',
                               borderRadius: '0',
                               display: 'flex',
                               alignItems: 'center',
@@ -343,7 +338,7 @@ export default function Home() {
                             padding: '6px 12px', 
                             borderRadius: '2px', 
                             marginBottom: '12px',
-                            boxShadow: `0 4px 12px ${accent.replace('0.3', '0.15')}`
+                            boxShadow: `0 4px 12px rgba(59, 130, 246, 0.15)`
                           }}>
                             PREMIUM / MONTH
                           </span>
