@@ -20,10 +20,10 @@ export default function Price({ amount, className, style, showCurrencyCode = fal
   }, []);
 
   if (!mounted || isLoading) {
-    // Return original USD price as fallback to prevent layout shift and show something immediately
+    const isEuroZone = typeof Intl !== 'undefined' && Intl.DateTimeFormat().resolvedOptions().timeZone?.startsWith('Europe/');
     return (
       <span className={className} style={style}>
-        ${amount.toFixed(2)}
+        {isEuroZone ? "€" : "$"}{amount.toFixed(2)}
       </span>
     );
   }

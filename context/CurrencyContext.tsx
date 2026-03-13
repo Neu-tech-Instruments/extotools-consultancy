@@ -21,16 +21,41 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const fetchCurrencyAndRates = async () => {
       try {
-        // 1. Detect user's region/currency
-        const geoRes = await fetch("https://ipapi.co/json/");
-        const geoData = await geoRes.json();
-        const userCurrency = geoData.currency || "USD";
+        let userCurrency = "USD";
+        
+        // Signal 1: Browser Timezone (Very reliable)
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (timeZone?.startsWith('Europe/')) {
+          userCurrency = "EUR";
+          console.log("[ExToTools] Detected European timezone:", timeZone);
+        }
 
-        // Filter: only allow USD and EUR for now as per requirement (fixed 9.99)
-        // If it's something else, we fallback to USD.
+        // Signal 2: Browser Language
+        const lang = window.navigator.language;
+        const euroLangs = ['de', 'fr', 'nl', 'it', 'es', 'pt', 'fi', 'at', 'be'];
+        if (userCurrency === "USD" && euroLangs.some(el => lang.toLowerCase().startsWith(el))) {
+          userCurrency = "EUR";
+          console.log("[ExToTools] Detected European language:", lang);
+        }
+
+        // Signal 3: Geo-IP (Try as ultimate signal)
+        try {
+          const geoRes = await fetch("https://ipapi.co/json/");
+          if (geoRes.ok) {
+            const geoData = await geoRes.json();
+            if (geoData.currency) {
+              userCurrency = geoData.currency;
+              console.log("[ExToTools] Geo-IP Currency:", userCurrency);
+            }
+          }
+        } catch (e) {
+          console.warn("[ExToTools] Geo-IP fetch failed, relying on browser signals.");
+        }
+
+        // Filter: only allow USD and EUR for now
         const supportedCurrency = ["USD", "EUR"].includes(userCurrency) ? userCurrency : "USD";
         setCurrency(supportedCurrency);
-        setRate(1); // FIXED RATE: 9.99 is 9.99 regardless of currency
+        setRate(1); // FIXED RATE: 1:1 for now as per requirement
 
         // Get symbol
         const formatter = new Intl.NumberFormat(undefined, {
@@ -38,7 +63,7 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
           currency: supportedCurrency,
         });
         const parts = formatter.formatToParts(0);
-        const foundSymbol = parts.find((part) => part.type === "currency")?.value || supportedCurrency;
+        const foundSymbol = parts.find((part) => part.type === "currency")?.value || (supportedCurrency === "EUR" ? "€" : "$");
         setSymbol(foundSymbol);
       } catch (error) {
         console.error("Failed to fetch adaptive pricing:", error);
