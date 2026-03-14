@@ -121,7 +121,8 @@ export default function Home() {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              objectPosition: 'center'
             }}
           >
             <source src="/banner_pingpong.mp4" type="video/mp4" />
@@ -226,9 +227,11 @@ export default function Home() {
             playsInline
             style={{
               width: '100%',
-              maxHeight: '120vh',
-              objectFit: 'contain',
-              filter: 'contrast(1.1) brightness(0.9)'
+              height: '100%',
+              objectFit: 'cover',
+              filter: 'contrast(1.1) brightness(0.9)',
+              transform: 'scale(1.05)',
+              transformOrigin: 'center'
             }}
           >
             <source src="/eyes.mp4" type="video/mp4" />
@@ -405,7 +408,8 @@ export default function Home() {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              transform: 'scale(1.02)'
             }}
           >
             <source src="/bnw_pingpong.mp4" type="video/mp4" />
@@ -761,8 +765,9 @@ export default function Home() {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'right bottom', // Maximum reveal for the boat area
-              transform: 'scale(1.0)', // Full frame zoom out
+              objectPosition: 'right bottom',
+              transform: 'scale(1.1)',
+              transformOrigin: 'center'
             }}
           >
             <source src="/newvidboat.mp4" type="video/mp4" />
@@ -982,8 +987,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Spacing adjustments */}
-      <div style={{ height: '0px' }} />
     </div>
   );
 }
