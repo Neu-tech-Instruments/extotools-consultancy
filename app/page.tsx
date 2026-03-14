@@ -769,7 +769,7 @@ export default function Home() {
           </video>
         </div>
 
-        {/* Cinematic Blur Mask: Blurs center for readability, clear sides for boat */}
+        {/* Cinematic Blur Mask: Blurs left for readability, clear right for boat visibility */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -777,10 +777,12 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
           pointerEvents: 'none',
-          opacity: 0.9
+          opacity: 0.8,
+          maskImage: 'linear-gradient(to right, black 0%, black 40%, transparent 80%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 0%, black 40%, transparent 80%)',
         }} />
 
         {/* Soft White Filter Layer */}
@@ -879,7 +881,7 @@ export default function Home() {
                   flexDirection: 'column',
                   gap: '0',
                   cursor: 'pointer',
-                  borderRadius: '12px',
+                  borderRadius: '0',
                   boxShadow: '0 4px 20px -10px rgba(0,0,0,0.05)'
                 }}
                 onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
