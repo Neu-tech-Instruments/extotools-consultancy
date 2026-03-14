@@ -762,7 +762,7 @@ export default function Home() {
               objectFit: 'cover'
             }}
           >
-            <source src="/faq-video.mp4" type="video/mp4" />
+            <source src="/newvidboat.mp4" type="video/mp4" />
           </video>
         </div>
 
