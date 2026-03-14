@@ -761,15 +761,16 @@ export default function Home() {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'right bottom', // Maximum reveal for the boat area
-              transform: 'scale(1.0)', // Full frame zoom out
+              objectPosition: 'right bottom',
+              transform: 'scale(1.0)',
+              filter: 'contrast(1.1) brightness(0.95) saturate(0.9)', // Professional color grade
             }}
           >
             <source src="/newvidboat.mp4" type="video/mp4" />
           </video>
         </div>
 
-        {/* Cinematic Blur Mask: Blurs center for readability, clear sides for boat */}
+        {/* Cinematic Depth of Field Mask: Keeps boat sharp, blurs text area */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -777,11 +778,25 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          maskImage: 'radial-gradient(circle, black 0%, transparent 85%)',
-          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 85%)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          // Mask focusing on the boat (right bottom)
+          maskImage: 'radial-gradient(circle at 85% 85%, transparent 0%, black 60%)',
+          WebkitMaskImage: 'radial-gradient(circle at 85% 85%, transparent 0%, black 60%)',
           pointerEvents: 'none'
+        }} />
+
+        {/* Cinematic Film Grain Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 1,
+          opacity: 0.03, // Subtle texture
+          pointerEvents: 'none',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
         }} />
 
         {/* Soft White Filter Layer */}
