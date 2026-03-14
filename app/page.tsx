@@ -760,8 +760,8 @@ export default function Home() {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: '85% bottom', // Focus on the boat area
-              transform: 'scale(1.1)', // Slight zoom to allow for better positioning
+              objectPosition: 'right bottom', // Maximum reveal for the boat area
+              transform: 'scale(1.0)', // Full frame zoom out
             }}
           >
             <source src="/newvidboat.mp4" type="video/mp4" />
