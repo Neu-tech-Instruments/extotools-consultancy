@@ -739,7 +739,7 @@ export default function Home() {
         </div >
       </section>
       {/* FAQ Section */}
-      <section style={{ padding: '100px 0', background: 'white', position: 'relative', overflow: 'hidden', marginBottom: '-2px' }}>
+      <section style={{ padding: '100px 0', background: 'var(--accent-navy)', position: 'relative', overflow: 'hidden', marginBottom: '-10px' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -956,9 +956,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Spacing adjustments */}
-      <div style={{ height: '0px' }} />
     </div>
   );
 }
