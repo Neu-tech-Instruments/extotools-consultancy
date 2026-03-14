@@ -856,10 +856,11 @@ export default function Home() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(440px, 1fr))',
-            gap: '40px 80px',
+            gridTemplateColumns: '1fr',
+            gap: '24px',
             padding: '20px 0',
-            justifyContent: 'start'
+            justifyContent: 'start',
+            maxWidth: '550px' // Keep cards on the left half
           }}>
             {FAQS.map((faq, i) => (
               <motion.div
