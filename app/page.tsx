@@ -832,8 +832,8 @@ export default function Home() {
           pointerEvents: 'none'
         }} />
 
-        <div className="container" style={{ maxWidth: '1000px', position: 'relative', zIndex: 2 }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+        <div className="container" style={{ maxWidth: '1100px', position: 'relative', zIndex: 2 }}>
+          <div style={{ textAlign: 'left', marginBottom: '80px' }}>
             <span style={{
               fontSize: '0.7rem',
               fontWeight: 800,
@@ -849,16 +849,17 @@ export default function Home() {
               TECHNICAL_DOCS // FAQ
             </span>
             <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', marginBottom: '16px', color: 'var(--accent-navy)', letterSpacing: '-0.03em', fontWeight: 300 }}>Common <span style={{ color: 'var(--primary)', fontWeight: 600 }}>Questions.</span></h2>
-            <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.5, fontWeight: 500 }}>
+            <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.1rem', maxWidth: '600px', margin: '0', lineHeight: 1.5, fontWeight: 500 }}>
               The definitive resource for mastering your professional digital workspace and power-user extensions.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(440px, 1fr))',
             gap: '40px 80px',
-            padding: '20px 0'
+            padding: '20px 0',
+            justifyContent: 'start'
           }}>
             {FAQS.map((faq, i) => (
               <motion.div
@@ -929,7 +930,7 @@ export default function Home() {
             <div style={{ borderTop: '1px solid rgba(15, 23, 42, 0.08)' }} />
           </div>
 
-          <div style={{ marginTop: '80px', textAlign: 'center' }}>
+          <div style={{ marginTop: '80px', textAlign: 'left' }}>
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
