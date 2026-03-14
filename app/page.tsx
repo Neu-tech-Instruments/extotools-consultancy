@@ -748,7 +748,7 @@ export default function Home() {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.5, // Subtle cinematic visibility on white
+          opacity: 0.8, // Increased presence for the artistic video texture
         }}>
           <video
             ref={videoRef3}
@@ -774,10 +774,10 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          maskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          maskImage: 'radial-gradient(circle, black 0%, transparent 85%)',
+          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 85%)',
           pointerEvents: 'none'
         }} />
 
@@ -788,7 +788,7 @@ export default function Home() {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'rgba(255, 255, 255, 0.4)',
+          background: 'rgba(255, 255, 255, 0.15)',
           zIndex: 1,
           pointerEvents: 'none'
         }} />
@@ -800,9 +800,9 @@ export default function Home() {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'linear-gradient(to right, #0F172A 0%, transparent 30%, transparent 70%, #0F172A 100%), linear-gradient(to bottom, #0F172A 0%, transparent 20%, transparent 80%, #0F172A 100%)',
+          background: 'linear-gradient(to right, rgba(15, 23, 42, 0.1) 0%, transparent 20%, transparent 80%, rgba(15, 23, 42, 0.1) 100%)',
           zIndex: 1,
-          opacity: 0.6,
+          opacity: 0.3,
           pointerEvents: 'none'
         }} />
 
