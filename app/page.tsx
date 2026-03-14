@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { bundles } from "@/lib/extensions";
 import { ArrowRight, Chrome, Zap, Plus, Layers, Quote, Star, Loader2, Image as ImageIcon } from "lucide-react";
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, AnimatePresence } from "framer-motion";
 import GeometricIcon from "@/components/GeometricIcon";
 import Reveal from "@/components/Reveal";
 import AbstractComposition from "@/components/AbstractComposition";
@@ -69,6 +69,7 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoRef2 = useRef<HTMLVideoElement>(null);
   const videoRef3 = useRef<HTMLVideoElement>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     // Fetch extensions from Database
@@ -870,62 +871,85 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: i * 0.1 }}
                 style={{
-                  padding: '32px',
-                  border: '1px solid rgba(15, 23, 42, 0.05)',
-                  background: 'rgba(255, 255, 255, 0.01)',
-                  backdropFilter: 'blur(2px)',
-                  WebkitBackdropFilter: 'blur(2px)',
+                  padding: '24px 32px',
+                  border: '1px solid rgba(15, 23, 42, 0.08)',
+                  background: 'white',
                   transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                   position: 'relative',
                   display: 'flex',
-                  gap: '24px'
+                  flexDirection: 'column',
+                  gap: '0',
+                  cursor: 'pointer',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 20px -10px rgba(0,0,0,0.05)'
                 }}
+                onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
-                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255, 255, 255, 0.4)';
                   (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--primary)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 20px 40px -20px rgba(59, 130, 246, 0.15)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 20px 40px -20px rgba(59, 130, 246, 0.12)';
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255, 255, 255, 0.01)';
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(15, 23, 42, 0.05)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
+                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(15, 23, 42, 0.08)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px -10px rgba(0,0,0,0.05)';
                 }}
               >
-                <div style={{
-                  fontSize: '0.8rem',
-                  fontWeight: 900,
-                  color: 'var(--primary)',
-                  fontFamily: 'monospace',
-                  letterSpacing: '0.1em',
-                  paddingTop: '4px',
-                  opacity: 0.8
-                }}>
-                  0{i + 1}
-                </div>
-                <div>
+                <div style={{ display: 'flex', gap: '24px', alignItems: 'center', width: '100%' }}>
+                  <div style={{
+                    fontSize: '0.8rem',
+                    fontWeight: 900,
+                    color: 'var(--primary)',
+                    fontFamily: 'monospace',
+                    letterSpacing: '0.1em',
+                    opacity: 0.8,
+                    minWidth: '24px'
+                  }}>
+                    0{i + 1}
+                  </div>
                   <h3 style={{
-                    fontSize: '1.25rem',
+                    fontSize: '1.2rem',
                     fontWeight: 700,
                     color: 'var(--accent-navy)',
                     letterSpacing: '-0.02em',
-                    marginBottom: '16px',
-                    lineHeight: 1.3
+                    margin: 0,
+                    lineHeight: 1.3,
+                    flex: 1
                   }}>
                     {faq.question}
                   </h3>
-                  <p style={{
-                    color: 'var(--accent-navy)',
-                    opacity: 0.7,
-                    lineHeight: 1.7,
-                    fontSize: '1rem',
-                    margin: 0,
-                    fontWeight: 400
-                  }}>
-                    {faq.answer}
-                  </p>
+                  <motion.div
+                    animate={{ rotate: expandedIndex === i ? 45 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    style={{ color: 'var(--primary)', opacity: 0.6 }}
+                  >
+                    <Plus size={20} />
+                  </motion.div>
                 </div>
+                
+                <AnimatePresence>
+                  {expandedIndex === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                      animate={{ height: 'auto', opacity: 1, marginTop: 16 }}
+                      exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <p style={{
+                        color: 'var(--accent-navy)',
+                        opacity: 0.8,
+                        lineHeight: 1.7,
+                        fontSize: '1rem',
+                        margin: 0,
+                        fontWeight: 400,
+                        paddingLeft: '48px' // Align with question text after the number
+                      }}>
+                        {faq.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
             <div style={{ borderTop: '1px solid rgba(15, 23, 42, 0.08)' }} />
