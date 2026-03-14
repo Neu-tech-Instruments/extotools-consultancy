@@ -38,8 +38,7 @@ const itemVariants = {
   hidden: { y: 40, opacity: 0 },
   visible: {
     y: 0,
-    opacity: 1,
-    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] as any },
+    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -247,7 +246,7 @@ export default function Home() {
               <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginTop: '-40px', fontWeight: 300, letterSpacing: '-0.02em', color: 'var(--accent-navy)' }}>Premium <br /><span style={{ color: 'var(--primary)' }}>Extensions.</span></h2>
             </motion.div>
             <p style={{ color: 'var(--accent-navy)', opacity: 0.8, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', lineHeight: 1.6, paddingBottom: '20px', maxWidth: '400px', fontFamily: 'monospace' }}>
-              // THE_COLLECTION: <br />
+              {"// THE_COLLECTION:"} <br />
               Carefully crafted browser tools designed to boost your daily productivity. No bloat, just performance.
             </p>
           </div>
@@ -426,7 +425,7 @@ export default function Home() {
               </div>
               <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginBottom: '32px', color: 'var(--accent-navy)' }}>Extension Bundles.</h2>
               <p style={{ fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', color: 'var(--accent-navy)', opacity: 0.7, maxWidth: '500px', marginBottom: '40px', lineHeight: 1.5 }}>
-                Get all of our premium extensions for one low monthly price. Unlock your browser's full potential and supercharge your workflow.
+                Get all of our premium extensions for one low monthly price. Unlock your browser&apos;s full potential and supercharge your workflow.
               </p>
               <Link href="/bundles" className="btn btn-primary" style={{ padding: '20px 48px' }}>View Bundle Pricing</Link>
             </motion.div>
