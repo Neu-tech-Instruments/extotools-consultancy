@@ -880,7 +880,7 @@ export default function Home() {
                   flexDirection: 'column',
                   gap: '0',
                   cursor: 'pointer',
-                  borderRadius: '12px',
+                  borderRadius: '0',
                   boxShadow: '0 4px 20px -10px rgba(0,0,0,0.05)'
                 }}
                 onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
