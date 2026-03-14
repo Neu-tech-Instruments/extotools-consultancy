@@ -837,55 +837,91 @@ export default function Home() {
               fontWeight: 800,
               background: 'var(--accent-navy)',
               color: 'white',
-              padding: '4px 12px',
+              padding: '6px 14px',
               textTransform: 'uppercase',
-              letterSpacing: '0.2em',
+              letterSpacing: '0.25em',
               display: 'inline-block',
-              marginBottom: '16px'
+              marginBottom: '20px',
+              fontFamily: 'monospace'
             }}>
-              Support Centers
+              TECHNICAL_DOCS // FAQ
             </span>
-            <h2 className="font-serif" style={{ fontSize: '3rem', marginBottom: '12px', color: 'var(--accent-navy)', letterSpacing: '-0.02em' }}>Common Questions.</h2>
-            <p style={{ color: 'var(--accent-navy)', opacity: 0.7, fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>
-              Everything you need to know about the professional workspace.
+            <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', marginBottom: '16px', color: 'var(--accent-navy)', letterSpacing: '-0.03em', fontWeight: 300 }}>Common <span style={{ color: 'var(--primary)', fontWeight: 600 }}>Questions.</span></h2>
+            <p style={{ color: 'var(--accent-navy)', opacity: 0.6, fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.5, fontWeight: 500 }}>
+              The definitive resource for mastering your professional digital workspace and power-user extensions.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: '30px 60px'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+            gap: '40px 80px',
+            padding: '20px 0'
           }}>
             {FAQS.map((faq, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ duration: 0.8, delay: i * 0.1 }}
                 style={{
-                  padding: '24px 0',
-                  borderTop: '1px solid rgba(15, 23, 42, 0.1)',
+                  padding: '32px',
+                  border: '1px solid rgba(15, 23, 42, 0.05)',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  position: 'relative',
+                  display: 'flex',
+                  gap: '24px'
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255, 255, 255, 0.5)';
+                  (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--primary)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 20px 40px -20px rgba(59, 130, 246, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255, 255, 255, 0.02)';
+                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(15, 23, 42, 0.05)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
                 }}
               >
-                <h3 style={{
-                  fontSize: '1.15rem',
-                  fontWeight: 700,
-                  color: 'var(--accent-navy)',
-                  letterSpacing: '-0.01em',
-                  marginBottom: '12px'
+                <div style={{
+                  fontSize: '0.8rem',
+                  fontWeight: 900,
+                  color: 'var(--primary)',
+                  fontFamily: 'monospace',
+                  letterSpacing: '0.1em',
+                  paddingTop: '4px',
+                  opacity: 0.8
                 }}>
-                  {faq.question}
-                </h3>
-                <p style={{
-                  color: 'var(--accent-navy)',
-                  opacity: 0.7,
-                  lineHeight: 1.6,
-                  fontSize: '1rem',
-                  margin: 0
-                }}>
-                  {faq.answer}
-                </p>
+                  0{i + 1}
+                </div>
+                <div>
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    color: 'var(--accent-navy)',
+                    letterSpacing: '-0.02em',
+                    marginBottom: '16px',
+                    lineHeight: 1.3
+                  }}>
+                    {faq.question}
+                  </h3>
+                  <p style={{
+                    color: 'var(--accent-navy)',
+                    opacity: 0.7,
+                    lineHeight: 1.7,
+                    fontSize: '1rem',
+                    margin: 0,
+                    fontWeight: 400
+                  }}>
+                    {faq.answer}
+                  </p>
+                </div>
               </motion.div>
             ))}
             <div style={{ borderTop: '1px solid rgba(15, 23, 42, 0.08)' }} />
