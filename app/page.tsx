@@ -759,7 +759,9 @@ export default function Home() {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              objectPosition: '85% bottom', // Focus on the boat area
+              transform: 'scale(1.1)', // Slight zoom to allow for better positioning
             }}
           >
             <source src="/newvidboat.mp4" type="video/mp4" />
@@ -868,9 +870,9 @@ export default function Home() {
                 style={{
                   padding: '32px',
                   border: '1px solid rgba(15, 23, 42, 0.05)',
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  backdropFilter: 'blur(8px)',
-                  WebkitBackdropFilter: 'blur(8px)',
+                  background: 'rgba(255, 255, 255, 0.01)',
+                  backdropFilter: 'blur(2px)',
+                  WebkitBackdropFilter: 'blur(2px)',
                   transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                   position: 'relative',
                   display: 'flex',
@@ -878,13 +880,13 @@ export default function Home() {
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
-                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255, 255, 255, 0.5)';
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255, 255, 255, 0.4)';
                   (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--primary)';
                   (e.currentTarget as HTMLDivElement).style.boxShadow = '0 20px 40px -20px rgba(59, 130, 246, 0.15)';
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255, 255, 255, 0.02)';
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255, 255, 255, 0.01)';
                   (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(15, 23, 42, 0.05)';
                   (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
                 }}
