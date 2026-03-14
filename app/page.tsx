@@ -347,16 +347,16 @@ export default function Home() {
 
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                          <span style={{ 
-                            fontSize: '0.7rem', 
-                            fontWeight: 900, 
-                            textTransform: 'uppercase', 
-                            letterSpacing: '0.15em', 
-                            fontFamily: 'monospace', 
-                            color: 'white', 
-                            background: solidAccent, 
-                            padding: '6px 12px', 
-                            borderRadius: '2px', 
+                          <span style={{
+                            fontSize: '0.7rem',
+                            fontWeight: 900,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.15em',
+                            fontFamily: 'monospace',
+                            color: 'white',
+                            background: solidAccent,
+                            padding: '6px 12px',
+                            borderRadius: '2px',
                             marginBottom: '12px',
                             boxShadow: `0 4px 12px rgba(59, 130, 246, 0.15)`
                           }}>
@@ -738,7 +738,7 @@ export default function Home() {
         </div >
       </section>
       {/* FAQ Section */}
-      <section style={{ padding: '100px 0', background: '#0F172A', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '100px 0', background: 'white', position: 'relative', overflow: 'hidden' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -748,7 +748,7 @@ export default function Home() {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.8, // High visibility for the boat scenery
+          opacity: 0.5, // Subtle cinematic visibility on white
         }}>
           <video
             ref={videoRef3}
@@ -766,33 +766,7 @@ export default function Home() {
           </video>
         </div>
 
-        {/* Dark Filter on the Sides */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'rgba(15, 23, 42, 0.7)',
-          maskImage: 'radial-gradient(circle, transparent 0%, black 70%)',
-          WebkitMaskImage: 'radial-gradient(circle, transparent 0%, black 70%)',
-          zIndex: 1,
-          pointerEvents: 'none'
-        }} />
-
-        {/* White Light Focus in the Middle */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 80%)',
-          zIndex: 1,
-          pointerEvents: 'none'
-        }} />
-
-        {/* Cinematic Blur focus for the text area */}
+        {/* Cinematic Blur Mask: Blurs center for readability, clear sides for boat */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -800,13 +774,37 @@ export default function Home() {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          maskImage: 'radial-gradient(circle, black 0%, transparent 60%)',
-          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 60%)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          maskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 80%)',
           pointerEvents: 'none'
         }} />
 
+        {/* Soft White Filter Layer */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(255, 255, 255, 0.4)',
+          zIndex: 1,
+          pointerEvents: 'none'
+        }} />
+
+        {/* Ambient Dark Overlay for contrast */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(to right, #0F172A 0%, transparent 30%, transparent 70%, #0F172A 100%), linear-gradient(to bottom, #0F172A 0%, transparent 20%, transparent 80%, #0F172A 100%)',
+          zIndex: 1,
+          opacity: 0.6,
+          pointerEvents: 'none'
+        }} />
 
         {/* Vibrant Mesh Background Accents */}
         <div style={{
@@ -834,13 +832,13 @@ export default function Home() {
 
         <div className="container" style={{ maxWidth: '1000px', position: 'relative', zIndex: 2 }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <span style={{ 
-              fontSize: '0.7rem', 
-              fontWeight: 800, 
+            <span style={{
+              fontSize: '0.7rem',
+              fontWeight: 800,
               background: 'var(--accent-navy)',
               color: 'white',
               padding: '4px 12px',
-              textTransform: 'uppercase', 
+              textTransform: 'uppercase',
               letterSpacing: '0.2em',
               display: 'inline-block',
               marginBottom: '16px'
@@ -853,38 +851,38 @@ export default function Home() {
             </p>
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
-            gap: '30px 60px' 
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gap: '30px 60px'
           }}>
             {FAQS.map((faq, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                style={{ 
+                style={{
                   padding: '24px 0',
                   borderTop: '1px solid rgba(15, 23, 42, 0.1)',
                 }}
               >
-                <h3 style={{ 
-                  fontSize: '1.15rem', 
-                  fontWeight: 700, 
-                  color: 'var(--accent-navy)', 
+                <h3 style={{
+                  fontSize: '1.15rem',
+                  fontWeight: 700,
+                  color: 'var(--accent-navy)',
                   letterSpacing: '-0.01em',
                   marginBottom: '12px'
                 }}>
                   {faq.question}
                 </h3>
-                <p style={{ 
-                  color: 'var(--accent-navy)', 
-                  opacity: 0.7, 
-                  lineHeight: 1.6, 
+                <p style={{
+                  color: 'var(--accent-navy)',
+                  opacity: 0.7,
+                  lineHeight: 1.6,
                   fontSize: '1rem',
-                  margin: 0 
+                  margin: 0
                 }}>
                   {faq.answer}
                 </p>
@@ -907,9 +905,9 @@ export default function Home() {
               <p style={{ color: 'var(--accent-navy)', opacity: 0.5, fontSize: '0.95rem', margin: 0 }}>
                 Still have questions?
               </p>
-              <Link href="/contact" style={{ 
-                color: 'var(--primary)', 
-                fontWeight: 700, 
+              <Link href="/contact" style={{
+                color: 'var(--primary)',
+                fontWeight: 700,
                 textDecoration: 'none',
                 fontSize: '0.95rem'
               }}>
