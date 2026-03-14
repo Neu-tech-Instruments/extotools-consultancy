@@ -759,7 +759,7 @@ export default function Home() {
             playsInline
             style={{
               width: '100%',
-              height: '100%',
+              height: '102%', // Slightly taller to eliminate bottom gaps
               objectFit: 'cover',
               objectPosition: 'right bottom', // Maximum reveal for the boat area
               transform: 'scale(1.0)', // Full frame zoom out
