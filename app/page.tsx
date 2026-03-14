@@ -952,33 +952,7 @@ export default function Home() {
                 </AnimatePresence>
               </motion.div>
             ))}
-            <div style={{ borderTop: '1px solid rgba(15, 23, 42, 0.08)' }} />
-          </div>
 
-          <div style={{ marginTop: '80px', textAlign: 'left' }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '16px 32px',
-              background: 'white',
-              border: '1px solid rgba(0,0,0,0.05)',
-              borderRadius: '0',
-              boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)'
-            }}>
-              <p style={{ color: 'var(--accent-navy)', opacity: 0.5, fontSize: '0.95rem', margin: 0 }}>
-                Still have questions?
-              </p>
-              <Link href="/contact" style={{
-                color: 'var(--primary)',
-                fontWeight: 700,
-                textDecoration: 'none',
-                fontSize: '0.95rem'
-              }}>
-                Get in touch
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
 
