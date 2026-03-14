@@ -38,7 +38,8 @@ const itemVariants = {
   hidden: { y: 40, opacity: 0 },
   visible: {
     y: 0,
-    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+    opacity: 1,
+    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] as any },
   },
 };
 
@@ -246,7 +247,7 @@ export default function Home() {
               <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginTop: '-40px', fontWeight: 300, letterSpacing: '-0.02em', color: 'var(--accent-navy)' }}>Premium <br /><span style={{ color: 'var(--primary)' }}>Extensions.</span></h2>
             </motion.div>
             <p style={{ color: 'var(--accent-navy)', opacity: 0.8, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', lineHeight: 1.6, paddingBottom: '20px', maxWidth: '400px', fontFamily: 'monospace' }}>
-              {"// THE_COLLECTION:"} <br />
+              // THE_COLLECTION: <br />
               Carefully crafted browser tools designed to boost your daily productivity. No bloat, just performance.
             </p>
           </div>
@@ -425,7 +426,7 @@ export default function Home() {
               </div>
               <h2 className="font-serif" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', marginBottom: '32px', color: 'var(--accent-navy)' }}>Extension Bundles.</h2>
               <p style={{ fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', color: 'var(--accent-navy)', opacity: 0.7, maxWidth: '500px', marginBottom: '40px', lineHeight: 1.5 }}>
-                Get all of our premium extensions for one low monthly price. Unlock your browser&apos;s full potential and supercharge your workflow.
+                Get all of our premium extensions for one low monthly price. Unlock your browser's full potential and supercharge your workflow.
               </p>
               <Link href="/bundles" className="btn btn-primary" style={{ padding: '20px 48px' }}>View Bundle Pricing</Link>
             </motion.div>
@@ -738,7 +739,7 @@ export default function Home() {
         </div >
       </section>
       {/* FAQ Section */}
-      <section style={{ padding: '100px 0', background: 'var(--accent-navy)', position: 'relative', overflow: 'hidden', marginBottom: '-10px' }}>
+      <section style={{ padding: '100px 0', background: 'white', position: 'relative', overflow: 'hidden' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -758,11 +759,10 @@ export default function Home() {
             playsInline
             style={{
               width: '100%',
-              height: '102%', // Slightly taller to eliminate bottom gaps
+              height: '100%',
               objectFit: 'cover',
               objectPosition: 'right bottom', // Maximum reveal for the boat area
               transform: 'scale(1.0)', // Full frame zoom out
-              filter: 'saturate(1.6) contrast(1.1)' // Make colors (especially red) stronger
             }}
           >
             <source src="/newvidboat.mp4" type="video/mp4" />
@@ -880,7 +880,7 @@ export default function Home() {
                   flexDirection: 'column',
                   gap: '0',
                   cursor: 'pointer',
-                  borderRadius: '0',
+                  borderRadius: '12px',
                   boxShadow: '0 4px 20px -10px rgba(0,0,0,0.05)'
                 }}
                 onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
@@ -952,9 +952,38 @@ export default function Home() {
                 </AnimatePresence>
               </motion.div>
             ))}
+            <div style={{ borderTop: '1px solid rgba(15, 23, 42, 0.08)' }} />
+          </div>
+
+          <div style={{ marginTop: '80px', textAlign: 'left' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '16px 32px',
+              background: 'white',
+              border: '1px solid rgba(0,0,0,0.05)',
+              borderRadius: '0',
+              boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)'
+            }}>
+              <p style={{ color: 'var(--accent-navy)', opacity: 0.5, fontSize: '0.95rem', margin: 0 }}>
+                Still have questions?
+              </p>
+              <Link href="/contact" style={{
+                color: 'var(--primary)',
+                fontWeight: 700,
+                textDecoration: 'none',
+                fontSize: '0.95rem'
+              }}>
+                Get in touch
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Spacing adjustments */}
+      <div style={{ height: '0px' }} />
     </div>
   );
 }
