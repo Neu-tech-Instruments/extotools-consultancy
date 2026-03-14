@@ -739,7 +739,7 @@ export default function Home() {
         </div >
       </section>
       {/* FAQ Section */}
-      <section style={{ padding: '100px 0', background: 'white', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '100px 0', background: 'white', position: 'relative', overflow: 'hidden', marginBottom: '-2px' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
