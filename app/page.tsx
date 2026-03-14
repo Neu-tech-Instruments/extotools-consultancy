@@ -121,8 +121,7 @@ export default function Home() {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center'
+              objectFit: 'cover'
             }}
           >
             <source src="/banner_pingpong.mp4" type="video/mp4" />
@@ -227,11 +226,9 @@ export default function Home() {
             playsInline
             style={{
               width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              filter: 'contrast(1.1) brightness(0.9)',
-              transform: 'scale(1.05)',
-              transformOrigin: 'center'
+              maxHeight: '120vh',
+              objectFit: 'contain',
+              filter: 'contrast(1.1) brightness(0.9)'
             }}
           >
             <source src="/eyes.mp4" type="video/mp4" />
@@ -408,8 +405,7 @@ export default function Home() {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              transform: 'scale(1.02)'
+              objectFit: 'cover'
             }}
           >
             <source src="/bnw_pingpong.mp4" type="video/mp4" />
@@ -537,7 +533,7 @@ export default function Home() {
       </section>
 
       {/* Reviews Section */}
-      <section style={{ padding: '10px 0 160px 0', background: 'var(--accent-navy)', color: 'white', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '80px 0 120px 0', background: 'var(--accent-navy)', color: 'white', position: 'relative', overflow: 'hidden' }}>
         {/* Decorative background accents */}
         <div style={{
           position: 'absolute',
@@ -743,7 +739,7 @@ export default function Home() {
         </div >
       </section>
       {/* FAQ Section */}
-      <section style={{ padding: '100px 0', background: 'white', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ position: 'relative', overflow: 'hidden', background: 'white' }}>
         {/* User Provided Background Video */}
         <div style={{
           position: 'absolute',
@@ -765,9 +761,8 @@ export default function Home() {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'right bottom',
-              transform: 'scale(1.1)',
-              transformOrigin: 'center'
+              objectPosition: 'center',
+              transform: 'scale(1.02)', // Slight overscale to prevent any edge bleeding
             }}
           >
             <source src="/newvidboat.mp4" type="video/mp4" />
@@ -784,9 +779,8 @@ export default function Home() {
           zIndex: 1,
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          maskImage: 'radial-gradient(circle, black 0%, transparent 85%)',
-          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 85%)',
-          pointerEvents: 'none'
+          pointerEvents: 'none',
+          opacity: 0.9
         }} />
 
         {/* Soft White Filter Layer */}
@@ -838,7 +832,7 @@ export default function Home() {
           pointerEvents: 'none'
         }} />
 
-        <div className="container" style={{ maxWidth: '1100px', position: 'relative', zIndex: 2 }}>
+        <div className="container" style={{ maxWidth: '1100px', position: 'relative', zIndex: 2, padding: '120px 0' }}>
           <div style={{ textAlign: 'left', marginBottom: '80px' }}>
             <span style={{
               fontSize: '0.7rem',
@@ -987,6 +981,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Spacing adjustments */}
     </div>
   );
 }
