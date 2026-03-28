@@ -12,6 +12,8 @@ export default async function BillingPage() {
         redirect("/login?callbackUrl=/billing");
     }
 
+    let portalUrl = "/dashboard";
+
     try {
         const stripe = (await getStripe()) as any;
 
@@ -35,14 +37,16 @@ export default async function BillingPage() {
         // Generate a fresh, authenticated Stripe Customer Portal session
         const portalSession = await stripe.billingPortal.sessions.create({
             customer: customerId,
-            return_url: `${process.env.NEXTAUTH_URL || "https://extotools.com"}/dashboard`,
+            return_url: `${process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || "https://extotools.com"}/dashboard`,
         });
 
-        // Hard redirect to Stripe
-        redirect(portalSession.url);
+        portalUrl = portalSession.url;
     } catch (error) {
         console.error("[BILLING_PAGE_ERROR]", error);
         // On any error fall back to dashboard
-        redirect("/dashboard");
+        portalUrl = "/dashboard";
     }
+
+    // Hard redirect to Stripe (or fallback)
+    redirect(portalUrl);
 }
