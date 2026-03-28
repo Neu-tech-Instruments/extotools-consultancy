@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MessageSquare, ArrowRight, MapPin } from "lucide-react";
+import { Mail, MessageSquare, ArrowRight, MapPin, CheckCircle2 } from "lucide-react";
 import React, { useState } from "react";
 
 export default function ContactPage() {
@@ -188,7 +188,9 @@ export default function ContactPage() {
                                         textAlign: 'center'
                                     }}
                                 >
-                                    <div style={{ fontSize: '3rem', marginBottom: '16px' }}>✨</div>
+                                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px', color: 'var(--secondary)' }}>
+                                        <CheckCircle2 size={48} strokeWidth={1.5} />
+                                    </div>
                                     <h4 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '12px' }}>Message Sent!</h4>
                                     <p style={{ color: 'rgba(255,255,255,0.8)' }}>Thanks for reaching out. A member of our team will get back to you shortly.</p>
                                 </motion.div>

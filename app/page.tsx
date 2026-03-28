@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { bundles } from "@/lib/extensions";
-import { ArrowRight, Chrome, Zap, Plus, Layers, Quote, Star, Loader2, Image as ImageIcon } from "lucide-react";
+import { ArrowRight, Chrome, Zap, Plus, Layers, Quote, Star, Loader2, Image as ImageIcon, BadgeCheck, Lock, EyeOff, ShieldCheck } from "lucide-react";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import GeometricIcon from "@/components/GeometricIcon";
 import Reveal from "@/components/Reveal";
@@ -738,6 +738,112 @@ export default function Home() {
           </div>
         </div >
       </section>
+      {/* Trust Stripe */}
+      <section style={{ background: 'var(--accent-navy)', padding: '60px 0', position: 'relative', overflow: 'hidden' }}>
+        {/* Subtle background glow */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '70%',
+          height: '200%',
+          background: 'radial-gradient(circle, rgba(35, 34, 200, 0.15) 0%, transparent 65%)',
+          filter: 'blur(60px)',
+          pointerEvents: 'none',
+        }} />
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <span style={{
+              fontSize: '0.7rem',
+              fontWeight: 800,
+              letterSpacing: '0.2em',
+              color: 'rgba(255,255,255,0.4)',
+              textTransform: 'uppercase',
+              fontFamily: 'monospace',
+            }}>Why Choose ExToTools</span>
+          </div>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '24px',
+          }} className="trust-stripe-grid">
+            {([
+              {
+                Icon: BadgeCheck,
+                title: '14-Day Guarantee',
+                desc: 'Not satisfied? Get a full refund within 14 days — no questions, no friction.',
+                accent: 'var(--secondary)',
+              },
+              {
+                Icon: Lock,
+                title: 'Secure Checkout',
+                desc: 'Payments are processed end-to-end by Stripe with industry-leading encryption.',
+                accent: 'var(--accent-1)',
+              },
+              {
+                Icon: EyeOff,
+                title: 'Privacy First',
+                desc: 'We never collect or sell your browsing data. What happens in your browser stays there.',
+                accent: 'var(--primary)',
+              },
+              {
+                Icon: ShieldCheck,
+                title: 'MV3 Compliant',
+                desc: 'All extensions are built to the latest Manifest V3 standard for maximum security.',
+                accent: 'var(--accent-2)',
+              },
+            ] as const).map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.1 }}
+                style={{
+                  padding: '32px 28px',
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.08)';
+                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.14)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.04)';
+                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.07)';
+                }}
+              >
+                {/* Accent top bar */}
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: item.accent }} />
+                <div style={{ marginBottom: '20px', color: item.accent }}>
+                  <item.Icon size={28} strokeWidth={1.75} />
+                </div>
+                <h3 style={{
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  color: 'white',
+                  marginBottom: '10px',
+                  letterSpacing: '-0.01em',
+                }}>
+                  {item.title}
+                </h3>
+                <p style={{
+                  fontSize: '0.88rem',
+                  color: 'rgba(255,255,255,0.5)',
+                  lineHeight: 1.6,
+                }}>
+                  {item.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section style={{ position: 'relative', overflow: 'hidden', background: 'white' }}>
         {/* User Provided Background Video */}

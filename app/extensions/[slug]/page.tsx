@@ -18,7 +18,6 @@ interface Extension {
     price: number;
     features: string;
     chromeWebStoreLink?: string | null;
-    priceId: string;
     isLive: boolean;
 }
 

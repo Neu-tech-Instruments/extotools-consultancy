@@ -61,6 +61,8 @@ export default function Navbar() {
                     <div className="desktop-only" style={{ alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)' }}>
                         <a href="/#collection" style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Premium</a>
                         <a href="/bundles" style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Bundles</a>
+                        <a href="/about" style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>About</a>
+                        <a href="/help" style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', color: 'var(--foreground)', opacity: 0.6, cursor: 'pointer' }}>Help</a>
                     </div>
                 </div>
 
@@ -261,6 +263,8 @@ export default function Navbar() {
             <div className={`mobile-drawer ${isMenuOpen ? 'active' : ''}`}>
                 <a href="/#collection" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 800, textDecoration: 'none', color: 'var(--foreground)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>The Collection</a>
                 <a href="/bundles" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 800, textDecoration: 'none', color: 'var(--foreground)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Bundles</a>
+                <a href="/about" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 800, textDecoration: 'none', color: 'var(--foreground)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>About</a>
+                <a href="/help" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 800, textDecoration: 'none', color: 'var(--foreground)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Help</a>
                 <hr style={{ border: 'none', borderTop: '1px solid var(--architect-line)' }} />
                 {session && (
                     <>

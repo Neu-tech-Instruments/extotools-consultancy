@@ -71,7 +71,6 @@ model Extension {
   price              Float    @default(0)
   features           String   @default("[]") // Store as JSON string
   chromeWebStoreLink String?
-  priceId            String?   // Stripe Price ID
   isLive             Boolean  @default(false)
   subscriptions Subscription[]
 }

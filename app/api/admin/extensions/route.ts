@@ -48,7 +48,6 @@ export async function POST(req: Request) {
         const description = formData.get("description") as string;
         const shortDescription = formData.get("shortDescription") as string;
         const price = parseFloat(formData.get("price") as string) || 0;
-        const priceId = formData.get("priceId") as string;
         let chromeWebStoreLink = formData.get("chromeWebStoreLink") as string;
         if (chromeWebStoreLink === "undefined" || chromeWebStoreLink === "") {
             chromeWebStoreLink = null as unknown as string;
@@ -57,7 +56,8 @@ export async function POST(req: Request) {
         const isLive = formData.get("isLive") === "true";
 
         if (!name || !slug) {
-            return NextResponse.json({ error: "Name and Slug are required." }, { status: 400 });
+            const message = isLive ? "Name and Slug are required to publish live." : "Name and Slug are required.";
+            return NextResponse.json({ error: message }, { status: 400 });
         }
 
         let imageUrl = null;
@@ -95,8 +95,8 @@ export async function POST(req: Request) {
         await client.execute({
             sql: `
                 INSERT INTO "Extension" 
-                (id, name, slug, description, shortDescription, price, priceId, chromeWebStoreLink, features, isLive, image)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (id, name, slug, description, shortDescription, price, chromeWebStoreLink, features, isLive, image)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `,
             args: [
                 newId,
@@ -105,7 +105,6 @@ export async function POST(req: Request) {
                 description || null,
                 shortDescription || "",
                 price,
-                priceId || null,
                 chromeWebStoreLink || null,
                 features || "[]",
                 isLive ? 1 : 0,
@@ -159,7 +158,6 @@ export async function PUT(req: Request) {
         const description = formData.get("description") as string;
         const shortDescription = formData.get("shortDescription") as string;
         const price = parseFloat(formData.get("price") as string) || 0;
-        const priceId = formData.get("priceId") as string;
         let chromeWebStoreLink = formData.get("chromeWebStoreLink") as string;
         if (chromeWebStoreLink === "undefined" || chromeWebStoreLink === "") {
             chromeWebStoreLink = null as unknown as string;
@@ -168,7 +166,8 @@ export async function PUT(req: Request) {
         const isLive = formData.get("isLive") === "true";
 
         if (!name || !slug) {
-            return NextResponse.json({ error: "Name and Slug are required." }, { status: 400 });
+            const message = isLive ? "Name and Slug are required to publish live." : "Name and Slug are required.";
+            return NextResponse.json({ error: message }, { status: 400 });
         }
 
         let imageUrl = undefined;
@@ -192,7 +191,6 @@ export async function PUT(req: Request) {
             description: description || null,
             shortDescription: shortDescription || "",
             price,
-            priceId: priceId || null,
             chromeWebStoreLink: chromeWebStoreLink || null,
             features: features || "[]",
             isLive,

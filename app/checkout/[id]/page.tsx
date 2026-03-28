@@ -92,8 +92,9 @@ export default async function CheckoutPage({ params }: { params: Promise<{ id: s
                                 </div>
                                 <div style={{ fontSize: '1.25rem', color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>/ month</div>
                             </div>
-                            <div style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 600, marginTop: '8px', opacity: 0.8 }}>
-                                ✨ Secure payment through Stripe
+                            <div style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 600, marginTop: '8px', opacity: 0.8, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <Lock size={13} strokeWidth={2} />
+                                Secure payment through Stripe
                             </div>
                         </div>
 

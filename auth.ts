@@ -42,7 +42,8 @@ export const {
                             name: user.name,
                             image: user.image,
                             firstName: firstName,
-                            lastName: lastName
+                            lastName: lastName,
+                            createdAt: new Date().toISOString()
                         }
                     });
                     token.id = dbUser.id;

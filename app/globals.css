@@ -511,3 +511,27 @@ ul {
     height: 26px !important;
   }
 }
+
+/* Trust Stripe Grid */
+.trust-stripe-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .trust-stripe-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .trust-stripe-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Floating support button hover */
+#floating-support-btn:hover {
+  background: var(--accent-navy) !important;
+  transform: translate(-3px, -3px) !important;
+  box-shadow: 3px 3px 0 var(--secondary) !important;
+}

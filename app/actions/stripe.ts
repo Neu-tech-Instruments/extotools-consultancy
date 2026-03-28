@@ -1,18 +1,30 @@
 'use server'
 
+import { auth } from '@/auth'
 import { getStripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
 import { bundles } from '@/lib/extensions'
 
 export async function startCheckoutSession(productId: string, currency: string = 'usd') {
+  const sessionUser = await auth()
+  
+  if (!sessionUser?.user?.id) {
+    throw new Error("Unauthorized: You must be logged in to checkout.")
+  }
+
   const stripe = await getStripe()
   
-  // Ensure currency is lowercase for Stripe
+  // Ensure currency is lowercase for Stripe and validated
+  const supportedCurrencies = ['usd', 'eur', 'gbp']
   const stripeCurrency = currency.toLowerCase()
+  if (!supportedCurrencies.includes(stripeCurrency)) {
+    throw new Error(`Unsupported currency: ${currency}`)
+  }
 
   let name = ""
   let description = ""
   let price = 0
+  let isBundle = false
 
   // 1. Try finding as an Extension in DB
   const extension = await prisma.extension.findUnique({
@@ -23,6 +35,7 @@ export async function startCheckoutSession(productId: string, currency: string =
     name = extension.name
     description = extension.description || ""
     price = extension.price
+    isBundle = false
   } else {
     // 2. Try finding as a Bundle in static config
     const bundle = bundles.find(b => b.id === productId)
@@ -30,6 +43,7 @@ export async function startCheckoutSession(productId: string, currency: string =
       name = bundle.name
       description = bundle.description
       price = bundle.price
+      isBundle = true
     }
   }
 
@@ -39,9 +53,10 @@ export async function startCheckoutSession(productId: string, currency: string =
 
   try {
     // Create Checkout Sessions from body params.
-    const session = await stripe.checkout.sessions.create({
+    const checkoutSession = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       locale: 'en',
+      customer_email: sessionUser.user.email ?? undefined,
       adaptive_pricing: {
         enabled: false,
       },
@@ -51,6 +66,7 @@ export async function startCheckoutSession(productId: string, currency: string =
             currency: stripeCurrency,
             product_data: {
               name: name,
+              description: description,
             },
             unit_amount: Math.round(price * 100),
             recurring: {
@@ -62,19 +78,21 @@ export async function startCheckoutSession(productId: string, currency: string =
       ],
       mode: 'subscription',
       metadata: {
+          userId: sessionUser.user.id,
           productId: productId,
-          isBundle: String(!!bundles.find(b => b.id === productId))
+          bundleId: isBundle ? productId : "",
+          slug: extension?.slug || ""
       },
       redirect_on_completion: 'always',
       return_url: `${process.env.NEXTAUTH_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     })
 
-    if (!session.client_secret) {
+    if (!checkoutSession.client_secret) {
       console.error("Stripe Session missing client_secret");
       throw new Error("Failed to create checkout session")
     }
 
-    return session.client_secret
+    return checkoutSession.client_secret
   } catch (error: any) {
     console.error("STRIPE SESSION ERROR:", error.message);
     if (error.raw) {

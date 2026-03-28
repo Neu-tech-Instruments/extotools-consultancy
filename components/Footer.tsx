@@ -32,12 +32,12 @@ export default function Footer() {
                 zIndex: 1
             }}>
                 <div className="container">
-                    <div className="grid grid-cols-3 footer-grid-container" style={{ marginBottom: '48px', gap: '40px' }}>
-                        <div style={{ gridColumn: 'span 1' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }} className="footer-grid-container">
+                        <div>
                             <Link href="/" style={{ display: 'block', marginBottom: '16px', transition: 'opacity 0.2s ease' }} className="hover-opacity">
                                 <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.15em', color: 'white', lineHeight: 1 }}>EXTOTOOLS</span>
                             </Link>
-                            <p style={{ color: 'rgba(255, 255, 255, 0.6)', maxWidth: '300px' }}>
+                            <p style={{ color: 'rgba(255, 255, 255, 0.6)', maxWidth: '260px', lineHeight: 1.6 }}>
                                 Premium Chrome extensions to supercharge your browsing and productivity.
                             </p>
                         </div>
@@ -48,13 +48,22 @@ export default function Footer() {
                                 <li><a href="/#collection">All Extensions</a></li>
                                 <li><a href="/bundles">Bundle Packs</a></li>
                                 <li><a href="/roadmap">Roadmap</a></li>
+                                <li><a href="/changelog">Changelog</a></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 style={{ marginBottom: '16px', marginTop: '4px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'Inter, sans-serif', lineHeight: 1 }}>Company</h4>
+                            <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: 'rgba(255, 255, 255, 0.8)' }}>
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/contact">Contact</a></li>
                             </ul>
                         </div>
 
                         <div>
                             <h4 style={{ marginBottom: '16px', marginTop: '4px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'Inter, sans-serif', lineHeight: 1 }}>Support</h4>
                             <ul style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: 'rgba(255, 255, 255, 0.8)' }}>
-                                <li><a href="/contact">Contact Us</a></li>
+                                <li><a href="/help">Help Center</a></li>
                                 <li><a href="/refund">Refund Policy</a></li>
                                 <li><a href="/terms">Terms of Service</a></li>
                                 <li><a href="/privacy">Privacy Policy</a></li>

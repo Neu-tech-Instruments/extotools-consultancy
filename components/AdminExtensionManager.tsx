@@ -10,7 +10,6 @@ type Extension = {
     description: string;
     shortDescription: string;
     price: number;
-    priceId: string;
     image?: string | null;
     features?: string;
     chromeWebStoreLink?: string | null;
@@ -30,7 +29,6 @@ export default function AdminExtensionManager() {
     const [shortDescription, setShortDescription] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [priceId, setPriceId] = useState("");
     const [link, setLink] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [features, setFeatures] = useState<string[]>([]);
@@ -72,13 +70,21 @@ export default function AdminExtensionManager() {
         const currentIsLive = forceLive !== undefined ? forceLive : isLive;
 
         try {
+            const finalName = name.trim() || `Draft Extension ${new Date().toLocaleDateString()}`;
+            const finalSlug = slug.trim() || `${generateSlug(finalName)}-${Date.now().toString().slice(-4)}`;
+
+            if (currentIsLive && (!name.trim() || !slug.trim())) {
+                setIsSaving(false);
+                alert("Name and Slug are required to publish live.");
+                return;
+            }
+
             const formData = new FormData();
-            formData.append("name", name);
-            formData.append("slug", slug);
+            formData.append("name", finalName);
+            formData.append("slug", finalSlug);
             formData.append("shortDescription", shortDescription);
             formData.append("description", description);
             formData.append("price", price);
-            formData.append("priceId", priceId);
             formData.append("chromeWebStoreLink", link);
             formData.append("isLive", currentIsLive.toString());
             // Filter out empty features
@@ -167,7 +173,6 @@ export default function AdminExtensionManager() {
         setShortDescription(ext.shortDescription || "");
         setDescription(ext.description || "");
         setPrice((ext.price || 0).toString());
-        setPriceId(ext.priceId || "");
         setLink(ext.chromeWebStoreLink || "");
         setImageFile(null);
         try {
@@ -185,7 +190,6 @@ export default function AdminExtensionManager() {
         setShortDescription("");
         setDescription("");
         setPrice("");
-        setPriceId("");
         setLink("");
         setImageFile(null);
         setFeatures([]);
@@ -218,11 +222,11 @@ export default function AdminExtensionManager() {
                     <div className="grid grid-cols-2" style={{ gap: '16px', marginBottom: '16px' }}>
                         <div>
                             <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '8px', color: 'rgba(15, 23, 42, 0.7)' }}>Tool Name</label>
-                            <input type="text" value={name} onChange={handleNameChange} required placeholder="e.g. ScrapeMaster Pro" style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--input-border)', background: 'var(--bg)' }} />
+                            <input type="text" value={name} onChange={handleNameChange} placeholder="e.g. ScrapeMaster Pro" style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--input-border)', background: 'var(--bg)' }} />
                         </div>
                         <div>
                             <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '8px', color: 'rgba(15, 23, 42, 0.7)' }}>URL Slug</label>
-                            <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} required placeholder="e.g. scrapemaster-pro" style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--input-border)', background: 'var(--bg)' }} />
+                            <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="e.g. scrapemaster-pro" style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--input-border)', background: 'var(--bg)' }} />
                         </div>
                     </div>
 
@@ -254,7 +258,7 @@ export default function AdminExtensionManager() {
                                 <button
                                     type="button"
                                     onClick={() => setFeatures(features.filter((_, i) => i !== index))}
-                                    style={{ padding: '10px', color: 'red', background: 'rgba(255, 0, 0, 0.05)', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+                                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '10px', color: 'red', background: 'rgba(255, 0, 0, 0.05)', border: 'none', borderRadius: '0px', cursor: 'pointer' }}
                                     title="Remove Feature"
                                 >
                                     <Trash2 size={16} />
@@ -277,10 +281,6 @@ export default function AdminExtensionManager() {
                                 <DollarSign size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(15, 23, 42, 0.4)' }} />
                                 <input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="9.99" style={{ width: '100%', padding: '12px 12px 12px 36px', borderRadius: '8px', border: '1px solid var(--input-border)', background: 'var(--bg)' }} />
                             </div>
-                        </div>
-                        <div>
-                            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '8px', color: 'rgba(15, 23, 42, 0.7)' }}>Stripe Price ID</label>
-                            <input type="text" value={priceId} onChange={(e) => setPriceId(e.target.value)} placeholder="price_1Qx..." style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--input-border)', background: 'var(--bg)' }} />
                         </div>
                     </div>
 
@@ -383,14 +383,14 @@ export default function AdminExtensionManager() {
                                     <td style={{ padding: '16px 12px', textAlign: 'right' }}>
                                         <button
                                             onClick={() => handleEdit(ext)}
-                                            style={{ padding: '8px', color: 'var(--primary)', background: 'rgba(59, 130, 246, 0.1)', border: 'none', borderRadius: '8px', cursor: 'pointer', marginRight: '8px' }}
+                                            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '8px', color: 'var(--primary)', background: 'rgba(59, 130, 246, 0.1)', border: 'none', borderRadius: '0px', cursor: 'pointer', marginRight: '8px' }}
                                             title="Edit tool"
                                         >
                                             <Edit size={16} />
                                         </button>
                                         <button
                                             onClick={() => handleDeleteRequest(ext.id, ext.name)}
-                                            style={{ padding: '8px', color: 'red', background: 'rgba(255, 0, 0, 0.05)', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+                                            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '8px', color: 'red', background: 'rgba(255, 0, 0, 0.05)', border: 'none', borderRadius: '0px', cursor: 'pointer' }}
                                             title="Delete tool"
                                         >
                                             <Trash2 size={16} />

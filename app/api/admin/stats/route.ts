@@ -1,9 +1,7 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/auth";
 import { bundles } from "@/lib/extensions";
-import AdminExtensionManager from "@/components/AdminExtensionManager";
-import AdminDashboardClient from "@/components/AdminDashboardClient";
 
 export const dynamic = "force-dynamic";
 
@@ -13,26 +11,13 @@ const BUNDLE_PRICE: Record<string, number> = Object.fromEntries(
     bundles.map(b => [b.id, b.price])
 );
 
-export default async function AdminDashboard() {
-    const session = await auth();
-    if (!session?.user?.email || !ADMIN_EMAILS.includes(session.user.email)) {
-        redirect("/dashboard");
-    }
-
-    let initialData = {
-        totalUsers: 0,
-        totalActiveSubscriptions: 0,
-        activeBundles: 0,
-        activeSingles: 0,
-        churnCount: 0,
-        mrr: 0,
-        bundleMrr: 0,
-        singlesMrr: 0,
-        extensionPopularity: [] as { name: string; slug: string; count: number }[],
-        recentUsers: [] as any[],
-    };
-
+export async function GET() {
     try {
+        const session = await auth();
+        if (!session?.user?.email || !ADMIN_EMAILS.includes(session.user.email)) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const [
             totalUsers,
             totalActiveSubscriptions,
@@ -46,10 +31,12 @@ export default async function AdminDashboard() {
             prisma.subscription.count({ where: { status: "active" } }),
             prisma.subscription.count({ where: { status: "active", isBundle: true } }),
             prisma.subscription.count({ where: { status: "canceled" } }),
+            // All active subscriptions with extension price for MRR calc
             prisma.subscription.findMany({
                 where: { status: "active" },
                 include: { extension: { select: { price: true } } }
             }),
+            // All users for the table
             prisma.user.findMany({
                 orderBy: { id: "desc" },
                 include: {
@@ -59,6 +46,7 @@ export default async function AdminDashboard() {
                     }
                 }
             }),
+            // Extension popularity
             prisma.subscription.groupBy({
                 by: ["extensionId"],
                 where: { status: "active", isBundle: false, extensionId: { not: null } },
@@ -67,22 +55,27 @@ export default async function AdminDashboard() {
             }),
         ]);
 
+        // Calculate MRR
         let singlesMrr = 0;
         let bundleMrr = 0;
         for (const sub of activeSubs) {
             if (sub.isBundle) {
-                bundleMrr += BUNDLE_PRICE[sub.bundleType || ""] || 0;
+                const price = BUNDLE_PRICE[sub.bundleType || ""] || 0;
+                bundleMrr += price;
             } else {
                 singlesMrr += sub.extension?.price || 0;
             }
         }
+        const mrr = singlesMrr + bundleMrr;
 
+        // Resolve extension names for popularity
         const extIds = extensionCounts.map(e => e.extensionId).filter(Boolean) as string[];
         const extensions = extIds.length > 0 ? await prisma.extension.findMany({
             where: { id: { in: extIds } },
             select: { id: true, name: true, slug: true }
         }) : [];
         const extMap = Object.fromEntries(extensions.map(e => [e.id, e]));
+
         const extensionPopularity = extensionCounts
             .filter(e => e.extensionId && extMap[e.extensionId])
             .map(e => ({
@@ -91,26 +84,20 @@ export default async function AdminDashboard() {
                 count: e._count.extensionId
             }));
 
-        initialData = {
+        return NextResponse.json({
             totalUsers,
             totalActiveSubscriptions,
             activeBundles,
             activeSingles: totalActiveSubscriptions - activeBundles,
             churnCount,
-            mrr: singlesMrr + bundleMrr,
+            mrr,
             bundleMrr,
             singlesMrr,
             extensionPopularity,
-            recentUsers,
-        };
+            recentUsers
+        });
     } catch (error) {
-        console.error("Admin Dashboard DB error:", error);
+        console.error("Admin stats error:", error);
+        return NextResponse.json({ error: "Failed to fetch stats" }, { status: 500 });
     }
-
-    return (
-        <div className="container animate-fade-in" style={{ padding: '60px 0' }}>
-            <AdminDashboardClient initialData={initialData} />
-            <AdminExtensionManager />
-        </div>
-    );
 }
