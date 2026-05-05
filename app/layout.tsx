@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackgroundGrid from "@/components/BackgroundGrid";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -131,6 +132,7 @@ export default function RootLayout({
             <span>Support</span>
           </a>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
